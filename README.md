@@ -18,6 +18,7 @@
 ### バッテリー充電
 - バッテリー充電はMCP73831-2ATI/OTを用いて行う
 - 充電電流はPROG-GND間抵抗5kΩで最大200mAに設定する
+#### MCP73831-2ATI/OTの充電電流の設定([公式データシート](https://www.microchip.jp/docs/DS21984B_JP.pdf)より)
 ```
 IREG=最大充電電流
 PROG=最大充電電流設定用抵抗
