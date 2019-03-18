@@ -30,24 +30,24 @@ IREG=1000[V]/PROG[kΩ]
 #### USBバスパワー給電時
 |負荷 |消費電流 |
 |---|---|
-|ESP32-WROOM-32D|500mA|
-|MCP73831-2ATI/OT|200mA|
-|BQ27441-G1|0mA|
-|FT231XS|8mA|
-|BMX055|8mA|
-|AE-VL53L0X|19mA|
-|B0067|70mA|
-|モーター|0mA|
+|[ESP32-WROOM-32D](https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf)|500mA|
+|[MCP73831-2ATI/OT](https://www.microchip.jp/docs/DS21984B_JP.pdf)|200mA|
+|[BQ27441-G1](http://www.tij.co.jp/jp/lit/ds/symlink/bq27441-g1.pdf)|0mA|
+|[FT231XS](https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT231X.pdf)|8mA|
+|[BMX055](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMX055-DS000.pdf)|8mA|
+|[AE-VL53L0X](https://www.st.com/content/ccc/resource/technical/document/datasheet/group3/b2/1e/33/77/c6/92/47/6b/DM00279086/files/DM00279086.pdf/jcr:content/translations/en.DM00279086.pdf)|19mA|
+|[B0067](http://www.arducam.com/downloads/shields/ArduCAM_Mini_2MP_Camera_Shield_DS.pdf)|70mA|
+|[モーター](http://www.vibration-motor.com/products/download/Q7AL2BX180003.pdf)|0mA|
 |**合計**|805mA|
 #### バッテリー給電時
 |負荷 |消費電流 |
 |---|---|
-|ESP32-WROOM-32D|500mA|
-|MCP73831-2ATI/OT|0mA|
-|BQ27441-G1|0.097mA|
-|FT231XS|8mA|
-|BMX055|8mA|
-|AE-VL53L0X|19mA|
-|B0067|70mA|
-|モーター|1130.4mA|
+|[ESP32-WROOM-32D](https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf)|500mA|
+|[MCP73831-2ATI/OT](https://www.microchip.jp/docs/DS21984B_JP.pdf)|0mA|
+|[BQ27441-G1](http://www.tij.co.jp/jp/lit/ds/symlink/bq27441-g1.pdf)|0.097mA|
+|[FT231XS](https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT231X.pdf)|8mA|
+|[BMX055](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMX055-DS000.pdf)|8mA|
+|[AE-VL53L0X](https://www.st.com/content/ccc/resource/technical/document/datasheet/group3/b2/1e/33/77/c6/92/47/6b/DM00279086/files/DM00279086.pdf/jcr:content/translations/en.DM00279086.pdf)|19mA|
+|[B0067](http://www.arducam.com/downloads/shields/ArduCAM_Mini_2MP_Camera_Shield_DS.pdf)|70mA|
+|[モーター](http://www.vibration-motor.com/products/download/Q7AL2BX180003.pdf)|1130.4mA|
 |**合計**|1739.097mA|
