@@ -30,11 +30,11 @@ IREG=1000[V]/PROG[kΩ]
 #### USBバスパワー給電時
 |負荷 |消費電流 |
 |---|---|
-|ESP32-WROOM-32|600mA|
+|ESP32-WROOM-32D|500mA|
 |MCP73831-2ATI/OT|200mA|
 |FT231XS|8mA|
 |BMX055|8mA|
 |AE-VL53L0X|40mA|
 |B0067|70mA|
 |モーター|0mA|
-|**合計**|926mA|
+|**合計**|826mA|
