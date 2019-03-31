@@ -51,3 +51,6 @@ IREG=1000[V]/PROG[kΩ]
 |[B0067](http://www.arducam.com/downloads/shields/ArduCAM_Mini_2MP_Camera_Shield_DS.pdf)|70mA|
 |[モーター](http://www.vibration-motor.com/products/download/Q7AL2BX180003.pdf)|1130.4mA|
 |**合計**|1739.097mA|
+## 基板仕様
+### 基板サイズ
+- メイン基板 55×60mm
