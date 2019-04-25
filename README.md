@@ -1,4 +1,4 @@
-# Open Drone Project(ODP)
+# Open Drone Project
 ## 概要
 このプロジェクトは、Arduinoプラットフォーム上で開発可能なドローン制御システムの構築を目的としています。
 ***
