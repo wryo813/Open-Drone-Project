@@ -1,14 +1,3 @@
-//================================================================//
-//  AE-BMX055             Arduino UNO                             //
-//    VCC                    +5V                                  //
-//    GND                    GND                                  //
-//    SDA                    A4(SDA)                              //
-//    SCL                    A5(SCL)                              //
-//                                                                //
-//   (JP6,JP4,JP5はショートした状態)                              //
-//   http://akizukidenshi.com/catalog/g/gK-13010/                 //
-//================================================================//
-
 #include <Wire.h>
 #include <MadgwickAHRS.h>
 
@@ -54,7 +43,7 @@ void setup()
   MadgwickFilter.begin(22); //100Hz
   // Wire(Arduino-I2C)の初期化
   Wire.begin();
-  // デバック用シリアル通信は9600bps
+  // デバック用シリアル通信は115200bps
   Serial.begin(115200);
   //BMX055 初期化
   BMX055_Init();
