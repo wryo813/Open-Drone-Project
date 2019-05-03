@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include <MadgwickAHRS.h>
+#include "serial_cmd.h"
 
 // BMX055　加速度センサのI2Cアドレス
 #define Addr_Accl 0x19  // (JP1,JP2,JP3 = Openの時)
@@ -40,7 +41,7 @@ float motor1_angle_now, motor2_angle_now, motor3_angle_now, motor4_angle_now;
 void setup()
 {
 
-  MadgwickFilter.begin(22); //100Hz
+  MadgwickFilter.begin(25); //25Hz
   // Wire(Arduino-I2C)の初期化
   Wire.begin();
   // デバック用シリアル通信は115200bps
@@ -54,131 +55,54 @@ void setup()
 void loop()
 {
 
-
-  if ( Serial.available() > 0 ) {
-    String str = Serial.readStringUntil('\n');
-
-    if ( str == "") {
-      Serial.println(">");
-    }
-
-    else if ( str == "start" ) {
-      Serial.println(">" + str);
-      for (;;) {
-        String cmd;
-        float motor1_level;
-        float motor2_level;
-        float motor3_level;
-        float motor4_level;
-        float motor1_angle_deviation;
-        float motor2_angle_deviation;
-        float motor3_angle_deviation;
-        float motor4_angle_deviation;
-        int motor1_duty;
-        int motor2_duty;
-        int motor3_duty;
-        int motor4_duty;
-        get_imu_data();
-
-        motor1_angle_deviation = TARGET - motor1_angle_now;
-        motor2_angle_deviation = TARGET - motor2_angle_now;
-        motor3_angle_deviation = TARGET - motor3_angle_now;
-        motor4_angle_deviation = TARGET - motor4_angle_now;
-        
-        motor1_level = P_GAIN * motor1_angle_deviation;
-        motor2_level = P_GAIN * motor2_angle_deviation;
-        motor3_level = P_GAIN * motor3_angle_deviation;
-        motor4_level = P_GAIN * motor4_angle_deviation;
-
-        motor1_duty = (int) motor1_level;
-        motor2_duty = (int) motor2_level;
-        motor3_duty = (int) motor3_level;
-        motor4_duty = (int) motor4_level;
-        
-        
-        if( motor1_duty >= 255 ) motor1_duty = 255;
-        if( motor1_duty <= 0 ) motor1_duty = 0;
-        if( motor2_duty >= 255 ) motor2_duty = 255;
-        if( motor2_duty <= 0 ) motor2_duty = 0;
-        if( motor3_duty >= 255 ) motor3_duty = 255;
-        if( motor3_duty <= 0 ) motor3_duty = 0;
-        if( motor4_duty >= 255 ) motor4_duty = 255;
-        if( motor4_duty <= 0 ) motor4_duty = 0;
+  float motor1_level;
+  float motor2_level;
+  float motor3_level;
+  float motor4_level;
+  float motor1_angle_deviation;
+  float motor2_angle_deviation;
+  float motor3_angle_deviation;
+  float motor4_angle_deviation;
+  int motor1_duty;
+  int motor2_duty;
+  int motor3_duty;
+  int motor4_duty;
+  get_imu_data();
 
 
-        analogWrite(MOTOR1_PIN, motor1_duty);
-        analogWrite(MOTOR2_PIN, motor2_duty);
-        analogWrite(MOTOR3_PIN, motor3_duty);
-        analogWrite(MOTOR4_PIN, motor4_duty);
-        
-        
-        Serial.print(motor1_duty);
-        Serial.print(" ");
-        Serial.print(motor2_duty);
-        Serial.print(" ");
-        Serial.print(motor3_duty);
-        Serial.print(" ");
-        Serial.println(motor4_duty);
 
-        
-        if (Serial.available() > 0) {
-          cmd = Serial.readStringUntil('\n');
-        }
-        if (cmd == "stop") {
-          Serial.println(">" + cmd);
-          break;
-        }
-        delay(50);
-      }
-    }
+  serial_cmd("s", (String)pitch + "  " + (String)roll + "  " + (String)yaw);
 
-    else if ( str == "get_all" ) {
-      Serial.println(">" + str);
-      for (;;) {
-        String cmd;
-        get_imu_data();
-        Serial.print("Orientation: ");
-        Serial.print("YAW=");
-        Serial.print(yaw);
-        Serial.print(" ");
-        Serial.print("PITCH=");
-        Serial.print(pitch);
-        Serial.print(" ");
-        Serial.print("ROOL=");
-        Serial.print(roll);
-        Serial.print(" ");
-        Serial.print("MOTOR1_ANGLE_NOW=");
-        Serial.print(motor1_angle_now);
-        Serial.print(" ");
-        Serial.print("MOTOR2_ANGLE_NOW=");
-        Serial.print(motor2_angle_now);
-        Serial.print(" ");
-        Serial.print("MOTOR3_ANGLE_NOW=");
-        Serial.print(motor3_angle_now);
-        Serial.print(" ");
-        Serial.print("MOTOR3_ANGLE_NOW=");
-        Serial.println(motor4_angle_now);
-        
-        if (Serial.available() > 0) {
-          cmd = Serial.readStringUntil('\n');
-        }
-        if (cmd == "stop") {
-          Serial.println(">" + cmd);
-          break;
-        }
-        delay(50);
-      }
-    }
 
-    else if ( str == "log_all" ) {
-    }
+  motor1_angle_deviation = TARGET - motor1_angle_now;
+  motor2_angle_deviation = TARGET - motor2_angle_now;
+  motor3_angle_deviation = TARGET - motor3_angle_now;
+  motor4_angle_deviation = TARGET - motor4_angle_now;
 
-    else {
-      Serial.println(">" + str);
-      Serial.println("[ERROR]");
-    }
-  }
+  motor1_level = P_GAIN * motor1_angle_deviation;
+  motor2_level = P_GAIN * motor2_angle_deviation;
+  motor3_level = P_GAIN * motor3_angle_deviation;
+  motor4_level = P_GAIN * motor4_angle_deviation;
+
+  motor1_duty = (int) motor1_level;
+  motor2_duty = (int) motor2_level;
+  motor3_duty = (int) motor3_level;
+  motor4_duty = (int) motor4_level;
+
+
+  if ( motor1_duty >= 255 ) motor1_duty = 255;
+  if ( motor1_duty <= 0 ) motor1_duty = 0;
+  if ( motor2_duty >= 255 ) motor2_duty = 255;
+  if ( motor2_duty <= 0 ) motor2_duty = 0;
+  if ( motor3_duty >= 255 ) motor3_duty = 255;
+  if ( motor3_duty <= 0 ) motor3_duty = 0;
+  if ( motor4_duty >= 255 ) motor4_duty = 255;
+  if ( motor4_duty <= 0 ) motor4_duty = 0;
+
+
 }
+
+
 
 void get_imu_data() {
   //BMX055 加速度の読み取り
@@ -192,18 +116,25 @@ void get_imu_data() {
   yf = (float) yMag;
   zf = (float) zMag;
 
-  MadgwickFilter.updateIMU(xGyro, yGyro, zGyro, xAccl, yAccl, zAccl);
-  roll_raw     = MadgwickFilter.getRoll();
-  pitch_raw    = MadgwickFilter.getPitch();
-  yaw_raw      = MadgwickFilter.getYaw();
 
-  roll         = roll_raw;
-  pitch        = -pitch_raw;
-  yaw          = -yaw_raw;
+  ax = convertRawAcceleration(aix);
+  ay = convertRawAcceleration(aiy);
+  az = convertRawAcceleration(aiz);
+  gx = convertRawGyro(gix);
+  gy = convertRawGyro(giy);
+  gz = convertRawGyro(giz);
+
+
+
+  MadgwickFilter.update(xGyro, yGyro, zGyro, xAccl, yAccl, zAccl, xMag, yMag, zMag);
+  roll     = MadgwickFilter.getRoll();
+  pitch    = MadgwickFilter.getPitch();
+  yaw     = MadgwickFilter.getYaw();
+
 
   motor1_angle_now = roll + pitch;
   motor2_angle_now = -roll + pitch;
-  motor3_angle_now = - roll - pitch;  
+  motor3_angle_now = - roll - pitch;
   motor4_angle_now = roll - pitch;
 }
 
