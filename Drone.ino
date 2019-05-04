@@ -31,13 +31,6 @@ int xMag = 0;
 int yMag = 0;
 int zMag = 0;
 
-float ax = 0;
-float ay = 0;
-float az = 0;
-float gx = 0;
-float gy = 0;
-float gz = 0;
-
 float xf = 0;
 float yf = 0;
 float zf = 0;
@@ -111,6 +104,7 @@ void loop()
 
 void get_imu_data()
 {
+
   //BMX055 加速度の読み取り
   BMX055_Accl();
   //BMX055 ジャイロの読み取り
@@ -122,14 +116,7 @@ void get_imu_data()
   yf = (float)yMag;
   zf = (float)zMag;
 
-  ax = convertRawAcceleration(aix);
-  ay = convertRawAcceleration(aiy);
-  az = convertRawAcceleration(aiz);
-  gx = convertRawGyro(gix);
-  gy = convertRawGyro(giy);
-  gz = convertRawGyro(giz);
-
-  MadgwickFilter.update(xGyro, yGyro, zGyro, xAccl, yAccl, zAccl, xMag, yMag, zMag);
+  MadgwickFilter.update(xGyro, yGyro, zGyro, xAccl / 9.80665, yAccl / 9.80665, zAccl / 9.80665, xMag, yMag, zMag);
   roll = MadgwickFilter.getRoll();
   pitch = MadgwickFilter.getPitch();
   yaw = MadgwickFilter.getYaw();
