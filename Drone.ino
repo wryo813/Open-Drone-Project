@@ -67,7 +67,6 @@ void loop()
   int motor4_duty;
   get_imu_data();
 
-
   serial_cmd("s", (String)pitch + "  " + (String)roll + "  " + (String)yaw);
 
   motor1_angle_deviation = TARGET - motor1_angle_now;
