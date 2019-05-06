@@ -181,7 +181,7 @@ void BMX055_Init()
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Mag);
   Wire.write(0x4C); // Select Mag register
-  Wire.write(0x00); // Normal Mode, ODR = 10 Hz
+  Wire.write(0x07); // Normal Mode, ODR = 30 Hz
   Wire.endTransmission();
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Mag);
