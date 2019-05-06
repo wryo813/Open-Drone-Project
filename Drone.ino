@@ -40,11 +40,11 @@ float motor1_angle_now, motor2_angle_now, motor3_angle_now, motor4_angle_now;
 void setup()
 {
 
-  MadgwickFilter.begin(50); //25Hz
+  MadgwickFilter.begin(25); //25Hz
   // Wire(Arduino-I2C)の初期化
   Wire.begin();
   // デバック用シリアル通信は115200bps
-  Serial.begin(115200);
+  Serial.begin(500000);
   //BMX055 初期化
   BMX055_Init();
   delay(300);
