@@ -139,7 +139,7 @@ void BMX055_Init()
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Accl);
   Wire.write(0x10); // Select PMU_BW register
-  Wire.write(0x08); // Bandwidth = 7.81 Hz
+  Wire.write(0x0A); // Bandwidth = 7.81 Hz
   Wire.endTransmission();
   delay(100);
   //------------------------------------------------------------//
