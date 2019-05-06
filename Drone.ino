@@ -40,7 +40,7 @@ float motor1_angle_now, motor2_angle_now, motor3_angle_now, motor4_angle_now;
 void setup()
 {
 
-  MadgwickFilter.begin(20); //25Hz
+  MadgwickFilter.begin(25); //25Hz(MAX30Hz)
   // Wire(Arduino-I2C)の初期化
   Wire.begin();
   // デバック用シリアル通信は115200bps
