@@ -151,7 +151,7 @@ void BMX055_Init()
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Gyro);
   Wire.write(0x0F); // Select Range register
-  Wire.write(0x04); // Full scale = +/- 125 degree/s
+  Wire.write(0x02); // Full scale = +/- 500 degree/s
   Wire.endTransmission();
   delay(100);
   //------------------------------------------------------------//
