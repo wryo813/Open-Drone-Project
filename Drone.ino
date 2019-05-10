@@ -37,22 +37,22 @@ float zf = 0;
 
 float roll, pitch, yaw;
 float motor1_angle_now, motor2_angle_now, motor3_angle_now, motor4_angle_now;
+
 void setup()
 {
-
   MadgwickFilter.begin(25); //25Hz(MAX30Hz)
   // Wire(Arduino-I2C)の初期化
   Wire.begin();
   // デバック用シリアル通信は115200bps
-  Serial.begin(500000);
+  Serial.begin(115200);
   //BMX055 初期化
   BMX055_Init();
+  Serial.println("IMU OK");
   delay(300);
 }
 
 void loop()
 {
-
   float motor1_level;
   float motor2_level;
   float motor3_level;
@@ -65,6 +65,7 @@ void loop()
   int motor2_duty;
   int motor3_duty;
   int motor4_duty;
+  
   get_imu_data();
 
   serial_cmd("s", (String)pitch + "  " + (String)roll + "  " + (String)yaw);
@@ -100,11 +101,11 @@ void loop()
     motor4_duty = 255;
   if (motor4_duty <= 0)
     motor4_duty = 0;
+    
 }
 
 void get_imu_data()
 {
-
   //BMX055 加速度の読み取り
   BMX055_Accl();
   //BMX055 ジャイロの読み取り
@@ -117,14 +118,15 @@ void get_imu_data()
   zf = (float)zMag;
 
   MadgwickFilter.update(xGyro, yGyro, zGyro, xAccl / 9.80665, yAccl / 9.80665, zAccl / 9.80665, xMag, yMag, zMag);
-  roll = MadgwickFilter.getRoll();
+  
+  roll  = MadgwickFilter.getRoll();
   pitch = MadgwickFilter.getPitch();
-  yaw = MadgwickFilter.getYaw();
+  yaw   = MadgwickFilter.getYaw();
 
-  motor1_angle_now = roll + pitch;
+  motor1_angle_now =  roll + pitch;
   motor2_angle_now = -roll + pitch;
   motor3_angle_now = -roll - pitch;
-  motor4_angle_now = roll - pitch;
+  motor4_angle_now =  roll - pitch;
 }
 
 //=====================================================================================//
@@ -199,6 +201,7 @@ void BMX055_Init()
   Wire.write(0x16); // No. of Repetitions for Z-Axis = 15
   Wire.endTransmission();
 }
+
 //=====================================================================================//
 void BMX055_Accl()
 {
@@ -228,6 +231,7 @@ void BMX055_Accl()
   yAccl = yAccl * 0.0098; // renge +-2g
   zAccl = zAccl * 0.0098; // renge +-2g
 }
+
 //=====================================================================================//
 void BMX055_Gyro()
 {
@@ -258,6 +262,7 @@ void BMX055_Gyro()
   yGyro = yGyro * 0.0038; //  Full scale = +/- 125 degree/s
   zGyro = zGyro * 0.0038; //  Full scale = +/- 125 degree/s
 }
+
 //=====================================================================================//
 void BMX055_Mag()
 {
