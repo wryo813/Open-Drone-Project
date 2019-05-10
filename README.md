@@ -2,6 +2,7 @@
 ## 概要
 このプロジェクトは、Arduinoプラットフォーム上で開発可能なドローン制御システムの構築を目的としています。
 ***
+# ハードウェア
 ## 電源仕様
 ### USBバスパワー給電時
 - USB Type-C(USB2.0)で供給を行う
@@ -52,6 +53,25 @@ IREG=1000[V]/PROG[kΩ]
 |[モーター](http://www.vibration-motor.com/products/download/Q7AL2BX180003.pdf)|1130.4mA|
 |**合計**|1739.097mA|
 ## 基板仕様
+[回路図](https://twitter.com/w_ryo813/status/1123922796239781891)
+[基板レイアウト](https://twitter.com/w_ryo813/status/1123887101588774915)
 ### 基板サイズ
 - メイン基板 46×60mm
 - 最外サイズ 95×95mm
+
+# ソフトウェア
+メインのプログラムは[Drone.ino](https://github.com/wryo813/Open-Drone-Project/blob/master/Drone.ino)
+## 通信仕様
+- 無線通信はWi-Fiを使って、送信機とドローン本体の一対一で行う
+- 送信機とドローン本体は、両方ともAP+STAモードで相互に通信する
+- 通信プロトコルはUDPを使用する
+- Wi-Fi接続で使用するライブラリは
+- UDP通信で使用するライブラリは[AsyncUDP](https://github.com/espressif/arduino-esp32/tree/master/libraries/AsyncUDP)
+### 送信機から送信するデータ
+- 各モーターの目標角度
+- ドローン本体の目標高度
+- 緊急停止信号
+### ドローン本体から送信するデータ
+- バッテリー残量
+- 消費電力
+- 残り飛行可能時間
