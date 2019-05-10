@@ -65,8 +65,8 @@ IREG=1000[V]/PROG[kΩ]
 - 無線通信はWi-Fiを使って、送信機とドローン本体の一対一で行う
 - 送信機とドローン本体は、両方ともAP+STAモードで相互に通信する
 - 通信プロトコルはUDPを使用する
-- Wi-Fi接続で使用するライブラリは
-- UDP通信で使用するライブラリは[AsyncUDP](https://github.com/espressif/arduino-esp32/tree/master/libraries/AsyncUDP)
+- Wi-Fi接続で使用するライブラリは[WiFi.h](https://www.arduino.cc/en/Reference/WiFi)
+- UDP通信で使用するライブラリは[AsyncUDP.h](https://github.com/espressif/arduino-esp32/tree/master/libraries/AsyncUDP)
 ### 送信機から送信するデータ
 - 各モーターの目標角度
 - ドローン本体の目標高度
