@@ -17,6 +17,9 @@
 #define P_GAIN 5
 #define TARGET 0
 
+const char *ssid = "Drone";
+const char *password = "pas";
+
 Madgwick MadgwickFilter;
 unsigned long microsPerReading, microsPrevious;
 
