@@ -3,11 +3,11 @@
 #include "serial_cmd.h"
 
 // BMX055　加速度センサのI2Cアドレス
-#define Addr_Accl 0x19 // (JP1,JP2,JP3 = Openの時)
+#define Addr_Accl 0x18
 // BMX055　ジャイロセンサのI2Cアドレス
-#define Addr_Gyro 0x69 // (JP1,JP2,JP3 = Openの時)
+#define Addr_Gyro 0x68
 // BMX055　磁気センサのI2Cアドレス
-#define Addr_Mag 0x13 // (JP1,JP2,JP3 = Openの時)
+#define Addr_Mag 0x10
 
 #define MOTOR1_PIN 12
 #define MOTOR2_PIN 13
