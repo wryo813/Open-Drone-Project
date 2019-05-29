@@ -84,6 +84,8 @@ void BMX055::begin()
 
 float BMX055::Accl(axis type)
 {
+  float Accl = 0.00;
+
   int data[6];
   for (int i = 0; i < 6; i++)
   {
@@ -97,7 +99,6 @@ float BMX055::Accl(axis type)
       data[i] = Wire.read();
   }
 
-  float Accl = 0.00;
   switch (type) {
     // Convert the data to 12-bits
     case x:
@@ -121,6 +122,8 @@ float BMX055::Accl(axis type)
 
 float BMX055::Gyro(axis type)
 {
+  float Gyro = 0.00;
+
   int data[6];
   for (int i = 0; i < 6; i++)
   {
@@ -133,8 +136,7 @@ float BMX055::Gyro(axis type)
     if (Wire.available() == 1)
       data[i] = Wire.read();
   }
-  
-  float Gyro = 0.00;
+
   switch (type) {
     // Convert the data
     case x:
@@ -158,6 +160,8 @@ float BMX055::Gyro(axis type)
 
 int BMX055::Mag(axis type)
 {
+  int Mag = 0;
+
   int data[8];
   for (int i = 0; i < 8; i++)
   {
@@ -170,8 +174,7 @@ int BMX055::Mag(axis type)
     if (Wire.available() == 1)
       data[i] = Wire.read();
   }
-  
-  int Mag = 0;
+
   switch (type) {
     // Convert the data
     case x:

@@ -22,7 +22,7 @@
 
 
 WiFiUDP udp;
-Madgwick MadgwickFilter;
+Madgwick filter;
 BMX055 IMU;
 
 //アクセスポイント設定
@@ -64,7 +64,7 @@ void setup()
   Serial.println("UDP OK");
 
   //MadgwickFilterのサンプリンレート。IMUのサンプリンレートよりも小さくする25Hz(MAX30Hz)
-  MadgwickFilter.begin(10);
+  filter.begin(10);
   // Wire(Arduino-I2C)の初期化
   Wire.begin();  //BMX055 初期化
   IMU.begin();
@@ -83,14 +83,14 @@ void loop()
 
   //int packetSize = udp.parsePacket();
   //if (packetSize > 0) {
-    //int len = udp.read(packetBuffer, packetSize);
-    //終端文字設定
-    //if (len > 0) packetBuffer[len] = '\0';
+  //int len = udp.read(packetBuffer, packetSize);
+  //終端文字設定
+  //if (len > 0) packetBuffer[len] = '\0';
 
-    //Serial.print(udp.remoteIP());
-    //Serial.print(" / ");
-    //Serial.println(packetBuffer);
- // }
+  //Serial.print(udp.remoteIP());
+  //Serial.print(" / ");
+  //Serial.println(packetBuffer);
+  // }
 
   //udp.beginPacket(udpReturnAddr, udpReturnPort);
   //udp.print(printBatteryStats());
@@ -105,13 +105,21 @@ void loop()
 
 void get_imu_data()
 {
+  float gx = IMU.Gyro(x);
+  float gy = IMU.Gyro(y);
+  float gz = IMU.Gyro(z);
+  float ax = IMU.Accl(x) / G;
+  float ay = IMU.Accl(y) / G;
+  float az = IMU.Accl(z) / G;
+  float mx = IMU.Mag(x);
+  float my = IMU.Mag(y);
+  float mz = IMU.Mag(z);
 
+  filter.update(gx, gy, gz, ax, ay, az, mx, my, mz);
 
-  MadgwickFilter.update(IMU.Gyro(x), IMU.Gyro(y), IMU.Gyro(z), IMU.Accl(x) / G, IMU.Accl(y) / G, IMU.Accl(z) / G, IMU.Mag(x), IMU.Mag(y), IMU.Mag(z));
-
-  roll  = MadgwickFilter.getRoll();
-  pitch = MadgwickFilter.getPitch();
-  yaw   = MadgwickFilter.getYaw();
+  roll  = filter.getRoll();
+  pitch = filter.getPitch();
+  yaw   = filter.getYaw();
 
   //motor1_angle_now =  roll + pitch;
   //motor2_angle_now = -roll + pitch;
