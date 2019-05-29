@@ -1,0 +1,3365 @@
+EESchema Schematic File Version 4
+LIBS:Drone-cache
+EELAYER 29 0
+EELAYER END
+$Descr A3 16535 11693
+encoding utf-8
+Sheet 1 1
+Title "Quadcopter"
+Date "2019-04-27"
+Rev "4"
+Comp "Ryo Watabe"
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Interface_USB:FT231XS U2
+U 1 1 5C04386A
+P 6800 9750
+F 0 "U2" H 7000 10650 50  0000 L CNN
+F 1 "FT231XS" H 7000 10550 50  0000 L CNN
+F 2 "Package_SO:SSOP-20_3.9x8.7mm_P0.635mm" H 7400 8800 50  0001 C CNN
+F 3 "https://www.ftdichip.com/Support/Documents/DataSheets/ICs/DS_FT231X.pdf" H 6800 9750 50  0001 C CNN
+	1    6800 9750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R11
+U 1 1 5C048C18
+P 7900 10700
+F 0 "R11" H 7830 10654 50  0000 R CNN
+F 1 "1k" H 7830 10745 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7830 10700 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 7900 10700 50  0001 C CNN
+	1    7900 10700
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:R R12
+U 1 1 5C04CEEE
+P 8400 10700
+F 0 "R12" H 8470 10746 50  0000 L CNN
+F 1 "1k" H 8470 10655 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 8330 10700 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 8400 10700 50  0001 C CNN
+	1    8400 10700
+	1    0    0    1   
+$EndComp
+$Comp
+L Device:LED D8
+U 1 1 5C04E732
+P 7900 10300
+F 0 "D8" V 7845 10378 50  0000 L CNN
+F 1 "LED_RX" V 7936 10378 50  0000 L CNN
+F 2 "LED_SMD:LED_0603_1608Metric_Castellated" H 7900 10300 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/SML-D12M1W/sml-d12x1-j" H 7900 10300 50  0001 C CNN
+	1    7900 10300
+	0    1    -1   0   
+$EndComp
+$Comp
+L Device:LED D9
+U 1 1 5C04E832
+P 8400 10300
+F 0 "D9" V 8345 10378 50  0000 L CNN
+F 1 "LED_TX" V 8436 10378 50  0000 L CNN
+F 2 "LED_SMD:LED_0603_1608Metric_Castellated" H 8400 10300 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/SML-D12Y1W/sml-d12x1-j" H 8400 10300 50  0001 C CNN
+	1    8400 10300
+	0    1    -1   0   
+$EndComp
+$Comp
+L Battery_Management:MCP73831-2-OT U6
+U 1 1 5C08DBCA
+P 2200 1550
+F 0 "U6" H 2300 1900 50  0000 C CNN
+F 1 "MCP73831-2-OT" H 2250 1800 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 2250 1300 50  0001 L CIN
+F 3 "https://www.microchip.jp/docs/DS21984B_JP.pdf" H 2050 1500 50  0001 C CNN
+	1    2200 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VBUS #PWR0101
+U 1 1 5C09935F
+P 2200 900
+F 0 "#PWR0101" H 2200 750 50  0001 C CNN
+F 1 "VBUS" H 2215 1073 50  0000 C CNN
+F 2 "" H 2200 900 50  0001 C CNN
+F 3 "" H 2200 900 50  0001 C CNN
+	1    2200 900 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R14
+U 1 1 5C14F5E3
+P 3550 10450
+F 0 "R14" H 3620 10496 50  0000 L CNN
+F 1 "5.1k" H 3620 10405 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3480 10450 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3550 10450 50  0001 C CNN
+	1    3550 10450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R15
+U 1 1 5C14F6FB
+P 3900 10450
+F 0 "R15" H 3970 10496 50  0000 L CNN
+F 1 "5.1k" H 3970 10405 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3830 10450 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3900 10450 50  0001 C CNN
+	1    3900 10450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5C165A45
+P 3550 10850
+F 0 "#PWR0102" H 3550 10600 50  0001 C CNN
+F 1 "GND" H 3555 10677 50  0000 C CNN
+F 2 "" H 3550 10850 50  0001 C CNN
+F 3 "" H 3550 10850 50  0001 C CNN
+	1    3550 10850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5C165AA7
+P 3900 10850
+F 0 "#PWR0103" H 3900 10600 50  0001 C CNN
+F 1 "GND" H 3905 10677 50  0000 C CNN
+F 2 "" H 3900 10850 50  0001 C CNN
+F 3 "" H 3900 10850 50  0001 C CNN
+	1    3900 10850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6900 10650 6900 10750
+Wire Wire Line
+	6700 10650 6700 10750
+Wire Wire Line
+	6100 9750 6000 9750
+Wire Wire Line
+	6000 9750 6000 9150
+Wire Wire Line
+	6000 9150 6100 9150
+Wire Wire Line
+	8400 11050 8400 10850
+Wire Wire Line
+	7900 10150 7900 10050
+Wire Wire Line
+	8400 10150 8400 10050
+Wire Wire Line
+	2900 9450 3550 9450
+Wire Wire Line
+	2900 9350 3900 9350
+Wire Wire Line
+	3550 10600 3550 10850
+Wire Wire Line
+	3900 10600 3900 10850
+Wire Wire Line
+	2300 10650 2300 10750
+Wire Wire Line
+	3550 9450 3550 10300
+Wire Wire Line
+	3900 9350 3900 10300
+$Comp
+L power:GND #PWR0104
+U 1 1 5C19B0F1
+P 2300 10850
+F 0 "#PWR0104" H 2300 10600 50  0001 C CNN
+F 1 "GND" H 2305 10677 50  0000 C CNN
+F 2 "" H 2300 10850 50  0001 C CNN
+F 3 "" H 2300 10850 50  0001 C CNN
+	1    2300 10850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2950 9650 2950 9750
+Wire Wire Line
+	2950 9750 2900 9750
+Wire Wire Line
+	2900 9850 2950 9850
+Wire Wire Line
+	2950 9850 2950 9950
+Wire Wire Line
+	2950 9950 2900 9950
+Wire Wire Line
+	1800 1650 1700 1650
+$Comp
+L Device:R R18
+U 1 1 5C216092
+P 1700 1900
+F 0 "R18" H 1630 1854 50  0000 R CNN
+F 1 "5.1k" H 1630 1945 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1630 1900 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 1700 1900 50  0001 C CNN
+	1    1700 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5C226725
+P 2200 2150
+F 0 "#PWR0105" H 2200 1900 50  0001 C CNN
+F 1 "GND" H 2205 1977 50  0000 C CNN
+F 2 "" H 2200 2150 50  0001 C CNN
+F 3 "" H 2200 2150 50  0001 C CNN
+	1    2200 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R16
+U 1 1 5C254CD2
+P 2850 1100
+F 0 "R16" V 2643 1100 50  0000 C CNN
+F 1 "5.1k" V 2734 1100 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2780 1100 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 2850 1100 50  0001 C CNN
+	1    2850 1100
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D7
+U 1 1 5C25B281
+P 2450 1100
+F 0 "D7" H 2442 845 50  0000 C CNN
+F 1 "LED_CHG" H 2442 936 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric_Castellated" H 2450 1100 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/SML-D12D1W/sml-d12x1-j" H 2450 1100 50  0001 C CNN
+	1    2450 1100
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	2200 1100 2300 1100
+Connection ~ 2200 1100
+Wire Wire Line
+	2200 1100 2200 1250
+Wire Wire Line
+	2600 1100 2700 1100
+Wire Wire Line
+	3050 1100 3050 1650
+Wire Wire Line
+	2600 1650 3050 1650
+$Comp
+L Device:C C22
+U 1 1 5C2A8F74
+P 1250 1900
+F 0 "C22" H 1365 1946 50  0000 L CNN
+F 1 "4.7μ" H 1365 1855 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 1288 1750 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM188R61E475KE11%23.html" H 1250 1900 50  0001 C CNN
+	1    1250 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1250 1750 1250 1100
+Wire Wire Line
+	1250 1100 2200 1100
+Wire Wire Line
+	1700 1650 1700 1750
+Wire Wire Line
+	1700 2050 1700 2150
+Wire Wire Line
+	1250 2050 1250 2150
+Wire Wire Line
+	6000 9150 6000 8750
+Wire Wire Line
+	6000 8750 6700 8750
+Wire Wire Line
+	6900 8750 6900 8850
+Connection ~ 6000 9150
+Wire Wire Line
+	6900 10750 6700 10750
+Wire Wire Line
+	2000 10650 2000 10750
+Wire Wire Line
+	2000 10750 2300 10750
+Connection ~ 2300 10750
+Wire Wire Line
+	2300 10750 2300 10850
+Wire Wire Line
+	5750 9650 5750 9450
+Wire Wire Line
+	5750 9450 6100 9450
+Wire Wire Line
+	5850 9550 6100 9550
+$Comp
+L Device:R R2
+U 1 1 5CC84395
+P 5350 9650
+F 0 "R2" V 5143 9650 50  0000 C CNN
+F 1 "22" V 5234 9650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5280 9650 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 5350 9650 50  0001 C CNN
+	1    5350 9650
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 5CC844A2
+P 5350 9950
+F 0 "R3" V 5143 9950 50  0000 C CNN
+F 1 "22" V 5234 9950 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5280 9950 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 5350 9950 50  0001 C CNN
+	1    5350 9950
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C2
+U 1 1 5CD73C2A
+P 4750 10450
+F 0 "C2" H 4865 10496 50  0000 L CNN
+F 1 "47p" H 4865 10405 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 4788 10300 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM1885C2A470FA16%23.html" H 4750 10450 50  0001 C CNN
+	1    4750 10450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 5CD73D0C
+P 4300 10450
+F 0 "C1" H 4415 10496 50  0000 L CNN
+F 1 "47p" H 4415 10405 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 4338 10300 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM1885C2A470FA16%23.html" H 4300 10450 50  0001 C CNN
+	1    4300 10450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 9950 5500 9950
+Wire Wire Line
+	5850 9550 5850 9950
+Wire Wire Line
+	5750 9650 5500 9650
+Wire Wire Line
+	2900 9650 2950 9650
+Connection ~ 2950 9650
+Wire Wire Line
+	2950 9650 4300 9650
+Connection ~ 2950 9950
+Wire Wire Line
+	4750 9950 4750 10300
+Wire Wire Line
+	8400 10450 8400 10550
+Wire Wire Line
+	7500 10150 7700 10150
+Wire Wire Line
+	7500 10250 7600 10250
+Wire Wire Line
+	7600 10250 7600 11050
+Wire Wire Line
+	7600 11050 8400 11050
+$Comp
+L Battery_Management:BQ27441-G1 U4
+U 1 1 5C1F0DC0
+P 6900 1500
+F 0 "U4" H 6900 2167 50  0000 C CNN
+F 1 "BQ27441-G1" H 6900 2076 50  0000 C CNN
+F 2 "Package_SON:Texas_S-PDSO-N12" H 7150 950 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/bq27441-g1.pdf" H 7100 1700 50  0001 C CNN
+	1    6900 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6900 2200 6900 2300
+$Comp
+L power:GND #PWR0108
+U 1 1 5C21B775
+P 6900 2300
+F 0 "#PWR0108" H 6900 2050 50  0001 C CNN
+F 1 "GND" H 6905 2127 50  0000 C CNN
+F 2 "" H 6900 2300 50  0001 C CNN
+F 3 "" H 6900 2300 50  0001 C CNN
+	1    6900 2300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7500 1200 7600 1200
+Wire Wire Line
+	7500 1500 7700 1500
+$Comp
+L Device:C C16
+U 1 1 5C2B1B8B
+P 7600 2050
+F 0 "C16" H 7715 2096 50  0000 L CNN
+F 1 "0.47μ" H 7715 2005 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7638 1900 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188R71E474KA64%23.html" H 7600 2050 50  0001 C CNN
+	1    7600 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7600 1200 7600 1900
+Wire Wire Line
+	7600 2200 7600 2300
+$Comp
+L power:GND #PWR0109
+U 1 1 5C2D02B0
+P 7600 2300
+F 0 "#PWR0109" H 7600 2050 50  0001 C CNN
+F 1 "GND" H 7605 2127 50  0000 C CNN
+F 2 "" H 7600 2300 50  0001 C CNN
+F 3 "" H 7600 2300 50  0001 C CNN
+	1    7600 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J2
+U 1 1 5C3B2E61
+P 3900 1200
+F 0 "J2" H 3950 900 50  0000 R CNN
+F 1 "Battery" H 3950 1000 50  0000 R CNN
+F 2 "Connector_JST:JST_PH_S3B-PH-SM4-TB_1x03-1MP_P2.00mm_Horizontal" H 3900 1200 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/PH.pdf" H 3900 1200 50  0001 C CNN
+	1    3900 1200
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5C4A0F8A
+P 5950 1600
+F 0 "R1" V 5850 1550 50  0000 C CNN
+F 1 "0.01Ω" V 5850 1750 50  0000 C CNN
+F 2 "Resistor_SMD:R_1206_3216Metric" V 5880 1600 50  0001 C CNN
+F 3 "https://www.ohmite.com/assets/docs/res_mcs.pdf?r=false" H 5950 1600 50  0001 C CNN
+	1    5950 1600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6300 1700 5700 1700
+Wire Wire Line
+	5700 1700 5700 1600
+Wire Wire Line
+	5700 1100 6300 1100
+Wire Wire Line
+	5800 1600 5700 1600
+Connection ~ 5700 1600
+Wire Wire Line
+	5700 1600 5700 1100
+Wire Wire Line
+	6100 1600 6200 1600
+Connection ~ 5700 1100
+$Comp
+L Device:C C19
+U 1 1 5C562F18
+P 5350 2050
+F 0 "C19" H 5465 2096 50  0000 L CNN
+F 1 "1μ" H 5465 2005 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 5388 1900 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRT188C8YA105KE13%23.html" H 5350 2050 50  0001 C CNN
+	1    5350 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5350 1100 5350 1900
+Wire Wire Line
+	5350 1100 5700 1100
+Wire Wire Line
+	5350 2200 5350 2300
+$Comp
+L power:GND #PWR0110
+U 1 1 5C6353A3
+P 5350 2300
+F 0 "#PWR0110" H 5350 2050 50  0001 C CNN
+F 1 "GND" H 5355 2127 50  0000 C CNN
+F 2 "" H 5350 2300 50  0001 C CNN
+F 3 "" H 5350 2300 50  0001 C CNN
+	1    5350 2300
+	1    0    0    -1  
+$EndComp
+Connection ~ 6900 2200
+Wire Wire Line
+	6900 2200 6900 2100
+Wire Wire Line
+	6800 2100 6800 2200
+Wire Wire Line
+	6800 2200 6900 2200
+Wire Wire Line
+	6300 1900 5600 1900
+Connection ~ 6200 1600
+Wire Wire Line
+	6200 1600 6300 1600
+Wire Wire Line
+	11800 6050 11900 6050
+Wire Wire Line
+	11900 6050 11900 6150
+Wire Wire Line
+	11900 6150 11800 6150
+$Comp
+L power:GND #PWR0111
+U 1 1 5C895EFB
+P 11900 7600
+F 0 "#PWR0111" H 11900 7350 50  0001 C CNN
+F 1 "GND" H 11905 7427 50  0000 C CNN
+F 2 "" H 11900 7600 50  0001 C CNN
+F 3 "" H 11900 7600 50  0001 C CNN
+	1    11900 7600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6900 10750 6900 10850
+Connection ~ 6900 10750
+$Comp
+L power:GND #PWR0112
+U 1 1 5CA05790
+P 6900 10850
+F 0 "#PWR0112" H 6900 10600 50  0001 C CNN
+F 1 "GND" H 6905 10677 50  0000 C CNN
+F 2 "" H 6900 10850 50  0001 C CNN
+F 3 "" H 6900 10850 50  0001 C CNN
+	1    6900 10850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9900 6150 9900 7600
+Wire Wire Line
+	9900 6150 10000 6150
+$Comp
+L power:GND #PWR0113
+U 1 1 5CB2F9EE
+P 9900 7600
+F 0 "#PWR0113" H 9900 7350 50  0001 C CNN
+F 1 "GND" H 9905 7427 50  0000 C CNN
+F 2 "" H 9900 7600 50  0001 C CNN
+F 3 "" H 9900 7600 50  0001 C CNN
+	1    9900 7600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R22
+U 1 1 5CFD08D1
+P 7900 6100
+F 0 "R22" H 7970 6146 50  0000 L CNN
+F 1 "10k" H 7970 6055 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7830 6100 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 7900 6100 50  0001 C CNN
+	1    7900 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 5950 7900 5850
+$Comp
+L power:+3.3V #PWR0114
+U 1 1 5CFFD8D6
+P 7900 5850
+F 0 "#PWR0114" H 7900 5700 50  0001 C CNN
+F 1 "+3.3V" H 7915 6023 50  0000 C CNN
+F 2 "" H 7900 5850 50  0001 C CNN
+F 3 "" H 7900 5850 50  0001 C CNN
+	1    7900 5850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C7
+U 1 1 5CFFDAE3
+P 7900 6600
+F 0 "C7" H 8015 6646 50  0000 L CNN
+F 1 "0.1μ" H 8015 6555 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7938 6450 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 7900 6600 50  0001 C CNN
+	1    7900 6600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 6750 7900 6850
+$Comp
+L power:GND #PWR0115
+U 1 1 5D01C42F
+P 7900 6850
+F 0 "#PWR0115" H 7900 6600 50  0001 C CNN
+F 1 "GND" H 7905 6677 50  0000 C CNN
+F 2 "" H 7900 6850 50  0001 C CNN
+F 3 "" H 7900 6850 50  0001 C CNN
+	1    7900 6850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10450 8000 10450 8200
+$Comp
+L power:GND #PWR0116
+U 1 1 5D0B5728
+P 10450 8200
+F 0 "#PWR0116" H 10450 7950 50  0001 C CNN
+F 1 "GND" H 10455 8027 50  0000 C CNN
+F 2 "" H 10450 8200 50  0001 C CNN
+F 3 "" H 10450 8200 50  0001 C CNN
+	1    10450 8200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R21
+U 1 1 5D22E4A6
+P 11600 8100
+F 0 "R21" V 11393 8100 50  0000 C CNN
+F 1 "10k" V 11484 8100 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 11530 8100 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 11600 8100 50  0001 C CNN
+	1    11600 8100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	11350 8000 11350 8100
+Wire Wire Line
+	12900 6450 11800 6450
+Wire Wire Line
+	7700 10950 7900 10950
+Wire Wire Line
+	7900 10950 7900 10850
+Wire Wire Line
+	7700 10150 7700 10950
+Wire Wire Line
+	7900 10450 7900 10550
+Wire Wire Line
+	7700 9650 7700 9350
+Wire Wire Line
+	7500 9350 7700 9350
+$Comp
+L ESP32-WROOM-32D:ESP32-WROOM-32D U1
+U 1 1 5C299048
+P 10900 6800
+F 0 "U1" H 10900 7817 50  0000 C CNN
+F 1 "ESP32-WROOM-32D" H 10900 7726 50  0000 C CNN
+F 2 "RF_Module:ESP32-WROOM-32" H 10900 8450 50  0001 C CNN
+F 3 "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32d_esp32-wroom-32u_datasheet_en.pdf" H 10900 8450 50  0001 C CNN
+	1    10900 6800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:USB_C_Receptacle_USB2.0 J1
+U 1 1 5C2A639C
+P 2300 9750
+F 0 "J1" H 2405 10617 50  0000 C CNN
+F 1 "USB_C_Receptacle_USB2.0" H 2405 10526 50  0000 C CNN
+F 2 "12401610E4-2A:USB_C_Receptacle_Amphenol_12401610E4-2A" H 2450 9750 50  0001 C CNN
+F 3 "https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/c12401610_c.pdf" H 2450 9750 50  0001 C CNN
+	1    2300 9750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:L L1
+U 1 1 5C288C87
+P 4150 9150
+F 0 "L1" V 3972 9150 50  0000 C CNN
+F 1 "BLM21PG331SN" V 4063 9150 50  0000 C CNN
+F 2 "Inductor_SMD:L_0805_2012Metric" H 4150 9150 50  0001 C CNN
+F 3 "https://www.murata.com/ja-jp/products/productdetail?partno=BLM21PG331SN1%23" H 4150 9150 50  0001 C CNN
+	1    4150 9150
+	0    1    1    0   
+$EndComp
+$Comp
+L power:VBUS #PWR0117
+U 1 1 5C2B0BAA
+P 4600 9050
+F 0 "#PWR0117" H 4600 8900 50  0001 C CNN
+F 1 "VBUS" H 4615 9223 50  0000 C CNN
+F 2 "" H 4600 9050 50  0001 C CNN
+F 3 "" H 4600 9050 50  0001 C CNN
+	1    4600 9050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4600 9150 4600 9050
+$Comp
+L power:+3.3V #PWR0119
+U 1 1 5CF02EB3
+P 15050 1200
+F 0 "#PWR0119" H 15050 1050 50  0001 C CNN
+F 1 "+3.3V" H 15065 1373 50  0000 C CNN
+F 2 "" H 15050 1200 50  0001 C CNN
+F 3 "" H 15050 1200 50  0001 C CNN
+	1    15050 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	15050 1300 15050 1200
+Wire Wire Line
+	11800 6350 12000 6350
+Wire Wire Line
+	4500 1400 5000 1400
+Wire Wire Line
+	6300 1300 4700 1300
+Wire Wire Line
+	11800 6650 12100 6650
+Connection ~ 11900 6150
+Wire Wire Line
+	11900 6150 11900 7600
+$Comp
+L Connector_Generic:Conn_01x08 J4
+U 1 1 5CE2A12A
+P 13650 5550
+F 0 "J4" H 13600 6050 50  0000 L CNN
+F 1 "B0067" H 13600 5950 50  0000 L CNN
+F 2 "Connector_JST:JST_PH_S8B-PH-SM4-TB_1x08-1MP_P2.00mm_Horizontal" H 13650 5550 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/PH.pdf" H 13650 5550 50  0001 C CNN
+	1    13650 5550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13450 5850 12100 5850
+Wire Wire Line
+	13450 5750 13350 5750
+Wire Wire Line
+	13350 5750 13350 5100
+$Comp
+L power:+3.3V #PWR0121
+U 1 1 5CEB37E1
+P 13350 5100
+F 0 "#PWR0121" H 13350 4950 50  0001 C CNN
+F 1 "+3.3V" H 13365 5273 50  0000 C CNN
+F 2 "" H 13350 5100 50  0001 C CNN
+F 3 "" H 13350 5100 50  0001 C CNN
+	1    13350 5100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12100 4950 12100 5850
+Wire Wire Line
+	12000 5050 12000 5950
+Wire Wire Line
+	13450 5650 13250 5650
+Wire Wire Line
+	13250 5650 13250 6050
+$Comp
+L power:GND #PWR0122
+U 1 1 5CEF0F46
+P 13250 6050
+F 0 "#PWR0122" H 13250 5800 50  0001 C CNN
+F 1 "GND" H 13255 5877 50  0000 C CNN
+F 2 "" H 13250 6050 50  0001 C CNN
+F 3 "" H 13250 6050 50  0001 C CNN
+	1    13250 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11800 6950 12400 6950
+Wire Wire Line
+	12400 5550 13450 5550
+Wire Wire Line
+	13450 5450 12300 5450
+Wire Wire Line
+	12300 6850 11800 6850
+Wire Wire Line
+	11800 6250 12200 6250
+Wire Wire Line
+	12200 5350 13450 5350
+Wire Wire Line
+	11800 7050 12500 7050
+Wire Wire Line
+	12500 5250 13450 5250
+$Comp
+L BMX055:BMX055 U3
+U 1 1 5D10EAD2
+P 7050 4050
+F 0 "U3" H 7050 4767 50  0000 C CNN
+F 1 "BMX055" H 7050 4676 50  0000 C CNN
+F 2 "BMX055:PQFN50P450X300X100-20N" H 7050 4050 50  0001 C CNN
+F 3 "https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMX055-DS000.pdf" H 7050 4050 50  0001 C CNN
+	1    7050 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6550 4400 6450 4400
+Wire Wire Line
+	6450 4400 6450 4500
+Wire Wire Line
+	6450 4500 6550 4500
+Wire Wire Line
+	6450 4500 6450 4600
+Connection ~ 6450 4500
+$Comp
+L power:GND #PWR0123
+U 1 1 5D3693BC
+P 6450 4600
+F 0 "#PWR0123" H 6450 4350 50  0001 C CNN
+F 1 "GND" H 6455 4427 50  0000 C CNN
+F 2 "" H 6450 4600 50  0001 C CNN
+F 3 "" H 6450 4600 50  0001 C CNN
+	1    6450 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4300 9650 4300 10300
+Wire Wire Line
+	6550 3800 6450 3800
+Wire Wire Line
+	6450 3800 6450 3700
+Wire Wire Line
+	6450 3600 6550 3600
+Wire Wire Line
+	6550 3700 6450 3700
+Connection ~ 6450 3700
+Wire Wire Line
+	6450 3700 6450 3600
+Wire Wire Line
+	6450 3600 5850 3600
+Connection ~ 6450 3600
+$Comp
+L Device:C C10
+U 1 1 5DA80B1B
+P 5850 4200
+F 0 "C10" H 5965 4246 50  0000 L CNN
+F 1 "0.1μ" H 5965 4155 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 5888 4050 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 5850 4200 50  0001 C CNN
+	1    5850 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 3600 5850 4050
+Connection ~ 5850 3600
+Wire Wire Line
+	5850 3500 5850 3600
+$Comp
+L power:+3.3V #PWR0124
+U 1 1 5DB0A6F1
+P 5850 3500
+F 0 "#PWR0124" H 5850 3350 50  0001 C CNN
+F 1 "+3.3V" H 5865 3673 50  0000 C CNN
+F 2 "" H 5850 3500 50  0001 C CNN
+F 3 "" H 5850 3500 50  0001 C CNN
+	1    5850 3500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0125
+U 1 1 5DB0A856
+P 5850 4600
+F 0 "#PWR0125" H 5850 4350 50  0001 C CNN
+F 1 "GND" H 5855 4427 50  0000 C CNN
+F 2 "" H 5850 4600 50  0001 C CNN
+F 3 "" H 5850 4600 50  0001 C CNN
+	1    5850 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5850 4350 5850 4600
+$Comp
+L Connector_Generic:Conn_01x02 J5
+U 1 1 5DD4587B
+P 1600 3100
+F 0 "J5" V 1800 3050 50  0000 C CNN
+F 1 "Motor1" V 1700 3050 50  0000 C CNN
+F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 1600 3100 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 1600 3100 50  0001 C CNN
+	1    1600 3100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x06 J3
+U 1 1 5DD49666
+P 13650 4250
+F 0 "J3" H 13600 4650 50  0000 L CNN
+F 1 "AE-VL53L0X" H 13600 4550 50  0000 L CNN
+F 2 "S6B-ZR-SM4A-TF_LF__SN_:JST_S6B-ZR-SM4A-TF(LF)(SN)" H 13650 4250 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/ZH.pdf" H 13650 4250 50  0001 C CNN
+	1    13650 4250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13450 4050 13350 4050
+Wire Wire Line
+	13350 4050 13350 4000
+$Comp
+L power:+3.3V #PWR0126
+U 1 1 5DD67BAE
+P 13350 4000
+F 0 "#PWR0126" H 13350 3850 50  0001 C CNN
+F 1 "+3.3V" H 13365 4173 50  0000 C CNN
+F 2 "" H 13350 4000 50  0001 C CNN
+F 3 "" H 13350 4000 50  0001 C CNN
+	1    13350 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13350 4150 13450 4150
+Wire Wire Line
+	13350 4150 13350 4600
+$Comp
+L power:GND #PWR0127
+U 1 1 5DDFE9B9
+P 13350 4600
+F 0 "#PWR0127" H 13350 4350 50  0001 C CNN
+F 1 "GND" H 13355 4427 50  0000 C CNN
+F 2 "" H 13350 4600 50  0001 C CNN
+F 3 "" H 13350 4600 50  0001 C CNN
+	1    13350 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R25
+U 1 1 5DF12159
+P 10650 4600
+F 0 "R25" H 10720 4646 50  0000 L CNN
+F 1 "10k" H 10720 4555 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 10580 4600 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 10650 4600 50  0001 C CNN
+	1    10650 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R24
+U 1 1 5DF1227B
+P 10950 4600
+F 0 "R24" H 11020 4646 50  0000 L CNN
+F 1 "10k" H 11020 4555 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 10880 4600 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 10950 4600 50  0001 C CNN
+	1    10950 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10650 4750 10650 4950
+Wire Wire Line
+	10950 4750 10950 5050
+Wire Wire Line
+	10650 4450 10650 4350
+Wire Wire Line
+	10950 4450 10950 4350
+$Comp
+L power:+3.3V #PWR0128
+U 1 1 5DFD179C
+P 10950 4350
+F 0 "#PWR0128" H 10950 4200 50  0001 C CNN
+F 1 "+3.3V" H 10965 4523 50  0000 C CNN
+F 2 "" H 10950 4350 50  0001 C CNN
+F 3 "" H 10950 4350 50  0001 C CNN
+	1    10950 4350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0129
+U 1 1 5DFD1852
+P 10650 4350
+F 0 "#PWR0129" H 10650 4200 50  0001 C CNN
+F 1 "+3.3V" H 10665 4523 50  0000 C CNN
+F 2 "" H 10650 4350 50  0001 C CNN
+F 3 "" H 10650 4350 50  0001 C CNN
+	1    10650 4350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0130
+U 1 1 5D27D49E
+P 11850 8200
+F 0 "#PWR0130" H 11850 7950 50  0001 C CNN
+F 1 "GND" H 11855 8027 50  0000 C CNN
+F 2 "" H 11850 8200 50  0001 C CNN
+F 3 "" H 11850 8200 50  0001 C CNN
+	1    11850 8200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11850 8100 11850 8200
+Wire Wire Line
+	11750 8100 11850 8100
+Wire Wire Line
+	11350 8100 11450 8100
+Connection ~ 12100 5850
+Wire Wire Line
+	12100 5850 12100 6650
+Wire Wire Line
+	12200 5350 12200 6250
+Wire Wire Line
+	12300 5450 12300 6850
+Wire Wire Line
+	12400 5550 12400 6950
+Wire Wire Line
+	12500 5250 12500 7050
+$Comp
+L Device:C C12
+U 1 1 5F5F1865
+P 1650 3700
+F 0 "C12" V 1398 3700 50  0000 C CNN
+F 1 "0.1μ" V 1489 3700 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 1688 3550 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 1650 3700 50  0001 C CNN
+	1    1650 3700
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C24
+U 1 1 5F5F1A5D
+P 1650 4150
+F 0 "C24" V 1398 4150 50  0000 C CNN
+F 1 "47μ" V 1489 4150 50  0000 C CNN
+F 2 "Capacitor_SMD:C_1210_3225Metric" H 1688 4000 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM32EC81C476KE15%23.html" H 1650 4150 50  0001 C CNN
+	1    1650 4150
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Schottky D3
+U 1 1 5F690AE8
+P 1650 4550
+F 0 "D3" H 1650 4334 50  0000 C CNN
+F 1 "RB161MM-20" H 1650 4425 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123F" H 1650 4550 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/RB161MM-20/rb161mm-20tr-j" H 1650 4550 50  0001 C CNN
+	1    1650 4550
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1700 3300 1700 3350
+Wire Wire Line
+	1700 3350 1900 3350
+Wire Wire Line
+	1900 3350 1900 3700
+Wire Wire Line
+	1900 3700 1800 3700
+Connection ~ 1900 3700
+Wire Wire Line
+	1900 3700 1900 4150
+Wire Wire Line
+	1800 4150 1900 4150
+Connection ~ 1900 4150
+Wire Wire Line
+	1900 4150 1900 4550
+Wire Wire Line
+	1800 4550 1900 4550
+Wire Wire Line
+	1600 3300 1600 3350
+Wire Wire Line
+	1600 3350 1400 3350
+Wire Wire Line
+	1400 3350 1400 3700
+Wire Wire Line
+	1400 3700 1500 3700
+Connection ~ 1400 3700
+Wire Wire Line
+	1400 3700 1400 4150
+Wire Wire Line
+	1400 4150 1500 4150
+Connection ~ 1400 4150
+Wire Wire Line
+	1400 4150 1400 4550
+Wire Wire Line
+	1400 4550 1500 4550
+Wire Wire Line
+	1400 5050 1400 5350
+$Comp
+L power:GND #PWR0131
+U 1 1 601F2BE9
+P 1400 5350
+F 0 "#PWR0131" H 1400 5100 50  0001 C CNN
+F 1 "GND" H 1405 5177 50  0000 C CNN
+F 2 "" H 1400 5350 50  0001 C CNN
+F 3 "" H 1400 5350 50  0001 C CNN
+	1    1400 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1400 4550 1400 4650
+Connection ~ 1400 4550
+$Comp
+L Device:R R35
+U 1 1 60632A47
+P 1800 5100
+F 0 "R35" H 1870 5146 50  0000 L CNN
+F 1 "10k" H 1870 5055 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1730 5100 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 1800 5100 50  0001 C CNN
+	1    1800 5100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 1850 2200 2150
+$Comp
+L power:GND #PWR0132
+U 1 1 5C8B6679
+P 1700 2150
+F 0 "#PWR0132" H 1700 1900 50  0001 C CNN
+F 1 "GND" H 1705 1977 50  0000 C CNN
+F 2 "" H 1700 2150 50  0001 C CNN
+F 3 "" H 1700 2150 50  0001 C CNN
+	1    1700 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0133
+U 1 1 5C8DBFFB
+P 1250 2150
+F 0 "#PWR0133" H 1250 1900 50  0001 C CNN
+F 1 "GND" H 1255 1977 50  0000 C CNN
+F 2 "" H 1250 2150 50  0001 C CNN
+F 3 "" H 1250 2150 50  0001 C CNN
+	1    1250 2150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3000 1100 3050 1100
+Connection ~ 5350 1100
+Wire Wire Line
+	7550 3800 7650 3800
+Wire Wire Line
+	7650 3800 7650 4050
+$Comp
+L Device:R R28
+U 1 1 5DBC4D44
+P 7650 4200
+F 0 "R28" H 7720 4246 50  0000 L CNN
+F 1 "10k" H 7720 4155 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7580 4200 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 7650 4200 50  0001 C CNN
+	1    7650 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R27
+U 1 1 5DBE6A43
+P 7950 4200
+F 0 "R27" H 8020 4246 50  0000 L CNN
+F 1 "10k" H 8020 4155 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7880 4200 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 7950 4200 50  0001 C CNN
+	1    7950 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R26
+U 1 1 5DBE6AF9
+P 8250 4200
+F 0 "R26" H 8320 4246 50  0000 L CNN
+F 1 "10k" H 8320 4155 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 8180 4200 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 8250 4200 50  0001 C CNN
+	1    8250 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7950 3700 7950 4050
+Wire Wire Line
+	7550 3700 7950 3700
+Wire Wire Line
+	8250 3600 8250 4050
+Wire Wire Line
+	7550 3600 8250 3600
+Wire Wire Line
+	7650 4350 7650 4600
+$Comp
+L power:GND #PWR0134
+U 1 1 5DC4DB3D
+P 7650 4600
+F 0 "#PWR0134" H 7650 4350 50  0001 C CNN
+F 1 "GND" H 7655 4427 50  0000 C CNN
+F 2 "" H 7650 4600 50  0001 C CNN
+F 3 "" H 7650 4600 50  0001 C CNN
+	1    7650 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0135
+U 1 1 5DC92958
+P 7950 4600
+F 0 "#PWR0135" H 7950 4350 50  0001 C CNN
+F 1 "GND" H 7955 4427 50  0000 C CNN
+F 2 "" H 7950 4600 50  0001 C CNN
+F 3 "" H 7950 4600 50  0001 C CNN
+	1    7950 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0136
+U 1 1 5DC92A1A
+P 8250 4600
+F 0 "#PWR0136" H 8250 4350 50  0001 C CNN
+F 1 "GND" H 8255 4427 50  0000 C CNN
+F 2 "" H 8250 4600 50  0001 C CNN
+F 3 "" H 8250 4600 50  0001 C CNN
+	1    8250 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7950 4350 7950 4600
+Wire Wire Line
+	8250 4350 8250 4600
+Wire Wire Line
+	4300 10600 4300 10850
+Wire Wire Line
+	4750 10600 4750 10850
+$Comp
+L power:GND #PWR0137
+U 1 1 5E43035A
+P 4300 10850
+F 0 "#PWR0137" H 4300 10600 50  0001 C CNN
+F 1 "GND" H 4305 10677 50  0000 C CNN
+F 2 "" H 4300 10850 50  0001 C CNN
+F 3 "" H 4300 10850 50  0001 C CNN
+	1    4300 10850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0138
+U 1 1 5E43041C
+P 4750 10850
+F 0 "#PWR0138" H 4750 10600 50  0001 C CNN
+F 1 "GND" H 4755 10677 50  0000 C CNN
+F 2 "" H 4750 10850 50  0001 C CNN
+F 3 "" H 4750 10850 50  0001 C CNN
+	1    4750 10850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6550 4300 6300 4300
+Wire Wire Line
+	6300 4300 6300 4950
+Wire Wire Line
+	6550 4200 6200 4200
+Wire Wire Line
+	6200 4200 6200 5050
+Wire Wire Line
+	4500 1400 4500 5050
+Wire Wire Line
+	4400 1300 4400 4950
+$Comp
+L Device:C C3
+U 1 1 5EC0EA89
+P 3100 10450
+F 0 "C3" H 3215 10496 50  0000 L CNN
+F 1 "0.01μ" H 3215 10405 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3138 10300 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188R72A103KA37%23.html" H 3100 10450 50  0001 C CNN
+	1    3100 10450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3100 9150 3100 10300
+$Comp
+L Device:Polyfuse F1
+U 1 1 5EE18B49
+P 3400 9150
+F 0 "F1" V 3175 9150 50  0000 C CNN
+F 1 "MICROSMD050F-2" V 3266 9150 50  0000 C CNN
+F 2 "Fuse:Fuse_1210_3225Metric" H 3450 8950 50  0001 L CNN
+F 3 "https://www.littelfuse.com/~/media/electronics/product_specifications/resettable_ptcs/littelfuse_ptc_microsmd050f_2_product_specification.pdf.pdf" H 3400 9150 50  0001 C CNN
+	1    3400 9150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3100 10600 3100 10850
+$Comp
+L power:GND #PWR0139
+U 1 1 5EE817C6
+P 3100 10850
+F 0 "#PWR0139" H 3100 10600 50  0001 C CNN
+F 1 "GND" H 3105 10677 50  0000 C CNN
+F 2 "" H 3100 10850 50  0001 C CNN
+F 3 "" H 3100 10850 50  0001 C CNN
+	1    3100 10850
+	1    0    0    -1  
+$EndComp
+Connection ~ 3100 9150
+Wire Wire Line
+	3100 9150 3250 9150
+Wire Wire Line
+	3550 9150 4000 9150
+Connection ~ 4300 9650
+Connection ~ 4750 9950
+Wire Wire Line
+	4750 9950 2950 9950
+Wire Wire Line
+	4750 9950 5200 9950
+Wire Wire Line
+	4300 9650 5200 9650
+Wire Wire Line
+	12600 9150 12600 8600
+Wire Wire Line
+	12600 6550 11800 6550
+Wire Wire Line
+	12900 9250 12900 8600
+Wire Wire Line
+	13450 5950 12000 5950
+Connection ~ 12000 5950
+Wire Wire Line
+	12000 5950 12000 6350
+$Comp
+L Device:C C6
+U 1 1 607934BF
+P 8800 5800
+F 0 "C6" H 8915 5846 50  0000 L CNN
+F 1 "0.1μ" H 8915 5755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 8838 5650 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 8800 5800 50  0001 C CNN
+	1    8800 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C23
+U 1 1 60793662
+P 8350 5800
+F 0 "C23" H 8465 5846 50  0000 L CNN
+F 1 "10μ" H 8465 5755 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 8388 5650 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM188R61C106KAAL%23.html" H 8350 5800 50  0001 C CNN
+	1    8350 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0140
+U 1 1 60844B4D
+P 8350 6050
+F 0 "#PWR0140" H 8350 5800 50  0001 C CNN
+F 1 "GND" H 8355 5877 50  0000 C CNN
+F 2 "" H 8350 6050 50  0001 C CNN
+F 3 "" H 8350 6050 50  0001 C CNN
+	1    8350 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0141
+U 1 1 60844C13
+P 8800 6050
+F 0 "#PWR0141" H 8800 5800 50  0001 C CNN
+F 1 "GND" H 8805 5877 50  0000 C CNN
+F 2 "" H 8800 6050 50  0001 C CNN
+F 3 "" H 8800 6050 50  0001 C CNN
+	1    8800 6050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8350 6050 8350 5950
+Wire Wire Line
+	8800 6050 8800 5950
+Wire Wire Line
+	8350 5650 8350 5550
+$Comp
+L power:GND #PWR0142
+U 1 1 5F06BFE9
+P 5900 8500
+F 0 "#PWR0142" H 5900 8250 50  0001 C CNN
+F 1 "GND" H 5905 8327 50  0000 C CNN
+F 2 "" H 5900 8500 50  0001 C CNN
+F 3 "" H 5900 8500 50  0001 C CNN
+	1    5900 8500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0143
+U 1 1 5F06BF27
+P 5450 8500
+F 0 "#PWR0143" H 5450 8250 50  0001 C CNN
+F 1 "GND" H 5455 8327 50  0000 C CNN
+F 2 "" H 5450 8500 50  0001 C CNN
+F 3 "" H 5450 8500 50  0001 C CNN
+	1    5450 8500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5900 8500 5900 8400
+Wire Wire Line
+	5450 8400 5450 8500
+Wire Wire Line
+	5900 8100 5900 8000
+Wire Wire Line
+	5450 8000 5900 8000
+Wire Wire Line
+	5450 8100 5450 8000
+Connection ~ 5450 8000
+Wire Wire Line
+	5450 8000 5450 7900
+$Comp
+L Device:C C5
+U 1 1 5D740E3E
+P 5900 8250
+F 0 "C5" H 6015 8296 50  0000 L CNN
+F 1 "0.1μ" H 6015 8205 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 5938 8100 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 5900 8250 50  0001 C CNN
+	1    5900 8250
+	1    0    0    -1  
+$EndComp
+Connection ~ 5900 8000
+Wire Wire Line
+	8350 5550 8800 5550
+Wire Wire Line
+	8800 5550 8800 5650
+Wire Wire Line
+	8800 5550 9150 5550
+Wire Wire Line
+	9150 5550 9150 6250
+Connection ~ 8800 5550
+Wire Wire Line
+	9150 6250 10000 6250
+$Comp
+L Device:R R9
+U 1 1 6148D544
+P 12600 8450
+F 0 "R9" H 12670 8496 50  0000 L CNN
+F 1 "470" H 12670 8405 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 12530 8450 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 12600 8450 50  0001 C CNN
+	1    12600 8450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12600 8300 12600 6550
+$Comp
+L Device:R R10
+U 1 1 614B0ADF
+P 12900 8450
+F 0 "R10" H 12970 8496 50  0000 L CNN
+F 1 "470" H 12970 8405 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 12830 8450 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 12900 8450 50  0001 C CNN
+	1    12900 8450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12900 8300 12900 6450
+Wire Wire Line
+	7500 9150 12600 9150
+Wire Wire Line
+	7500 9250 12900 9250
+Wire Wire Line
+	11800 4250 11800 4950
+Wire Wire Line
+	11800 4250 13450 4250
+Wire Wire Line
+	11900 4350 11900 5050
+Wire Wire Line
+	11900 4350 13450 4350
+Wire Wire Line
+	1800 4850 1800 4950
+$Comp
+L power:GND #PWR0144
+U 1 1 629F78D6
+P 1800 5350
+F 0 "#PWR0144" H 1800 5100 50  0001 C CNN
+F 1 "GND" H 1805 5177 50  0000 C CNN
+F 2 "" H 1800 5350 50  0001 C CNN
+F 3 "" H 1800 5350 50  0001 C CNN
+	1    1800 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1800 5250 1800 5350
+Wire Wire Line
+	1700 4850 1800 4850
+$Comp
+L Connector_Generic:Conn_01x02 J6
+U 1 1 6369E7A1
+P 3100 3100
+F 0 "J6" V 3300 3050 50  0000 C CNN
+F 1 "Motor2" V 3200 3050 50  0000 C CNN
+F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 3100 3100 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 3100 3100 50  0001 C CNN
+	1    3100 3100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C13
+U 1 1 6369E7A7
+P 3150 3700
+F 0 "C13" V 2898 3700 50  0000 C CNN
+F 1 "0.1μ" V 2989 3700 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3188 3550 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 3150 3700 50  0001 C CNN
+	1    3150 3700
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C25
+U 1 1 6369E7AD
+P 3150 4150
+F 0 "C25" V 2898 4150 50  0000 C CNN
+F 1 "47μ" V 2989 4150 50  0000 C CNN
+F 2 "Capacitor_SMD:C_1210_3225Metric" H 3188 4000 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM32EC81C476KE15%23.html" H 3150 4150 50  0001 C CNN
+	1    3150 4150
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Schottky D4
+U 1 1 6369E7B3
+P 3150 4550
+F 0 "D4" H 3150 4334 50  0000 C CNN
+F 1 "RB161MM-20" H 3150 4425 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123F" H 3150 4550 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/RB161MM-20/rb161mm-20tr-j" H 3150 4550 50  0001 C CNN
+	1    3150 4550
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3200 3300 3200 3350
+Wire Wire Line
+	3200 3350 3400 3350
+Wire Wire Line
+	3400 3350 3400 3700
+Wire Wire Line
+	3400 3700 3300 3700
+Connection ~ 3400 3700
+Wire Wire Line
+	3400 3700 3400 4150
+Wire Wire Line
+	3300 4150 3400 4150
+Connection ~ 3400 4150
+Wire Wire Line
+	3400 4150 3400 4550
+Wire Wire Line
+	3300 4550 3400 4550
+Wire Wire Line
+	3100 3300 3100 3350
+Wire Wire Line
+	3100 3350 2900 3350
+Wire Wire Line
+	2900 3350 2900 3700
+Wire Wire Line
+	2900 3700 3000 3700
+Connection ~ 2900 3700
+Wire Wire Line
+	2900 3700 2900 4150
+Wire Wire Line
+	2900 4150 3000 4150
+Connection ~ 2900 4150
+Wire Wire Line
+	2900 4150 2900 4550
+Wire Wire Line
+	2900 4550 3000 4550
+Wire Wire Line
+	2900 5050 2900 5350
+$Comp
+L power:GND #PWR0145
+U 1 1 6369E7CE
+P 2900 5350
+F 0 "#PWR0145" H 2900 5100 50  0001 C CNN
+F 1 "GND" H 2905 5177 50  0000 C CNN
+F 2 "" H 2900 5350 50  0001 C CNN
+F 3 "" H 2900 5350 50  0001 C CNN
+	1    2900 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2900 4550 2900 4650
+Connection ~ 2900 4550
+$Comp
+L Device:R R36
+U 1 1 6369E7D6
+P 3300 5100
+F 0 "R36" H 3370 5146 50  0000 L CNN
+F 1 "10k" H 3370 5055 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3230 5100 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3300 5100 50  0001 C CNN
+	1    3300 5100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 4850 3300 4950
+$Comp
+L power:GND #PWR0146
+U 1 1 6369E7EA
+P 3300 5350
+F 0 "#PWR0146" H 3300 5100 50  0001 C CNN
+F 1 "GND" H 3305 5177 50  0000 C CNN
+F 2 "" H 3300 5350 50  0001 C CNN
+F 3 "" H 3300 5350 50  0001 C CNN
+	1    3300 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 5250 3300 5350
+Wire Wire Line
+	3200 4850 3300 4850
+$Comp
+L Connector_Generic:Conn_01x02 J7
+U 1 1 636C8267
+P 1600 5950
+F 0 "J7" V 1800 5900 50  0000 C CNN
+F 1 "Motor3" V 1700 5900 50  0000 C CNN
+F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 1600 5950 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 1600 5950 50  0001 C CNN
+	1    1600 5950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C14
+U 1 1 636C826D
+P 1650 6550
+F 0 "C14" V 1398 6550 50  0000 C CNN
+F 1 "0.1μ" V 1489 6550 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 1688 6400 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 1650 6550 50  0001 C CNN
+	1    1650 6550
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C26
+U 1 1 636C8273
+P 1650 7000
+F 0 "C26" V 1398 7000 50  0000 C CNN
+F 1 "47μ" V 1489 7000 50  0000 C CNN
+F 2 "Capacitor_SMD:C_1210_3225Metric" H 1688 6850 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM32EC81C476KE15%23.html" H 1650 7000 50  0001 C CNN
+	1    1650 7000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Schottky D5
+U 1 1 636C8279
+P 1650 7400
+F 0 "D5" H 1650 7184 50  0000 C CNN
+F 1 "RB161MM-20" H 1650 7275 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123F" H 1650 7400 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/RB161MM-20/rb161mm-20tr-j" H 1650 7400 50  0001 C CNN
+	1    1650 7400
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1700 6150 1700 6200
+Wire Wire Line
+	1700 6200 1900 6200
+Wire Wire Line
+	1900 6200 1900 6550
+Wire Wire Line
+	1900 6550 1800 6550
+Connection ~ 1900 6550
+Wire Wire Line
+	1900 6550 1900 7000
+Wire Wire Line
+	1800 7000 1900 7000
+Connection ~ 1900 7000
+Wire Wire Line
+	1900 7000 1900 7400
+Wire Wire Line
+	1800 7400 1900 7400
+Wire Wire Line
+	1600 6150 1600 6200
+Wire Wire Line
+	1600 6200 1400 6200
+Wire Wire Line
+	1400 6200 1400 6550
+Wire Wire Line
+	1400 6550 1500 6550
+Connection ~ 1400 6550
+Wire Wire Line
+	1400 6550 1400 7000
+Wire Wire Line
+	1400 7000 1500 7000
+Connection ~ 1400 7000
+Wire Wire Line
+	1400 7000 1400 7400
+Wire Wire Line
+	1400 7400 1500 7400
+Wire Wire Line
+	1400 7900 1400 8200
+$Comp
+L power:GND #PWR0147
+U 1 1 636C8294
+P 1400 8200
+F 0 "#PWR0147" H 1400 7950 50  0001 C CNN
+F 1 "GND" H 1405 8027 50  0000 C CNN
+F 2 "" H 1400 8200 50  0001 C CNN
+F 3 "" H 1400 8200 50  0001 C CNN
+	1    1400 8200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1400 7400 1400 7500
+Connection ~ 1400 7400
+$Comp
+L Device:R R37
+U 1 1 636C829C
+P 1800 7950
+F 0 "R37" H 1870 7996 50  0000 L CNN
+F 1 "10k" H 1870 7905 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1730 7950 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 1800 7950 50  0001 C CNN
+	1    1800 7950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1800 7700 1800 7800
+$Comp
+L power:GND #PWR0148
+U 1 1 636C82B0
+P 1800 8200
+F 0 "#PWR0148" H 1800 7950 50  0001 C CNN
+F 1 "GND" H 1805 8027 50  0000 C CNN
+F 2 "" H 1800 8200 50  0001 C CNN
+F 3 "" H 1800 8200 50  0001 C CNN
+	1    1800 8200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1800 8100 1800 8200
+Wire Wire Line
+	1700 7700 1800 7700
+$Comp
+L Connector_Generic:Conn_01x02 J8
+U 1 1 636C82CB
+P 3100 5950
+F 0 "J8" V 3300 5900 50  0000 C CNN
+F 1 "Motor4" V 3200 5900 50  0000 C CNN
+F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 3100 5950 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 3100 5950 50  0001 C CNN
+	1    3100 5950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:C C15
+U 1 1 636C82D1
+P 3150 6550
+F 0 "C15" V 2898 6550 50  0000 C CNN
+F 1 "0.1μ" V 2989 6550 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3188 6400 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 3150 6550 50  0001 C CNN
+	1    3150 6550
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C27
+U 1 1 636C82D7
+P 3150 7000
+F 0 "C27" V 2898 7000 50  0000 C CNN
+F 1 "47μ" V 2989 7000 50  0000 C CNN
+F 2 "Capacitor_SMD:C_1210_3225Metric" H 3188 6850 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM32EC81C476KE15%23.html" H 3150 7000 50  0001 C CNN
+	1    3150 7000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Schottky D6
+U 1 1 636C82DD
+P 3150 7400
+F 0 "D6" H 3150 7184 50  0000 C CNN
+F 1 "RB161MM-20" H 3150 7275 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123F" H 3150 7400 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/RB161MM-20/rb161mm-20tr-j" H 3150 7400 50  0001 C CNN
+	1    3150 7400
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3200 6150 3200 6200
+Wire Wire Line
+	3200 6200 3400 6200
+Wire Wire Line
+	3400 6200 3400 6550
+Wire Wire Line
+	3400 6550 3300 6550
+Connection ~ 3400 6550
+Wire Wire Line
+	3400 6550 3400 7000
+Wire Wire Line
+	3300 7000 3400 7000
+Connection ~ 3400 7000
+Wire Wire Line
+	3400 7000 3400 7400
+Wire Wire Line
+	3300 7400 3400 7400
+Wire Wire Line
+	3100 6150 3100 6200
+Wire Wire Line
+	3100 6200 2900 6200
+Wire Wire Line
+	2900 6200 2900 6550
+Wire Wire Line
+	2900 6550 3000 6550
+Connection ~ 2900 6550
+Wire Wire Line
+	2900 6550 2900 7000
+Wire Wire Line
+	2900 7000 3000 7000
+Connection ~ 2900 7000
+Wire Wire Line
+	2900 7000 2900 7400
+Wire Wire Line
+	2900 7400 3000 7400
+Wire Wire Line
+	2900 7900 2900 8200
+$Comp
+L power:GND #PWR0149
+U 1 1 636C82F8
+P 2900 8200
+F 0 "#PWR0149" H 2900 7950 50  0001 C CNN
+F 1 "GND" H 2905 8027 50  0000 C CNN
+F 2 "" H 2900 8200 50  0001 C CNN
+F 3 "" H 2900 8200 50  0001 C CNN
+	1    2900 8200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2900 7400 2900 7500
+Connection ~ 2900 7400
+$Comp
+L Device:R R38
+U 1 1 636C8300
+P 3300 7950
+F 0 "R38" H 3370 7996 50  0000 L CNN
+F 1 "10k" H 3370 7905 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3230 7950 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3300 7950 50  0001 C CNN
+	1    3300 7950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 7700 3300 7800
+$Comp
+L power:GND #PWR0150
+U 1 1 636C8314
+P 3300 8200
+F 0 "#PWR0150" H 3300 7950 50  0001 C CNN
+F 1 "GND" H 3305 8027 50  0000 C CNN
+F 2 "" H 3300 8200 50  0001 C CNN
+F 3 "" H 3300 8200 50  0001 C CNN
+	1    3300 8200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3300 8100 3300 8200
+Wire Wire Line
+	3200 7700 3300 7700
+Wire Wire Line
+	2300 4850 2300 5650
+Wire Wire Line
+	3900 5650 3900 7250
+Wire Wire Line
+	2300 7700 2300 8450
+Wire Wire Line
+	2300 8450 3900 8450
+Wire Wire Line
+	3900 7450 3900 8450
+Wire Wire Line
+	3800 7700 3800 7550
+Wire Wire Line
+	9700 7450 9700 8500
+Wire Wire Line
+	9700 8500 12050 8500
+Wire Wire Line
+	12050 8500 12050 7350
+Wire Wire Line
+	12050 7350 11800 7350
+Wire Wire Line
+	9600 7550 9600 8600
+Wire Wire Line
+	9600 8600 12150 8600
+Wire Wire Line
+	12150 8600 12150 7250
+Wire Wire Line
+	12150 7250 11800 7250
+Wire Wire Line
+	7900 6250 7900 6350
+Wire Wire Line
+	7900 6350 7900 6450
+Connection ~ 7900 6350
+$Comp
+L Device:C C21
+U 1 1 5C8F5B2F
+P 3550 1900
+F 0 "C21" H 3665 1946 50  0000 L CNN
+F 1 "4.7μ" H 3665 1855 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 3588 1750 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM188R61E475KE11%23.html" H 3550 1900 50  0001 C CNN
+	1    3550 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3550 1450 3550 1750
+Wire Wire Line
+	3550 2050 3550 2150
+$Comp
+L power:GND #PWR0151
+U 1 1 5CAB5EA3
+P 3550 2150
+F 0 "#PWR0151" H 3550 1900 50  0001 C CNN
+F 1 "GND" H 3555 1977 50  0000 C CNN
+F 2 "" H 3550 2150 50  0001 C CNN
+F 3 "" H 3550 2150 50  0001 C CNN
+	1    3550 2150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4100 1100 4200 1100
+Wire Wire Line
+	5600 1200 4100 1200
+Wire Wire Line
+	5600 1200 5600 1900
+Wire Wire Line
+	4100 1300 4200 1300
+Wire Wire Line
+	4200 1300 4200 2300
+$Comp
+L power:GND #PWR0152
+U 1 1 5D1B5528
+P 4200 2300
+F 0 "#PWR0152" H 4200 2050 50  0001 C CNN
+F 1 "GND" H 4205 2127 50  0000 C CNN
+F 2 "" H 4200 2300 50  0001 C CNN
+F 3 "" H 4200 2300 50  0001 C CNN
+	1    4200 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R39
+U 1 1 5D49BC10
+P 4700 2050
+F 0 "R39" H 4770 2096 50  0000 L CNN
+F 1 "1M" H 4770 2005 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4630 2050 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 4700 2050 50  0001 C CNN
+	1    4700 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R40
+U 1 1 5D5C47BF
+P 5000 2050
+F 0 "R40" H 5070 2096 50  0000 L CNN
+F 1 "1M" H 5070 2005 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4930 2050 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 5000 2050 50  0001 C CNN
+	1    5000 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5000 1400 5000 1900
+Connection ~ 5000 1400
+Wire Wire Line
+	5000 1400 6300 1400
+Wire Wire Line
+	4700 1300 4700 1900
+Connection ~ 4700 1300
+Wire Wire Line
+	4700 1300 4400 1300
+Wire Wire Line
+	5000 2200 5000 2300
+Wire Wire Line
+	4700 2200 4700 2300
+$Comp
+L power:GND #PWR0153
+U 1 1 5D81C87C
+P 5000 2300
+F 0 "#PWR0153" H 5000 2050 50  0001 C CNN
+F 1 "GND" H 5005 2127 50  0000 C CNN
+F 2 "" H 5000 2300 50  0001 C CNN
+F 3 "" H 5000 2300 50  0001 C CNN
+	1    5000 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0154
+U 1 1 5D81C978
+P 4700 2300
+F 0 "#PWR0154" H 4700 2050 50  0001 C CNN
+F 1 "GND" H 4705 2127 50  0000 C CNN
+F 2 "" H 4700 2300 50  0001 C CNN
+F 3 "" H 4700 2300 50  0001 C CNN
+	1    4700 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R34
+U 1 1 5D997D15
+P 7850 1500
+F 0 "R34" V 7643 1500 50  0000 C CNN
+F 1 "10k" V 7734 1500 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 7780 1500 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 7850 1500 50  0001 C CNN
+	1    7850 1500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7600 1200 8100 1200
+Wire Wire Line
+	8100 1200 8100 1500
+Wire Wire Line
+	8100 1500 8000 1500
+Connection ~ 7600 1200
+Connection ~ 5600 1200
+Wire Wire Line
+	5600 750  5800 750 
+Wire Wire Line
+	7600 750  7600 1200
+$Comp
+L Device:R R41
+U 1 1 5E65FFD2
+P 5950 750
+F 0 "R41" V 6050 750 50  0000 C CNN
+F 1 "2.2M" V 6150 750 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5880 750 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 5950 750 50  0001 C CNN
+	1    5950 750 
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6100 750  7600 750 
+Wire Wire Line
+	5600 750  5600 1200
+$Comp
+L Device:R R23
+U 1 1 5F13B931
+P 13250 7200
+F 0 "R23" H 13320 7246 50  0000 L CNN
+F 1 "10k" H 13320 7155 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 13180 7200 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 13250 7200 50  0001 C CNN
+	1    13250 7200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13250 7350 13250 7450
+Wire Wire Line
+	13250 7050 13250 6950
+$Comp
+L power:+3.3V #PWR0155
+U 1 1 5F1D715E
+P 13250 6950
+F 0 "#PWR0155" H 13250 6800 50  0001 C CNN
+F 1 "+3.3V" H 13265 7123 50  0000 C CNN
+F 2 "" H 13250 6950 50  0001 C CNN
+F 3 "" H 13250 6950 50  0001 C CNN
+	1    13250 6950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11800 7450 13250 7450
+$Comp
+L Device:R R13
+U 1 1 5F3F2B17
+P 15500 1450
+F 0 "R13" H 15570 1496 50  0000 L CNN
+F 1 "1k" H 15570 1405 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 15430 1450 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 15500 1450 50  0001 C CNN
+	1    15500 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:LED D10
+U 1 1 5F3F3057
+P 15500 1850
+F 0 "D10" V 15538 1732 50  0000 R CNN
+F 1 "LED_PWR" V 15447 1732 50  0000 R CNN
+F 2 "LED_SMD:LED_0603_1608Metric_Castellated" H 15500 1850 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/SML-D12U1W/sml-d12x1-j" H 15500 1850 50  0001 C CNN
+	1    15500 1850
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	15500 1200 15500 1300
+Wire Wire Line
+	15500 1600 15500 1700
+Wire Wire Line
+	15500 2000 15500 2100
+$Comp
+L power:GND #PWR0156
+U 1 1 5F526D06
+P 15500 2100
+F 0 "#PWR0156" H 15500 1850 50  0001 C CNN
+F 1 "GND" H 15505 1927 50  0000 C CNN
+F 2 "" H 15500 2100 50  0001 C CNN
+F 3 "" H 15500 2100 50  0001 C CNN
+	1    15500 2100
+	1    0    0    -1  
+$EndComp
+Connection ~ 8350 5550
+Wire Wire Line
+	4300 9150 4600 9150
+Wire Wire Line
+	8350 5550 8350 5450
+$Comp
+L power:+3.3V #PWR0157
+U 1 1 5C954F87
+P 8350 5450
+F 0 "#PWR0157" H 8350 5300 50  0001 C CNN
+F 1 "+3.3V" H 8365 5623 50  0000 C CNN
+F 2 "" H 8350 5450 50  0001 C CNN
+F 3 "" H 8350 5450 50  0001 C CNN
+	1    8350 5450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:2N7002 Q9
+U 1 1 5CAA768C
+P 3000 7700
+F 0 "Q9" H 3206 7746 50  0000 L CNN
+F 1 "IRLML6344" H 3206 7655 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3200 7625 50  0001 L CIN
+F 3 "https://www.infineon.com/dgdl/irlml6344pbf.pdf?fileId=5546d462533600a4015356689c44262c" H 3000 7700 50  0001 L CNN
+	1    3000 7700
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:2N7002 Q8
+U 1 1 5CB8EDC0
+P 1500 7700
+F 0 "Q8" H 1706 7746 50  0000 L CNN
+F 1 "IRLML6344" H 1706 7655 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 1700 7625 50  0001 L CIN
+F 3 "https://www.infineon.com/dgdl/irlml6344pbf.pdf?fileId=5546d462533600a4015356689c44262c" H 1500 7700 50  0001 L CNN
+	1    1500 7700
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:2N7002 Q6
+U 1 1 5CB8F30F
+P 1500 4850
+F 0 "Q6" H 1706 4896 50  0000 L CNN
+F 1 "IRLML6344" H 1706 4805 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 1700 4775 50  0001 L CIN
+F 3 "https://www.infineon.com/dgdl/irlml6344pbf.pdf?fileId=5546d462533600a4015356689c44262c" H 1500 4850 50  0001 L CNN
+	1    1500 4850
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:2N7002 Q7
+U 1 1 5CB8F57D
+P 3000 4850
+F 0 "Q7" H 3206 4896 50  0000 L CNN
+F 1 "IRLML6344" H 3206 4805 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3200 4775 50  0001 L CIN
+F 3 "https://www.infineon.com/dgdl/irlml6344pbf.pdf?fileId=5546d462533600a4015356689c44262c" H 3000 4850 50  0001 L CNN
+	1    3000 4850
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	2300 5650 3900 5650
+Connection ~ 3300 4850
+Wire Wire Line
+	3300 4850 3400 4850
+Wire Wire Line
+	1800 4850 1900 4850
+Connection ~ 1800 4850
+Wire Wire Line
+	3300 7700 3400 7700
+Connection ~ 3300 7700
+Wire Wire Line
+	1800 7700 1900 7700
+Connection ~ 1800 7700
+$Comp
+L power:+3.3V #PWR0158
+U 1 1 5D72E418
+P 15500 1200
+F 0 "#PWR0158" H 15500 1050 50  0001 C CNN
+F 1 "+3.3V" H 15515 1373 50  0000 C CNN
+F 2 "" H 15500 1200 50  0001 C CNN
+F 3 "" H 15500 1200 50  0001 C CNN
+	1    15500 1200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3700 4850 3800 4850
+$Comp
+L Device:R R5
+U 1 1 5D91442B
+P 3550 4850
+F 0 "R5" V 3343 4850 50  0000 C CNN
+F 1 "47" V 3434 4850 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3480 4850 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3550 4850 50  0001 C CNN
+	1    3550 4850
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 5DA2824E
+P 2050 4850
+F 0 "R4" V 1843 4850 50  0000 C CNN
+F 1 "47" V 1934 4850 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1980 4850 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 2050 4850 50  0001 C CNN
+	1    2050 4850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2200 4850 2300 4850
+$Comp
+L Device:R R6
+U 1 1 5DA29238
+P 2050 7700
+F 0 "R6" V 1843 7700 50  0000 C CNN
+F 1 "47" V 1934 7700 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 1980 7700 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 2050 7700 50  0001 C CNN
+	1    2050 7700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2200 7700 2300 7700
+$Comp
+L Device:R R7
+U 1 1 5DABCE93
+P 3550 7700
+F 0 "R7" V 3343 7700 50  0000 C CNN
+F 1 "47" V 3434 7700 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3480 7700 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3550 7700 50  0001 C CNN
+	1    3550 7700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3700 7700 3800 7700
+Wire Wire Line
+	3800 4850 3800 7350
+Wire Wire Line
+	3800 7350 10000 7350
+Wire Wire Line
+	3900 7450 9700 7450
+Wire Wire Line
+	3800 7550 9600 7550
+Connection ~ 9800 6350
+Wire Wire Line
+	4500 5050 6200 5050
+Wire Wire Line
+	4400 4950 6300 4950
+Connection ~ 13250 7450
+Wire Wire Line
+	6700 8750 6700 8850
+Connection ~ 6700 8750
+Wire Wire Line
+	6700 8750 6900 8750
+$Comp
+L Device:C C4
+U 1 1 5CAA95C5
+P 6350 8250
+F 0 "C4" H 6465 8296 50  0000 L CNN
+F 1 "0.1μ" H 6465 8205 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 6388 8100 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 6350 8250 50  0001 C CNN
+	1    6350 8250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 8000 6350 8100
+Wire Wire Line
+	5900 8000 6350 8000
+Wire Wire Line
+	6350 8400 6350 8500
+$Comp
+L power:GND #PWR0159
+U 1 1 5CB2F3C6
+P 6350 8500
+F 0 "#PWR0159" H 6350 8250 50  0001 C CNN
+F 1 "GND" H 6355 8327 50  0000 C CNN
+F 2 "" H 6350 8500 50  0001 C CNN
+F 3 "" H 6350 8500 50  0001 C CNN
+	1    6350 8500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6350 8000 6700 8000
+Wire Wire Line
+	6700 8000 6700 8750
+Connection ~ 6350 8000
+$Comp
+L power:+3.3V #PWR0160
+U 1 1 5CCBEB3A
+P 5450 7900
+F 0 "#PWR0160" H 5450 7750 50  0001 C CNN
+F 1 "+3.3V" H 5465 8073 50  0000 C CNN
+F 2 "" H 5450 7900 50  0001 C CNN
+F 3 "" H 5450 7900 50  0001 C CNN
+	1    5450 7900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0161
+U 1 1 5CCC0852
+P 7900 10050
+F 0 "#PWR0161" H 7900 9900 50  0001 C CNN
+F 1 "+3.3V" H 7915 10223 50  0000 C CNN
+F 2 "" H 7900 10050 50  0001 C CNN
+F 3 "" H 7900 10050 50  0001 C CNN
+	1    7900 10050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0162
+U 1 1 5CCC094E
+P 8400 10050
+F 0 "#PWR0162" H 8400 9900 50  0001 C CNN
+F 1 "+3.3V" H 8415 10223 50  0000 C CNN
+F 2 "" H 8400 10050 50  0001 C CNN
+F 3 "" H 8400 10050 50  0001 C CNN
+	1    8400 10050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C20
+U 1 1 5CD08783
+P 5450 8250
+F 0 "C20" H 5565 8296 50  0000 L CNN
+F 1 "4.7μ" H 5565 8205 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 5488 8100 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM188R61E475KE11%23.html" H 5450 8250 50  0001 C CNN
+	1    5450 8250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 6350 9800 6350
+$Comp
+L Device:C C8
+U 1 1 5CC8DED7
+P 7350 6600
+F 0 "C8" H 7465 6646 50  0000 L CNN
+F 1 "0.1μ" H 7465 6555 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 7388 6450 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 7350 6600 50  0001 C CNN
+	1    7350 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW2
+U 1 1 5CC8EAAC
+P 6800 6600
+F 0 "SW2" V 6846 6552 50  0000 R CNN
+F 1 "SW_Reset" V 6755 6552 50  0000 R CNN
+F 2 "SKRPACE010:SW_SKRPACE010" H 6800 6800 50  0001 C CNN
+F 3 "https://www.alps.com/prod/info/J/HTML/Tact/SurfaceMount/SKRP/SKRPACE010.html" H 6800 6800 50  0001 C CNN
+	1    6800 6600
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6800 6350 6800 6400
+Wire Wire Line
+	7350 6350 7350 6450
+Connection ~ 7350 6350
+Wire Wire Line
+	7350 6350 6800 6350
+Wire Wire Line
+	7900 6350 7350 6350
+Wire Wire Line
+	6800 6800 6800 6850
+Wire Wire Line
+	7350 6850 7350 6750
+$Comp
+L power:GND #PWR0163
+U 1 1 5D13EC81
+P 7350 6850
+F 0 "#PWR0163" H 7350 6600 50  0001 C CNN
+F 1 "GND" H 7355 6677 50  0000 C CNN
+F 2 "" H 7350 6850 50  0001 C CNN
+F 3 "" H 7350 6850 50  0001 C CNN
+	1    7350 6850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0164
+U 1 1 5D1C6929
+P 6800 6850
+F 0 "#PWR0164" H 6800 6600 50  0001 C CNN
+F 1 "GND" H 6805 6677 50  0000 C CNN
+F 2 "" H 6800 6850 50  0001 C CNN
+F 3 "" H 6800 6850 50  0001 C CNN
+	1    6800 6850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q1
+U 1 1 5D6AF2EA
+P 10050 9750
+F 0 "Q1" H 10241 9796 50  0000 L CNN
+F 1 "SS8050-G" H 10241 9705 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 10250 9675 50  0001 L CIN
+F 3 "http://www.comchiptech.com/admin/files/product/SS8050-G%20RevA181526.pdf" H 10050 9750 50  0001 L CNN
+	1    10050 9750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q2
+U 1 1 5D6AF5D4
+P 10050 10500
+F 0 "Q2" H 10241 10454 50  0000 L CNN
+F 1 "SS8050-G" H 10241 10545 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 10250 10425 50  0001 L CIN
+F 3 "http://www.comchiptech.com/admin/files/product/SS8050-G%20RevA181526.pdf" H 10050 10500 50  0001 L CNN
+	1    10050 10500
+	1    0    0    1   
+$EndComp
+$Comp
+L Device:R R19
+U 1 1 5D6AF9E4
+P 9600 9750
+F 0 "R19" V 9393 9750 50  0000 C CNN
+F 1 "10k" V 9484 9750 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 9530 9750 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 9600 9750 50  0001 C CNN
+	1    9600 9750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R R20
+U 1 1 5D6AFBD7
+P 9600 10500
+F 0 "R20" V 9393 10500 50  0000 C CNN
+F 1 "10k" V 9484 10500 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 9530 10500 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 9600 10500 50  0001 C CNN
+	1    9600 10500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9750 9750 9850 9750
+Wire Wire Line
+	9750 10500 9850 10500
+Wire Wire Line
+	9050 10500 9350 10500
+Wire Wire Line
+	9050 9650 9050 10500
+Wire Wire Line
+	9050 9650 7700 9650
+Wire Wire Line
+	10150 9950 10150 10050
+Wire Wire Line
+	10150 10050 9350 10050
+Wire Wire Line
+	9350 10050 9350 10500
+Connection ~ 9350 10500
+Wire Wire Line
+	9350 10500 9450 10500
+Wire Wire Line
+	10150 10700 10150 10800
+Wire Wire Line
+	10150 10800 10750 10800
+Wire Wire Line
+	10750 10800 10750 9450
+Wire Wire Line
+	10750 9450 13250 9450
+Wire Wire Line
+	13250 9450 13250 7450
+$Comp
+L Device:C C9
+U 1 1 5E0D507B
+P 13500 7700
+F 0 "C9" H 13615 7746 50  0000 L CNN
+F 1 "0.1μ" H 13615 7655 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 13538 7550 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 13500 7700 50  0001 C CNN
+	1    13500 7700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Switch:SW_Push SW3
+U 1 1 5E4E236E
+P 13900 7700
+F 0 "SW3" V 13854 7848 50  0000 L CNN
+F 1 "SW_Boot" V 13945 7848 50  0000 L CNN
+F 2 "SKRPACE010:SW_SKRPACE010" H 13900 7900 50  0001 C CNN
+F 3 "https://www.alps.com/prod/info/J/HTML/Tact/SurfaceMount/SKRP/SKRPACE010.html" H 13900 7900 50  0001 C CNN
+	1    13900 7700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	13250 7450 13500 7450
+Wire Wire Line
+	13500 7450 13500 7550
+Wire Wire Line
+	10150 10200 10150 10300
+Wire Wire Line
+	10150 10200 9250 10200
+Wire Wire Line
+	9250 10200 9250 9750
+Wire Wire Line
+	9250 9750 9450 9750
+Wire Wire Line
+	7500 9550 7600 9550
+Wire Wire Line
+	7600 9550 7600 9750
+Connection ~ 9250 9750
+Wire Wire Line
+	13500 7450 13900 7450
+Wire Wire Line
+	13900 7450 13900 7500
+Connection ~ 13500 7450
+Wire Wire Line
+	13500 7850 13500 7950
+$Comp
+L power:GND #PWR0165
+U 1 1 5D355D33
+P 13900 7950
+F 0 "#PWR0165" H 13900 7700 50  0001 C CNN
+F 1 "GND" H 13905 7777 50  0000 C CNN
+F 2 "" H 13900 7950 50  0001 C CNN
+F 3 "" H 13900 7950 50  0001 C CNN
+	1    13900 7950
+	1    0    0    -1  
+$EndComp
+NoConn ~ 13450 4450
+NoConn ~ 13450 4550
+NoConn ~ 10000 6450
+NoConn ~ 10000 6550
+NoConn ~ 10000 6850
+NoConn ~ 10000 6950
+NoConn ~ 10000 7450
+NoConn ~ 10550 8000
+NoConn ~ 10650 8000
+NoConn ~ 10750 8000
+NoConn ~ 10850 8000
+NoConn ~ 10950 8000
+NoConn ~ 11050 8000
+NoConn ~ 11150 8000
+NoConn ~ 11250 8000
+NoConn ~ 11800 7150
+NoConn ~ 11800 6750
+NoConn ~ 6550 3900
+NoConn ~ 6550 4000
+NoConn ~ 6550 4100
+NoConn ~ 7550 3900
+NoConn ~ 7550 4000
+NoConn ~ 7550 4100
+NoConn ~ 7550 4200
+NoConn ~ 7550 4300
+NoConn ~ 7550 4400
+NoConn ~ 7550 4500
+NoConn ~ 7500 9450
+NoConn ~ 7500 9650
+Wire Wire Line
+	2900 9150 3000 9150
+NoConn ~ 7500 9750
+NoConn ~ 7500 9850
+NoConn ~ 7500 10050
+NoConn ~ 7500 10350
+NoConn ~ 2900 10250
+NoConn ~ 2900 10350
+Wire Wire Line
+	13900 7900 13900 7950
+$Comp
+L power:GND #PWR0166
+U 1 1 5C8F7541
+P 13500 7950
+F 0 "#PWR0166" H 13500 7700 50  0001 C CNN
+F 1 "GND" H 13505 7777 50  0000 C CNN
+F 2 "" H 13500 7950 50  0001 C CNN
+F 3 "" H 13500 7950 50  0001 C CNN
+	1    13500 7950
+	1    0    0    -1  
+$EndComp
+Connection ~ 11800 4950
+Wire Wire Line
+	11800 4950 12100 4950
+Connection ~ 11900 5050
+Wire Wire Line
+	11900 5050 12000 5050
+Connection ~ 10650 4950
+Wire Wire Line
+	10650 4950 11800 4950
+Connection ~ 10950 5050
+Wire Wire Line
+	10950 5050 11900 5050
+Wire Wire Line
+	9800 6350 10000 6350
+Connection ~ 3050 1650
+Wire Wire Line
+	3050 1650 3050 1700
+Wire Wire Line
+	9400 2850 9400 6750
+Wire Wire Line
+	9400 6750 10000 6750
+Wire Wire Line
+	7600 9750 9250 9750
+Wire Wire Line
+	10150 9450 10150 9550
+Wire Wire Line
+	9800 9450 10150 9450
+Wire Wire Line
+	9800 9450 9800 6350
+$Comp
+L power:+BATT #PWR01
+U 1 1 5F876D12
+P 6200 1050
+F 0 "#PWR01" H 6200 900 50  0001 C CNN
+F 1 "+BATT" H 6215 1223 50  0000 C CNN
+F 2 "" H 6200 1050 50  0001 C CNN
+F 3 "" H 6200 1050 50  0001 C CNN
+	1    6200 1050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6200 1050 6200 1600
+$Comp
+L power:+BATT #PWR09
+U 1 1 5FBF43B7
+P 3400 6100
+F 0 "#PWR09" H 3400 5950 50  0001 C CNN
+F 1 "+BATT" H 3415 6273 50  0000 C CNN
+F 2 "" H 3400 6100 50  0001 C CNN
+F 3 "" H 3400 6100 50  0001 C CNN
+	1    3400 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 6100 3400 6200
+Connection ~ 3400 6200
+$Comp
+L power:+BATT #PWR08
+U 1 1 5FC34398
+P 1900 6100
+F 0 "#PWR08" H 1900 5950 50  0001 C CNN
+F 1 "+BATT" H 1915 6273 50  0000 C CNN
+F 2 "" H 1900 6100 50  0001 C CNN
+F 3 "" H 1900 6100 50  0001 C CNN
+	1    1900 6100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 6100 1900 6200
+Connection ~ 1900 6200
+$Comp
+L power:+BATT #PWR07
+U 1 1 5FC745F3
+P 3400 3250
+F 0 "#PWR07" H 3400 3100 50  0001 C CNN
+F 1 "+BATT" H 3415 3423 50  0000 C CNN
+F 2 "" H 3400 3250 50  0001 C CNN
+F 3 "" H 3400 3250 50  0001 C CNN
+	1    3400 3250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 3250 3400 3350
+Connection ~ 3400 3350
+$Comp
+L power:+BATT #PWR06
+U 1 1 5FCB44BE
+P 1900 3250
+F 0 "#PWR06" H 1900 3100 50  0001 C CNN
+F 1 "+BATT" H 1915 3423 50  0000 C CNN
+F 2 "" H 1900 3250 50  0001 C CNN
+F 3 "" H 1900 3250 50  0001 C CNN
+	1    1900 3250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 3250 1900 3350
+Connection ~ 1900 3350
+Wire Wire Line
+	2600 1450 3550 1450
+$Comp
+L power:+BATT #PWR02
+U 1 1 5FE2A511
+P 3550 1350
+F 0 "#PWR02" H 3550 1200 50  0001 C CNN
+F 1 "+BATT" H 3565 1523 50  0000 C CNN
+F 2 "" H 3550 1350 50  0001 C CNN
+F 3 "" H 3550 1350 50  0001 C CNN
+	1    3550 1350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3550 1350 3550 1450
+Connection ~ 3550 1450
+$Comp
+L Device:R R43
+U 1 1 6173623D
+P 3050 1850
+F 0 "R43" H 3120 1896 50  0000 L CNN
+F 1 "2.7k" H 3120 1805 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2980 1850 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3050 1850 50  0001 C CNN
+	1    3050 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R44
+U 1 1 6182C5E6
+P 3050 2250
+F 0 "R44" H 3120 2296 50  0000 L CNN
+F 1 "5.1k" H 3120 2205 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 2980 2250 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 3050 2250 50  0001 C CNN
+	1    3050 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 2000 3050 2050
+Wire Wire Line
+	3050 2400 3050 2450
+$Comp
+L power:GND #PWR05
+U 1 1 61A5CEFE
+P 3050 2450
+F 0 "#PWR05" H 3050 2200 50  0001 C CNN
+F 1 "GND" H 3055 2277 50  0000 C CNN
+F 2 "" H 3050 2450 50  0001 C CNN
+F 3 "" H 3050 2450 50  0001 C CNN
+	1    3050 2450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 2050 3350 2050
+Wire Wire Line
+	3350 2050 3350 2850
+Wire Wire Line
+	3350 2850 9400 2850
+Connection ~ 3050 2050
+Wire Wire Line
+	3050 2050 3050 2100
+$Comp
+L Device:L L2
+U 1 1 5D0B1554
+P 14350 850
+F 0 "L2" V 14540 850 50  0000 C CNN
+F 1 "LQM2HPN2R2MJH" V 14449 850 50  0000 C CNN
+F 2 "INDC2520X100:INDC2520X100" H 14350 850 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/inductor/product/LQM2HPN2R2MJH%23.html" H 14350 850 50  0001 C CNN
+	1    14350 850 
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	14500 850  14800 850 
+Wire Wire Line
+	14800 850  14800 1200
+Wire Wire Line
+	14800 1200 14750 1200
+Wire Wire Line
+	13950 1200 13900 1200
+Wire Wire Line
+	13900 1200 13900 850 
+Wire Wire Line
+	13900 850  14200 850 
+Wire Wire Line
+	13900 1600 13950 1600
+Wire Wire Line
+	13900 1400 13950 1400
+Wire Wire Line
+	13900 1400 13900 1600
+Wire Wire Line
+	14750 1500 14800 1500
+Wire Wire Line
+	14800 1500 14800 1300
+Wire Wire Line
+	14800 1300 14750 1300
+Wire Wire Line
+	14750 1700 14800 1700
+Wire Wire Line
+	14800 1700 14800 1900
+$Comp
+L power:GND #PWR016
+U 1 1 5D6370A9
+P 14800 1900
+F 0 "#PWR016" H 14800 1650 50  0001 C CNN
+F 1 "GND" H 14805 1727 50  0000 C CNN
+F 2 "" H 14800 1900 50  0001 C CNN
+F 3 "" H 14800 1900 50  0001 C CNN
+	1    14800 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13950 1700 13900 1700
+Wire Wire Line
+	13900 1700 13900 1900
+$Comp
+L power:GND #PWR015
+U 1 1 5D67836D
+P 13900 1900
+F 0 "#PWR015" H 13900 1650 50  0001 C CNN
+F 1 "GND" H 13905 1727 50  0000 C CNN
+F 2 "" H 13900 1900 50  0001 C CNN
+F 3 "" H 13900 1900 50  0001 C CNN
+	1    13900 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C30
+U 1 1 5D6784E0
+P 15050 1650
+F 0 "C30" H 15165 1696 50  0000 L CNN
+F 1 "10μ" H 15165 1605 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 15088 1500 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM188R61C106KAAL%23.html" H 15050 1650 50  0001 C CNN
+	1    15050 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	14800 1300 15050 1300
+Wire Wire Line
+	15050 1300 15050 1500
+Connection ~ 14800 1300
+Wire Wire Line
+	15050 1800 15050 1900
+$Comp
+L power:GND #PWR017
+U 1 1 5D6FBD2C
+P 15050 1900
+F 0 "#PWR017" H 15050 1650 50  0001 C CNN
+F 1 "GND" H 15055 1727 50  0000 C CNN
+F 2 "" H 15050 1900 50  0001 C CNN
+F 3 "" H 15050 1900 50  0001 C CNN
+	1    15050 1900
+	1    0    0    -1  
+$EndComp
+Connection ~ 6200 5050
+Connection ~ 6300 4950
+Wire Wire Line
+	6200 5050 10950 5050
+Wire Wire Line
+	6300 4950 10650 4950
+Connection ~ 13900 1400
+Wire Wire Line
+	2200 900  2200 1100
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5CD1E021
+P 5000 9050
+F 0 "#FLG0101" H 5000 9125 50  0001 C CNN
+F 1 "PWR_FLAG" H 5000 9223 50  0000 C CNN
+F 2 "" H 5000 9050 50  0001 C CNN
+F 3 "~" H 5000 9050 50  0001 C CNN
+	1    5000 9050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4600 9150 5000 9150
+Wire Wire Line
+	5000 9150 5000 9050
+Connection ~ 4600 9150
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5CE3E28D
+P 2600 10700
+F 0 "#FLG0102" H 2600 10775 50  0001 C CNN
+F 1 "PWR_FLAG" H 2600 10873 50  0000 C CNN
+F 2 "" H 2600 10700 50  0001 C CNN
+F 3 "~" H 2600 10700 50  0001 C CNN
+	1    2600 10700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2300 10750 2600 10750
+Wire Wire Line
+	2600 10750 2600 10700
+$Comp
+L power:PWR_FLAG #FLG0103
+U 1 1 5CF1901F
+P 4200 1000
+F 0 "#FLG0103" H 4200 1075 50  0001 C CNN
+F 1 "PWR_FLAG" H 4200 1173 50  0000 C CNN
+F 2 "" H 4200 1000 50  0001 C CNN
+F 3 "~" H 4200 1000 50  0001 C CNN
+	1    4200 1000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 1000 4200 1100
+Connection ~ 4200 1100
+Wire Wire Line
+	4200 1100 5350 1100
+$Comp
+L power:PWR_FLAG #FLG0104
+U 1 1 5CF65B69
+P 3000 9050
+F 0 "#FLG0104" H 3000 9125 50  0001 C CNN
+F 1 "PWR_FLAG" H 3000 9223 50  0000 C CNN
+F 2 "" H 3000 9050 50  0001 C CNN
+F 3 "~" H 3000 9050 50  0001 C CNN
+	1    3000 9050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3000 9050 3000 9150
+Connection ~ 3000 9150
+Wire Wire Line
+	3000 9150 3100 9150
+$Comp
+L TPS63001:TPS63001 U7
+U 1 1 5CFB9CDD
+P 14350 1500
+F 0 "U7" H 14350 2025 50  0000 C CNN
+F 1 "TPS63001" H 14350 1934 50  0000 C CNN
+F 2 "Package_SON:Texas_S-PVSON-N10" H 14350 1500 50  0001 C CNN
+F 3 "" H 14350 1500 50  0001 C CNN
+	1    14350 1500
+	1    0    0    -1  
+$EndComp
+Connection ~ 15050 1300
+$Comp
+L Transistor_BJT:MMBT3906 Q5
+U 1 1 5D3AC79B
+P 12000 1350
+F 0 "Q5" H 12190 1304 50  0000 L CNN
+F 1 "MMBT3906" H 12190 1395 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 12200 1275 50  0001 L CIN
+F 3 "https://www.onsemi.jp/pub/Collateral/PZT3906-D.PDF" H 12000 1350 50  0001 L CNN
+	1    12000 1350
+	-1   0    0    1   
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q4
+U 1 1 5D3AC510
+P 12200 2050
+F 0 "Q4" H 12391 2096 50  0000 L CNN
+F 1 "MMBT3904" H 12391 2005 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 12400 1975 50  0001 L CIN
+F 3 "https://www.onsemi.cn/PowerSolutions/document/PZT3904-D.pdf" H 12200 2050 50  0001 L CNN
+	1    12200 2050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11350 1350 11350 2050
+Connection ~ 11900 2750
+Wire Wire Line
+	11900 2750 11250 2750
+Wire Wire Line
+	11900 2050 11900 2750
+Connection ~ 11900 2050
+Wire Wire Line
+	11900 2050 12000 2050
+Connection ~ 12300 1350
+Wire Wire Line
+	12300 1350 12300 1850
+Wire Wire Line
+	11350 2050 11500 2050
+Wire Wire Line
+	11900 2050 11800 2050
+Wire Wire Line
+	11900 1950 11900 2050
+Wire Wire Line
+	11900 1550 11900 1650
+$Comp
+L Device:R R32
+U 1 1 5C720E57
+P 11900 1800
+F 0 "R32" H 11830 1754 50  0000 R CNN
+F 1 "10k" H 11830 1845 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 11830 1800 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 11900 1800 50  0001 C CNN
+	1    11900 1800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R30
+U 1 1 5C6E11C9
+P 11650 2050
+F 0 "R30" V 11443 2050 50  0000 C CNN
+F 1 "10k" V 11534 2050 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 11580 2050 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 11650 2050 50  0001 C CNN
+	1    11650 2050
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	12300 1350 12300 1250
+Wire Wire Line
+	12200 1350 12300 1350
+Wire Wire Line
+	12300 850  12300 950 
+$Comp
+L Device:R R31
+U 1 1 5C6B267C
+P 12300 1100
+F 0 "R31" H 12370 1146 50  0000 L CNN
+F 1 "10k" H 12370 1055 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 12230 1100 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 12300 1100 50  0001 C CNN
+	1    12300 1100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11900 850  11900 1150
+$Comp
+L Switch:SW_Push SW1
+U 1 1 5C5A6175
+P 11350 1150
+F 0 "SW1" V 11304 1298 50  0000 L CNN
+F 1 "SW_PWR" V 11395 1298 50  0000 L CNN
+F 2 "SKRPACE010:SW_SKRPACE010" H 11350 1350 50  0001 C CNN
+F 3 "https://www.alps.com/prod/info/J/HTML/Tact/SurfaceMount/SKRP/SKRPACE010.html" H 11350 1350 50  0001 C CNN
+	1    11350 1150
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	11350 850  11350 950 
+Wire Wire Line
+	11900 850  12300 850 
+Wire Wire Line
+	11350 850  11900 850 
+Connection ~ 11900 850 
+Connection ~ 12300 850 
+Wire Wire Line
+	12300 2250 12300 2350
+Wire Wire Line
+	12300 2350 13750 2350
+Wire Wire Line
+	13750 2350 13750 1500
+Wire Wire Line
+	13750 1500 13950 1500
+Connection ~ 11350 850 
+Connection ~ 10800 850 
+Wire Wire Line
+	10800 850  11350 850 
+Wire Wire Line
+	10800 1900 10650 1900
+Wire Wire Line
+	10800 850  10800 1900
+Wire Wire Line
+	10400 850  10800 850 
+Wire Wire Line
+	10200 1200 9900 1200
+Wire Wire Line
+	9900 1200 9900 1250
+$Comp
+L Device:R R17
+U 1 1 5E5B2486
+P 9900 1400
+F 0 "R17" H 9970 1446 50  0000 L CNN
+F 1 "10k" H 9970 1355 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 9830 1400 50  0001 C CNN
+F 3 "~" H 9900 1400 50  0001 C CNN
+	1    9900 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR04
+U 1 1 5E5B4A5C
+P 9900 1600
+F 0 "#PWR04" H 9900 1350 50  0001 C CNN
+F 1 "GND" H 9905 1427 50  0000 C CNN
+F 2 "" H 9900 1600 50  0001 C CNN
+F 3 "" H 9900 1600 50  0001 C CNN
+	1    9900 1600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9900 1550 9900 1600
+Wire Wire Line
+	10200 1150 10200 1200
+Wire Wire Line
+	10200 1200 10200 1250
+Connection ~ 10200 1200
+$Comp
+L Device:D_Schottky D1
+U 1 1 5C21BA97
+P 10500 1900
+F 0 "D1" H 10500 1684 50  0000 C CNN
+F 1 "RB161MM-20" H 10500 1775 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123F" H 10500 1900 50  0001 C CNN
+F 3 "https://www.rohm.co.jp/datasheet/RB161MM-20/rb161mm-20tr-j" H 10500 1900 50  0001 C CNN
+	1    10500 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:VBUS #PWR010
+U 1 1 5DBFB919
+P 9500 1800
+F 0 "#PWR010" H 9500 1650 50  0001 C CNN
+F 1 "VBUS" H 9515 1973 50  0000 C CNN
+F 2 "" H 9500 1800 50  0001 C CNN
+F 3 "" H 9500 1800 50  0001 C CNN
+	1    9500 1800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9500 1800 9500 1900
+Wire Wire Line
+	10200 1550 10200 1900
+Connection ~ 10200 1900
+Wire Wire Line
+	10200 1900 10350 1900
+$Comp
+L Device:R R33
+U 1 1 5DF503F4
+P 10200 1400
+F 0 "R33" H 10270 1446 50  0000 L CNN
+F 1 "47" H 10270 1355 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 10130 1400 50  0001 C CNN
+F 3 "~" H 10200 1400 50  0001 C CNN
+	1    10200 1400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_FET:IRLML6402 Q11
+U 1 1 5D5515AA
+P 10200 950
+F 0 "Q11" V 10543 950 50  0000 C CNN
+F 1 "DMG3415U" V 10452 950 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 10400 875 50  0001 L CIN
+F 3 "https://www.diodes.com/assets/Datasheets/ds31735.pdf" H 10200 950 50  0001 L CNN
+	1    10200 950 
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	9500 850  10000 850 
+Wire Wire Line
+	9500 850  9500 800 
+$Comp
+L power:+BATT #PWR03
+U 1 1 5EB1A0CD
+P 9500 800
+F 0 "#PWR03" H 9500 650 50  0001 C CNN
+F 1 "+BATT" H 9515 973 50  0000 C CNN
+F 2 "" H 9500 800 50  0001 C CNN
+F 3 "" H 9500 800 50  0001 C CNN
+	1    9500 800 
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R42
+U 1 1 5EC5BE03
+P 11100 2050
+F 0 "R42" V 10893 2050 50  0000 C CNN
+F 1 "2.7k" V 10984 2050 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 11030 2050 50  0001 C CNN
+F 3 "~" H 11100 2050 50  0001 C CNN
+	1    11100 2050
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	11250 2050 11350 2050
+Connection ~ 11350 2050
+Wire Wire Line
+	10850 2050 10950 2050
+Wire Wire Line
+	10850 2050 10850 2150
+$Comp
+L Device:R R45
+U 1 1 5ED5E3FC
+P 10850 2300
+F 0 "R45" H 10920 2346 50  0000 L CNN
+F 1 "5.1k" H 10920 2255 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 10780 2300 50  0001 C CNN
+F 3 "~" H 10850 2300 50  0001 C CNN
+	1    10850 2300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10850 2450 10850 2500
+$Comp
+L power:GND #PWR011
+U 1 1 5EE2B81F
+P 10850 2500
+F 0 "#PWR011" H 10850 2250 50  0001 C CNN
+F 1 "GND" H 10855 2327 50  0000 C CNN
+F 2 "" H 10850 2500 50  0001 C CNN
+F 3 "" H 10850 2500 50  0001 C CNN
+	1    10850 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11900 2750 11900 2850
+Wire Wire Line
+	11250 2750 11250 2800
+$Comp
+L power:GND #PWR018
+U 1 1 5DDE3994
+P 10850 3450
+F 0 "#PWR018" H 10850 3200 50  0001 C CNN
+F 1 "GND" H 10855 3277 50  0000 C CNN
+F 2 "" H 10850 3450 50  0001 C CNN
+F 3 "" H 10850 3450 50  0001 C CNN
+	1    10850 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10850 3400 10850 3450
+Wire Wire Line
+	10850 3000 10950 3000
+Connection ~ 10850 3000
+Wire Wire Line
+	10850 3000 10850 3100
+$Comp
+L Device:R R47
+U 1 1 5DC789D3
+P 10850 3250
+F 0 "R47" H 10920 3296 50  0000 L CNN
+F 1 "10k" H 10920 3205 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 10780 3250 50  0001 C CNN
+F 3 "~" H 10850 3250 50  0001 C CNN
+	1    10850 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR020
+U 1 1 5D6899EB
+P 11900 3450
+F 0 "#PWR020" H 11900 3200 50  0001 C CNN
+F 1 "GND" H 11905 3277 50  0000 C CNN
+F 2 "" H 11900 3450 50  0001 C CNN
+F 3 "" H 11900 3450 50  0001 C CNN
+	1    11900 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11900 3150 11900 3450
+$Comp
+L power:GND #PWR019
+U 1 1 5D6125DF
+P 11250 3450
+F 0 "#PWR019" H 11250 3200 50  0001 C CNN
+F 1 "GND" H 11255 3277 50  0000 C CNN
+F 2 "" H 11250 3450 50  0001 C CNN
+F 3 "" H 11250 3450 50  0001 C CNN
+	1    11250 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C11
+U 1 1 5CD8DCF8
+P 11900 3000
+F 0 "C11" H 12015 3046 50  0000 L CNN
+F 1 "0.1μ" H 12015 2955 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 11938 2850 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 11900 3000 50  0001 C CNN
+	1    11900 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	11250 3200 11250 3450
+$Comp
+L Transistor_BJT:MMBT3904 Q3
+U 1 1 5D29651A
+P 11150 3000
+F 0 "Q3" H 11341 3046 50  0000 L CNN
+F 1 "MMBT3904" H 11341 2955 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 11350 2925 50  0001 L CIN
+F 3 "https://www.onsemi.cn/PowerSolutions/document/PZT3904-D.pdf" H 11150 3000 50  0001 L CNN
+	1    11150 3000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10750 3000 10850 3000
+$Comp
+L Device:R R29
+U 1 1 649533E7
+P 10600 3000
+F 0 "R29" V 10393 3000 50  0000 C CNN
+F 1 "10k" V 10484 3000 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 10530 3000 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 10600 3000 50  0001 C CNN
+	1    10600 3000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3900 7250 10000 7250
+$Comp
+L Device:R R46
+U 1 1 5F3F2F46
+P 13750 2600
+F 0 "R46" H 13820 2646 50  0000 L CNN
+F 1 "10k" H 13820 2555 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 13680 2600 50  0001 C CNN
+F 3 "~" H 13750 2600 50  0001 C CNN
+	1    13750 2600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13750 2350 13750 2450
+Wire Wire Line
+	13750 2750 13750 2800
+$Comp
+L power:GND #PWR012
+U 1 1 5F4B354A
+P 13750 2800
+F 0 "#PWR012" H 13750 2550 50  0001 C CNN
+F 1 "GND" H 13755 2627 50  0000 C CNN
+F 2 "" H 13750 2800 50  0001 C CNN
+F 3 "" H 13750 2800 50  0001 C CNN
+	1    13750 2800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12950 850  13400 850 
+Connection ~ 12950 850 
+Wire Wire Line
+	12300 850  12950 850 
+$Comp
+L power:GND #PWR014
+U 1 1 60771B6E
+P 13400 1900
+F 0 "#PWR014" H 13400 1650 50  0001 C CNN
+F 1 "GND" H 13405 1727 50  0000 C CNN
+F 2 "" H 13400 1900 50  0001 C CNN
+F 3 "" H 13400 1900 50  0001 C CNN
+	1    13400 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13400 850  13400 950 
+Wire Wire Line
+	13400 1800 13400 1900
+Connection ~ 13400 1400
+Wire Wire Line
+	13400 1400 13400 1500
+$Comp
+L Device:C C29
+U 1 1 6013FD80
+P 13400 1650
+F 0 "C29" H 13515 1696 50  0000 L CNN
+F 1 "0.1μ" H 13515 1605 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 13438 1500 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GCM188L81H104KA57%23.html" H 13400 1650 50  0001 C CNN
+	1    13400 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	13400 1400 13900 1400
+Wire Wire Line
+	13400 1250 13400 1400
+$Comp
+L Device:R R8
+U 1 1 5FDC55F5
+P 13400 1100
+F 0 "R8" H 13470 1146 50  0000 L CNN
+F 1 "100" H 13470 1055 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 13330 1100 50  0001 C CNN
+F 3 "http://www.yageo.com/documents/recent/PYu-RC_Group_51_RoHS_L_10.pdf" H 13400 1100 50  0001 C CNN
+	1    13400 1100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12950 1300 13950 1300
+Connection ~ 12950 1300
+Wire Wire Line
+	12950 850  12950 1300
+$Comp
+L power:GND #PWR013
+U 1 1 5DB1C1CC
+P 12950 1900
+F 0 "#PWR013" H 12950 1650 50  0001 C CNN
+F 1 "GND" H 12955 1727 50  0000 C CNN
+F 2 "" H 12950 1900 50  0001 C CNN
+F 3 "" H 12950 1900 50  0001 C CNN
+	1    12950 1900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	12950 1800 12950 1900
+Wire Wire Line
+	12950 1300 12950 1500
+$Comp
+L Device:C C28
+U 1 1 5DA13D9B
+P 12950 1650
+F 0 "C28" H 13065 1696 50  0000 L CNN
+F 1 "10μ" H 13065 1605 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 12988 1500 50  0001 C CNN
+F 3 "https://psearch.jp.murata.com/capacitor/product/GRM188R61C106KAAL%23.html" H 12950 1650 50  0001 C CNN
+	1    12950 1650
+	1    0    0    -1  
+$EndComp
+Connection ~ 13750 2350
+Wire Wire Line
+	10000 6650 9500 6650
+Wire Wire Line
+	10000 7050 9700 7050
+Wire Wire Line
+	9700 7050 9700 3000
+Wire Wire Line
+	9700 3000 10450 3000
+Wire Wire Line
+	10000 7150 9600 7150
+Wire Wire Line
+	9600 7150 9600 2050
+Connection ~ 10850 2050
+Wire Wire Line
+	9500 1900 9500 2000
+Connection ~ 9500 1900
+Wire Wire Line
+	9500 1900 10200 1900
+Wire Wire Line
+	9600 2050 10850 2050
+$Comp
+L Device:R R48
+U 1 1 5CCD6C01
+P 9500 2150
+F 0 "R48" H 9570 2196 50  0000 L CNN
+F 1 "10k" H 9570 2105 50  0000 L CNN
+F 2 "" V 9430 2150 50  0001 C CNN
+F 3 "~" H 9500 2150 50  0001 C CNN
+	1    9500 2150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9500 2300 9500 6650
+$EndSCHEMATC
