@@ -15,13 +15,13 @@ void BMX055::begin()
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Accl);
   Wire.write(0x0F); // Select PMU_Range register
-  Wire.write(0x03); // Range = +/- 2g
+  Wire.write(0x08); // Range = +/- 8g
   Wire.endTransmission();
   delay(100);
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Accl);
   Wire.write(0x10); // Select PMU_BW register
-  Wire.write(0x0A); // Bandwidth = 31.25 Hz
+  Wire.write(0x0B); // Bandwidth = 62.5 Hz
   Wire.endTransmission();
   delay(100);
   //------------------------------------------------------------//
@@ -63,7 +63,7 @@ void BMX055::begin()
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Mag);
   Wire.write(0x4C); // Select Mag register
-  Wire.write(0x07); // Normal Mode, ODR = 30 Hz
+  Wire.write(0x06); // Normal Mode, ODR = 25 Hz
   Wire.endTransmission();
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Mag);

@@ -46,6 +46,12 @@ float roll = 0;
 float pitch = 0;
 float yaw = 0;
 
+float dt, preTime;
+float dps, a;
+
+int i = 0;
+int m1, m2, m3, m4, dps1;
+
 void setup()
 {
   // デバック用シリアル通信は115200bps
@@ -63,8 +69,8 @@ void setup()
   udp.begin(localPort);
   Serial.println("UDP OK");
 
-  //MadgwickFilterのサンプリンレート。IMUのサンプリンレートよりも小さくする25Hz(MAX30Hz)
-  filter.begin(10);
+  //MadgwickFilterのサンプリンレート。IMUのサンプリンレートよりも小さくする5Hz(MAX25Hz)
+  filter.begin(8);
   // Wire(Arduino-I2C)の初期化
   Wire.begin();  //BMX055 初期化
   IMU.begin();
@@ -75,34 +81,51 @@ void setup()
   Serial.println("battery OK");
 
   delay(300);
+  preTime = micros();
 }
 
 void loop()
 {
   get_imu_data();
 
-  //int packetSize = udp.parsePacket();
-  //if (packetSize > 0) {
-  //int len = udp.read(packetBuffer, packetSize);
-  //終端文字設定
-  //if (len > 0) packetBuffer[len] = '\0';
+  int packetSize = udp.parsePacket();
+  if (packetSize > 0) {
+    int len = udp.read(packetBuffer, packetSize);
 
-  //Serial.print(udp.remoteIP());
-  //Serial.print(" / ");
-  //Serial.println(packetBuffer);
-  // }
+    //終端文字設定
+    /*if (len > 0) packetBuffer[len] = '\0';
+    Serial.print(udp.remoteIP());
+    Serial.print(" / ");
+    Serial.println(packetBuffer);*/
+   
+    //↓時間かかりすぎ 
+    if (packetBuffer[i] == 'e') {
+      packetBuffer[i] = '\0';
+      //Serial.println(buf);
 
-  //udp.beginPacket(udpReturnAddr, udpReturnPort);
-  //udp.print(printBatteryStats());
-  //udp.endPacket();
+      m1 = atoi(strtok(packetBuffer, ","));
+      m2 = atoi(strtok(NULL, ","));
+      m3 = atoi(strtok(NULL, ","));
+      m4 = atoi(strtok(NULL, ","));
+      dps = atoi(strtok(NULL, ","));
 
-  Serial.print(roll);
-  Serial.print(" ");
-  Serial.print(pitch);
-  Serial.print(" ");
-  Serial.println(yaw);
+      Serial.println(m1);
+      Serial.println(m2);
+      Serial.println(m3);
+      Serial.println(m4);
+      Serial.println(dps1);
+      i = 0;
+    } else {
+      i++;
+    }
+    
+    udp.beginPacket(udpReturnAddr, udpReturnPort);
+    udp.print(printBatteryStats());
+    udp.endPacket();
+  }
 }
 
+//IMU生値をセンサーフュージョン
 void get_imu_data()
 {
   float gx = IMU.Gyro(x);
@@ -125,6 +148,25 @@ void get_imu_data()
   //motor2_angle_now = -roll + pitch;
   //motor3_angle_now = -roll - pitch;
   //motor4_angle_now =  roll - pitch;
+}
+
+//角度を角速度へ変換
+inline float degTodps(float deg)
+{
+  dt = (micros() - preTime) / 1000000;
+  preTime = micros();
+
+  dps = (deg - a) / dt;
+  a = deg;
+
+  if (dps >= 5000) {
+    dps = dps - (360 / dt);
+  }
+  if (dps <= -5000) {
+    dps = dps + (360 / dt);
+  }
+
+  return dps;
 }
 
 void setupBQ27441(void)
