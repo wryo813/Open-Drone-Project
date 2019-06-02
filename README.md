@@ -69,6 +69,7 @@ IREG=1000[V]/PROG[kΩ]
 - UDP通信で使用するライブラリは[WiFiUdp.h](https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFi/src/WiFiUdp.h)
 ### 送信機から送信するデータ
 - 各モーターの目標角度
+- YAW軸の目標角速度
 - ドローン本体の目標高度
 - 緊急停止信号
 ### ドローン本体から送信するデータ
