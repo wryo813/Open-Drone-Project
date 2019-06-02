@@ -5,7 +5,8 @@
 #include <SparkFunBQ27441.h>
 #include "serial_cmd.h"
 #include "BMX055.h"
-
+#include <vector>
+#include <string>
 
 //モーターピン設定
 #define MOTOR1_PIN 12
@@ -20,6 +21,8 @@
 //重力加速度
 #define G 9.80665
 
+//受信したトークン数
+#define n 6
 
 WiFiUDP udp;
 Madgwick filter;
@@ -28,29 +31,53 @@ BMX055 IMU;
 //アクセスポイント設定
 const char *APSSID = "ESP32_wifi";
 const char *APPASS = "esp32pass";
+
+//ドローンのポート
 unsigned int localPort = 8888;
 
 //受信データ
 char packetBuffer[255];
+
+//送信機のIPアドレス
 static const char *udpReturnAddr = "192.168.4.2";
+//送信機のポート
 static const int udpReturnPort = 8889;
 
 //バッテリー容量
 const unsigned int BATTERY_CAPACITY = 1000;
-
-// センサーの値を保存するグローバル関数
-
 
 //MadgwickFilterの出力値
 float roll = 0;
 float pitch = 0;
 float yaw = 0;
 
+motor1_angle_now = 0;
+motor2_angle_now = 0;
+motor3_angle_now = 0;
+motor4_angle_now = 0;
+
+//ループ時間計測用
 float dt, preTime;
+
+//角度-角速度変換用
 float dps, a;
 
-int i = 0;
-int m1, m2, m3, m4, dps1;
+
+
+int split(String data, char delimiter, String *dst) {
+  int index = 0;
+  int arraySize = (sizeof(data) / sizeof((data)[0]));
+  int datalength = data.length();
+  for (int i = 0; i < datalength; i++) {
+    char tmp = data.charAt(i);
+    if ( tmp == delimiter ) {
+      index++;
+      if ( index > (arraySize - 1)) return -1;
+    }
+    else dst[index] += tmp;
+  }
+  return (index + 1);
+}
 
 void setup()
 {
@@ -84,8 +111,19 @@ void setup()
   preTime = micros();
 }
 
+
 void loop()
 {
+  //分割された文字列を格納する配列
+  String cmds[n] = {"\0"};
+
+  int motor1_angle_target;
+  int motor2_angle_target;
+  int motor3_angle_target;
+  int motor4_angle_target;
+  int angular_velocity_target;
+  int throttle_target;
+
   get_imu_data();
 
   int packetSize = udp.parsePacket();
@@ -93,37 +131,35 @@ void loop()
     int len = udp.read(packetBuffer, packetSize);
 
     //終端文字設定
-    /*if (len > 0) packetBuffer[len] = '\0';
+    if (len > 0) packetBuffer[len] = '\0';
     Serial.print(udp.remoteIP());
     Serial.print(" / ");
-    Serial.println(packetBuffer);*/
-   
-    //↓時間かかりすぎ 
-    if (packetBuffer[i] == 'e') {
-      packetBuffer[i] = '\0';
-      //Serial.println(buf);
+    Serial.println(packetBuffer);
 
-      m1 = atoi(strtok(packetBuffer, ","));
-      m2 = atoi(strtok(NULL, ","));
-      m3 = atoi(strtok(NULL, ","));
-      m4 = atoi(strtok(NULL, ","));
-      dps = atoi(strtok(NULL, ","));
+    // 分割数 = 分割処理(文字列, 区切り文字, 配列)
+    int index = split(packetBuffer, ',', cmds);
 
-      Serial.println(m1);
-      Serial.println(m2);
-      Serial.println(m3);
-      Serial.println(m4);
-      Serial.println(dps1);
-      i = 0;
-    } else {
-      i++;
+    if (index != 6) {
+      //通信失敗処理
     }
-    
-    udp.beginPacket(udpReturnAddr, udpReturnPort);
-    udp.print(printBatteryStats());
-    udp.endPacket();
+    motor1_angle_target = cmds[0].toInt();
+    motor2_angle_target = cmds[1].toInt();
+    motor3_angle_target = cmds[2].toInt();
+    motor4_angle_target = cmds[3].toInt();
+    angular_velocity_target = cmds[4].toInt();
+    throttle_target = cmds[5].toInt();
   }
+
+  if (throttle_target > 0) {
+
+  }
+
+  udp.beginPacket(udpReturnAddr, udpReturnPort);
+  udp.print(printBatteryStats());
+  udp.endPacket();
 }
+
+
 
 //IMU生値をセンサーフュージョン
 void get_imu_data()
@@ -144,10 +180,10 @@ void get_imu_data()
   pitch = filter.getPitch();
   yaw   = filter.getYaw();
 
-  //motor1_angle_now =  roll + pitch;
-  //motor2_angle_now = -roll + pitch;
-  //motor3_angle_now = -roll - pitch;
-  //motor4_angle_now =  roll - pitch;
+  motor1_angle_now =  roll + pitch;
+  motor2_angle_now = -roll + pitch;
+  motor3_angle_now = -roll - pitch;
+  motor4_angle_now =  roll - pitch;
 }
 
 //角度を角速度へ変換
@@ -165,7 +201,6 @@ inline float degTodps(float deg)
   if (dps <= -5000) {
     dps = dps + (360 / dt);
   }
-
   return dps;
 }
 
