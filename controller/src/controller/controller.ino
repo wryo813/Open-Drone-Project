@@ -47,16 +47,16 @@ void loop() {
   float motor2 = -mvx - mvy;
   float motor3 = -mvx + mvy;
   float motor4 =  mvx + mvy;
-  
-  int angular_velocity = tvx * 1000/2047;
 
   int m1 = motor1 * 15 / 2047;
   int m2 = motor2 * 15 / 2047;
   int m3 = motor3 * 15 / 2047;
   int m4 = motor4 * 15 / 2047;
 
+  int angular_velocity = tvx * 400/2047;
+
   udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
-  udp.print((String)m1 + "," + (String)m2 + "," + (String)m3 + "," + (String)m4 + "," + (String)angular_velocity + ",e");
+  udp.print((String)m1 + "," + (String)m2 + "," + (String)m3 + "," + (String)m4 + "," + (String)angular_velocity);
   udp.endPacket();
 
   int packetSize = udp.parsePacket();

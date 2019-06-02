@@ -8,11 +8,17 @@
 #include <vector>
 #include <string>
 
+//電源管理ピン設定
+#define SHUTDOWN_PIN 25
+#define PW_SWITCH_PIN 26
+#define USB_STATUS_PIN 34
+#define CHG_STATUS_PIN 35
+
 //モーターピン設定
-#define MOTOR1_PIN 12
-#define MOTOR2_PIN 13
-#define MOTOR3_PIN 14
-#define MOTOR4_PIN 16
+#define MOTOR1_PIN 27
+#define MOTOR2_PIN 16
+#define MOTOR3_PIN 4
+#define MOTOR4_PIN 14
 
 //PIDゲイン
 #define P_GAIN 5
@@ -51,10 +57,11 @@ float roll = 0;
 float pitch = 0;
 float yaw = 0;
 
-motor1_angle_now = 0;
-motor2_angle_now = 0;
-motor3_angle_now = 0;
-motor4_angle_now = 0;
+//モーター角度
+float motor1_angle_now = 0;
+float motor2_angle_now = 0;
+float motor3_angle_now = 0;
+float motor4_angle_now = 0;
 
 //ループ時間計測用
 float dt, preTime;
@@ -151,6 +158,7 @@ void loop()
   }
 
   if (throttle_target > 0) {
+    int motor1_duty_raw = throttle_target + (motor1_angle_target - motor1_angle_now) * P_GAIN;
 
   }
 
