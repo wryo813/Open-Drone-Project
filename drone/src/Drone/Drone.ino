@@ -21,7 +21,7 @@
 #define MOTOR4_PIN 14
 
 //PIDゲイン
-#define P_GAIN 5
+#define P_GAIN 1
 #define TARGET 0
 
 //重力加速度
@@ -114,6 +114,14 @@ void setup()
   setupBQ27441();
   Serial.println("battery OK");
 
+
+
+ledcSetup(0,12800,8); 
+
+//ピンをチャンネルに接続
+ledcAttachPin(MOTOR1_PIN,0);
+
+
   delay(300);
   preTime = micros();
 }
@@ -124,12 +132,19 @@ void loop()
   //分割された文字列を格納する配列
   String cmds[n] = {"\0"};
 
-  int motor1_angle_target;
-  int motor2_angle_target;
-  int motor3_angle_target;
-  int motor4_angle_target;
-  int angular_velocity_target;
-  int throttle_target;
+  int motor1_angle_target_raw = 0;
+  int motor2_angle_target_raw = 0;
+  int motor3_angle_target_raw = 0;
+  int motor4_angle_target_raw = 0;
+  int angular_velocity_target_raw = 0;
+  int throttle_target_raw = 0;
+
+  float motor1_angle_target;
+  float motor2_angle_target;
+  float motor3_angle_target;
+  float motor4_angle_target;
+  float angular_velocity_target;
+  float throttle_target;
 
   get_imu_data();
 
@@ -139,32 +154,42 @@ void loop()
 
     //終端文字設定
     if (len > 0) packetBuffer[len] = '\0';
-    Serial.print(udp.remoteIP());
-    Serial.print(" / ");
-    Serial.println(packetBuffer);
+    //Serial.print(udp.remoteIP());
+    //Serial.print(" / ");
+    //Serial.println(packetBuffer);
 
     // 分割数 = 分割処理(文字列, 区切り文字, 配列)
     int index = split(packetBuffer, ',', cmds);
 
-    if (index != 6) {
-      //通信失敗処理
-    }
-    motor1_angle_target = cmds[0].toInt();
-    motor2_angle_target = cmds[1].toInt();
-    motor3_angle_target = cmds[2].toInt();
-    motor4_angle_target = cmds[3].toInt();
-    angular_velocity_target = cmds[4].toInt();
-    throttle_target = cmds[5].toInt();
+    //if (index != 6) {
+    //通信失敗処理
+    //}
+
+    motor1_angle_target_raw = cmds[0].toInt();
+    motor2_angle_target_raw = cmds[1].toInt();
+    motor3_angle_target_raw = cmds[2].toInt();
+    motor4_angle_target_raw = cmds[3].toInt();
+    angular_velocity_target_raw = cmds[4].toInt();
+    throttle_target_raw = cmds[5].toInt();
   }
 
-  if (throttle_target > 0) {
+  if (throttle_target_raw > 0) {
+    motor1_angle_target = motor1_angle_target_raw * 3 / 130;
+    //スロットルをduty比に変換
+    throttle_target = throttle_target_raw / 10;
+
     int motor1_duty_raw = throttle_target + (motor1_angle_target - motor1_angle_now) * P_GAIN;
 
+    if (motor1_duty_raw < 0) {
+      motor1_duty_raw = 0;
+    }
+    ledcWrite(0,motor1_duty_raw);
+    Serial.println(motor1_duty_raw);
   }
 
-  udp.beginPacket(udpReturnAddr, udpReturnPort);
-  udp.print(printBatteryStats());
-  udp.endPacket();
+  //udp.beginPacket(udpReturnAddr, udpReturnPort);
+  //udp.print(printBatteryStats());
+  //udp.endPacket();
 }
 
 
