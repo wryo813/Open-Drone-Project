@@ -9,7 +9,6 @@
 // BMX055　磁気センサのI2Cアドレス
 #define Addr_Mag 0x10
 
-
 void BMX055::begin()
 {
   //------------------------------------------------------------//
@@ -82,78 +81,122 @@ void BMX055::begin()
   Wire.endTransmission();
 }
 
-float BMX055::Accl(axis type)
-{
-  float Accl = 0.00;
 
+
+void BMX055::begin_Accl()
+{
   int data[6];
   for (int i = 0; i < 6; i++)
   {
     Wire.beginTransmission(Addr_Accl);
-    Wire.write((2 + i)); // Select data register
+    Wire.write((2 + i));// Select data register
     Wire.endTransmission();
-    Wire.requestFrom(Addr_Accl, 1); // Request 1 byte of data
+    Wire.requestFrom(Addr_Accl, 1);// Request 1 byte of data
     // Read 6 bytes of data
     // xAccl lsb, xAccl msb, yAccl lsb, yAccl msb, zAccl lsb, zAccl msb
     if (Wire.available() == 1)
       data[i] = Wire.read();
   }
-
-  switch (type) {
-    // Convert the data to 12-bits
-    case x:
-      Accl = ((data[1] * 256) + (data[0] & 0xF0)) / 16;
-      break;
-
-    case y:
-      Accl = ((data[3] * 256) + (data[2] & 0xF0)) / 16;
-      break;
-
-    case z:
-      Accl = ((data[5] * 256) + (data[4] & 0xF0)) / 16;
-      break;
-  }
-  if (Accl > 2047)
-    Accl -= 4096;
-  Accl = Accl * 0.0098; // renge +-2g
-  return Accl;
+  // Convert the data to 12-bits
+  xAccl = ((data[1] * 256) + (data[0] & 0xF0)) / 16;
+  if (xAccl > 2047)  xAccl -= 4096;
+  yAccl = ((data[3] * 256) + (data[2] & 0xF0)) / 16;
+  if (yAccl > 2047)  yAccl -= 4096;
+  zAccl = ((data[5] * 256) + (data[4] & 0xF0)) / 16;
+  if (zAccl > 2047)  zAccl -= 4096;
+  xAccl = xAccl * 0.0098; // renge +-2g
+  yAccl = yAccl * 0.0098; // renge +-2g
+  zAccl = zAccl * 0.0098; // renge +-2g
 }
 
-
-float BMX055::Gyro(axis type)
+void BMX055::begin_Gyro()
 {
-  float Gyro = 0.00;
-
   int data[6];
   for (int i = 0; i < 6; i++)
   {
     Wire.beginTransmission(Addr_Gyro);
-    Wire.write((2 + i)); // Select data register
+    Wire.write((2 + i));    // Select data register
     Wire.endTransmission();
-    Wire.requestFrom(Addr_Gyro, 1); // Request 1 byte of data
+    Wire.requestFrom(Addr_Gyro, 1);    // Request 1 byte of data
     // Read 6 bytes of data
     // xGyro lsb, xGyro msb, yGyro lsb, yGyro msb, zGyro lsb, zGyro msb
     if (Wire.available() == 1)
       data[i] = Wire.read();
   }
+  // Convert the data
+  xGyro = (data[1] * 256) + data[0];
+  if (xGyro > 32767)  xGyro -= 65536;
+  yGyro = (data[3] * 256) + data[2];
+  if (yGyro > 32767)  yGyro -= 65536;
+  zGyro = (data[5] * 256) + data[4];
+  if (zGyro > 32767)  zGyro -= 65536;
+
+  xGyro = xGyro * 0.0038; //  Full scale = +/- 125 degree/s
+  yGyro = yGyro * 0.0038; //  Full scale = +/- 125 degree/s
+  zGyro = zGyro * 0.0038; //  Full scale = +/- 125 degree/s
+}
+
+
+
+void BMX055::begin_Mag()
+{
+  int data[8];
+  for (int i = 0; i < 8; i++)
+  {
+    Wire.beginTransmission(Addr_Mag);
+    Wire.write((0x42 + i));    // Select data register
+    Wire.endTransmission();
+    Wire.requestFrom(Addr_Mag, 1);    // Request 1 byte of data
+    // Read 6 bytes of data
+    // xMag lsb, xMag msb, yMag lsb, yMag msb, zMag lsb, zMag msb
+    if (Wire.available() == 1)
+      data[i] = Wire.read();
+  }
+  // Convert the data
+  xMag = ((data[1] << 8) | (data[0] >> 3));
+  if (xMag > 4095)  xMag -= 8192;
+  yMag = ((data[3] << 8) | (data[2] >> 3));
+  if (yMag > 4095)  yMag -= 8192;
+  zMag = ((data[5] << 8) | (data[4] >> 3));
+  if (zMag > 16383)  zMag -= 32768;
+}
+
+float BMX055::Accl(axis type)
+{
+  float Accl = 0.00;
 
   switch (type) {
-    // Convert the data
     case x:
-      Gyro = (data[1] * 256) + data[0];
+      Accl = xAccl;
       break;
 
     case y:
-      Gyro = (data[3] * 256) + data[2];
+      Accl = yAccl;
       break;
 
     case z:
-      Gyro = (data[5] * 256) + data[4];
+      Accl = zAccl;
       break;
   }
-  if (Gyro > 32767)
-    Gyro -= 65536;
-  Gyro = Gyro * 0.0038; //  Full scale = +/- 125 degree/s
+  return Accl;
+}
+
+float BMX055::Gyro(axis type)
+{
+  float Gyro = 0.00;
+  switch (type) {
+    case x:
+      Gyro = xGyro;
+      break;
+
+    case y:
+      Gyro = yGyro;
+      break;
+
+    case z:
+      Gyro = zGyro;
+      break;
+  }
   return Gyro;
 }
 
@@ -161,38 +204,17 @@ float BMX055::Gyro(axis type)
 int BMX055::Mag(axis type)
 {
   int Mag = 0;
-
-  int data[8];
-  for (int i = 0; i < 8; i++)
-  {
-    Wire.beginTransmission(Addr_Mag);
-    Wire.write((0x42 + i)); // Select data register
-    Wire.endTransmission();
-    Wire.requestFrom(Addr_Mag, 1); // Request 1 byte of data
-    // Read 6 bytes of data
-    // xMag lsb, xMag msb, yMag lsb, yMag msb, zMag lsb, zMag msb
-    if (Wire.available() == 1)
-      data[i] = Wire.read();
-  }
-
-  switch (type) {
-    // Convert the data
+    switch (type) {
     case x:
-      Mag = ((data[1] << 8) | (data[0] >> 3));
-      if (Mag > 4095)
-        Mag -= 8192;
+      Mag = xMag;
       break;
 
     case y:
-      Mag = ((data[3] << 8) | (data[2] >> 3));
-      if (Mag > 4095)
-        Mag -= 8192;
+      Mag = yMag;
       break;
 
     case z:
-      Mag = ((data[5] << 8) | (data[4] >> 3));
-      if (Mag > 16383)
-        Mag -= 32768;
+      Mag = zMag;
       break;
   }
   return Mag;
