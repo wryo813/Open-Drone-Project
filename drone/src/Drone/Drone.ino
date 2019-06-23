@@ -70,43 +70,46 @@ float dps, preDeg;
 float loop_time, preTime;
 
 void setup()
-{  
+{
   //GPIO入出力設定
   pinMode(PW_SWITCH_PIN, INPUT);
-  pinMode(USB_STATUS_PIN, INPUT);
-  pinMode(CHG_STATUS_PIN, INPUT);
+  //pinMode(USB_STATUS_PIN, INPUT);
+  //pinMode(CHG_STATUS_PIN, INPUT);
   pinMode(SHUTDOWN_PIN, OUTPUT);
-  
-  pinMode(MOTOR1_PIN, OUTPUT);
-  pinMode(MOTOR2_PIN, OUTPUT);
-  pinMode(MOTOR3_PIN, OUTPUT);
-  pinMode(MOTOR4_PIN, OUTPUT);
+
+  //pinMode(MOTOR1_PIN, OUTPUT);
+  //pinMode(MOTOR2_PIN, OUTPUT);
+  //pinMode(MOTOR3_PIN, OUTPUT);
+  //pinMode(MOTOR4_PIN, OUTPUT);
 
   //使わないピン
-  /* pinMode(13, INPUT_PULLUP);
-    pinMode(17, INPUT_PULLUP);
-    pinMode(32, INPUT_PULLUP);
-    pinMode(33, INPUT_PULLUP);*/
+  pinMode(13, INPUT_PULLUP);
+  pinMode(17, INPUT_PULLUP);
+  pinMode(32, INPUT_PULLUP);
+  pinMode(33, INPUT_PULLUP);
 
   // デバック用シリアル通信は115200bps
   Serial.begin(115200);
   Serial.println("Seial OK");
 
   //アクセスポイント構築
-  WiFi.softAP(APSSID, APPASS);
+  WiFi.softAP(APSSID, APPASS); //ここ消すと外部割込みが使えるようになる
   IPAddress myIP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
   Serial.println(myIP);
   Serial.println("Wi-Fi OK");
 
   //UDPサーバ構築
-  udp.begin(localPort);
+  //udp.begin(localPort);
   Serial.println("UDP OK");
 
   //MadgwickFilterのサンプリンレート。IMUのサンプリンレートよりも小さくする5Hz(MAX25Hz)
   filter.begin(25);
+
   // Wire(Arduino-I2C)の初期化
-  Wire.begin(); //BMX055 初期化
+  Wire.begin();
+
+  //BMX055 初期化
   IMU.begin();
   Serial.println("IMU OK");
 
@@ -119,13 +122,9 @@ void setup()
   //ピンをチャンネルに接続
   ledcAttachPin(MOTOR1_PIN, 0);
   delay(500);
-  
-  //電源スイッチ割込み
-  attachInterrupt(digitalPinToInterrupt(PW_SWITCH_PIN), shutdown_pw, RISING);
-  
+
   preTime = micros();
 }
-
 
 void loop()
 {
@@ -194,11 +193,6 @@ void loop()
   //udp.print(printBatteryStats());
   //udp.endPacket();
   //Serial.println("loopTime = " + (String)loopTime());
-}
-
-void shutdown_pw()
-{
-  digitalWrite(SHUTDOWN_PIN, HIGH);
 }
 
 //文字列分割関数(分割したい文字列,区切り文字,分割した文字列を代入するString配列)
