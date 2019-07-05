@@ -5,9 +5,9 @@
    PW_SWITCH_PINを使うとモーターからのノイズで勝手にシャットダウンすることがある
 
    優先順位
+   throttle_target_rawが0の時のみ電源スイッチを有効にする
    P_GAINの最適化
    PID制御の実装
-   throttle_target_rawが0の時のみ電源スイッチを有効にする
    バッテリーステータスの送信
    高度センサ
 
@@ -58,7 +58,7 @@
 #define TARGET 0
 
 //yaw軸調整
-#define YAW_P_GAIN 10
+#define YAW_P_GAIN 5
 
 //スロットル調整
 #define T_GAIN 0.5
@@ -163,9 +163,6 @@ void setup()
   //MadgwickFilterのサンプリンレート。IMUのサンプリンレートよりも小さくする5Hz(MAX25Hz)
   filter.begin(25);
 
-  // Wire(Arduino-I2C)の初期化
-  Wire.begin();
-
   //BMX055 初期化
   IMU.begin();
   Serial.println("IMU OK");
@@ -246,7 +243,7 @@ void loop()
   //複数loopTime()を使うとうまくいかない
   angular_velocity = (angular_velocity_target - degTodps(yaw)) * YAW_P_GAIN;
 
-  Serial.println(throttle_target_raw);
+
 
   /*if (throttle_target_raw > 0) {
     //目標姿勢角の上限を設定
@@ -316,7 +313,11 @@ void loop()
   //udp.print(printBatteryStats());
   //udp.endPacket();
   //Serial.println("loopTime = " + (String)loopTime());
-
+  
+    if (throttle_target_raw == 0 && digitalRead(PW_SWITCH_PIN) == HIGH) {
+      shutdown_pw();
+    }
+    
   /*if (digitalRead(PW_SWITCH_PIN) == HIGH) {
     shutdown_pw();
     }*/
