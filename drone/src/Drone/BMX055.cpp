@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include "BMX055.h"
 
+
 // BMX055　加速度センサのI2Cアドレス
 #define Addr_Accl 0x18
 // BMX055　ジャイロセンサのI2Cアドレス
@@ -9,8 +10,11 @@
 // BMX055　磁気センサのI2Cアドレス
 #define Addr_Mag 0x10
 
-void BMX055::begin()
-{
+
+void BMX055::begin() {
+  // Wire(Arduino-I2C)の初期化
+  Wire.begin();
+
   //------------------------------------------------------------//
   Wire.beginTransmission(Addr_Accl);
   Wire.write(0x0F); // Select PMU_Range register
@@ -82,12 +86,9 @@ void BMX055::begin()
 }
 
 
-
-void BMX055::begin_Accl()
-{
+void BMX055::begin_Accl() {
   int data[6];
-  for (int i = 0; i < 6; i++)
-  {
+  for (int i = 0; i < 6; i++)  {
     Wire.beginTransmission(Addr_Accl);
     Wire.write((2 + i));// Select data register
     Wire.endTransmission();
@@ -109,11 +110,10 @@ void BMX055::begin_Accl()
   zAccl = zAccl * 0.0098; // renge +-2g
 }
 
-void BMX055::begin_Gyro()
-{
+
+void BMX055::begin_Gyro() {
   int data[6];
-  for (int i = 0; i < 6; i++)
-  {
+  for (int i = 0; i < 6; i++) {
     Wire.beginTransmission(Addr_Gyro);
     Wire.write((2 + i));    // Select data register
     Wire.endTransmission();
@@ -137,12 +137,9 @@ void BMX055::begin_Gyro()
 }
 
 
-
-void BMX055::begin_Mag()
-{
+void BMX055::begin_Mag() {
   int data[8];
-  for (int i = 0; i < 8; i++)
-  {
+  for (int i = 0; i < 8; i++) {
     Wire.beginTransmission(Addr_Mag);
     Wire.write((0x42 + i));    // Select data register
     Wire.endTransmission();
@@ -161,8 +158,8 @@ void BMX055::begin_Mag()
   if (zMag > 16383)  zMag -= 32768;
 }
 
-float BMX055::Accl(axis type)
-{
+
+float BMX055::Accl(axis type) {
   float Accl = 0.00;
 
   switch (type) {
@@ -181,8 +178,8 @@ float BMX055::Accl(axis type)
   return Accl;
 }
 
-float BMX055::Gyro(axis type)
-{
+
+float BMX055::Gyro(axis type) {
   float Gyro = 0.00;
   switch (type) {
     case x:
@@ -201,10 +198,9 @@ float BMX055::Gyro(axis type)
 }
 
 
-int BMX055::Mag(axis type)
-{
+int BMX055::Mag(axis type) {
   int Mag = 0;
-    switch (type) {
+  switch (type) {
     case x:
       Mag = xMag;
       break;

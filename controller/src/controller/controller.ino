@@ -35,10 +35,16 @@ void setup() {
   joystick_proofread();
 
   WiFi.begin(ssid, pass);
-    while ( WiFi.status() != WL_CONNECTED) {
+
+  while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    }
-    udp.begin(kLocalPort);
+  }
+
+  udp.begin(kLocalPort);
+  udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
+  udp.print("start");
+  udp.endPacket();
+  Serial.println(udp.remoteIP());
 }
 
 void loop() {
@@ -56,14 +62,14 @@ void loop() {
 
   int throttle_raw = tvy;
 
-  if(throttle_raw<0){
+  if (throttle_raw < 0) {
     throttle_raw = 0;
   }
 
 
-  Serial.println((String)motor1_raw + "," + (String)motor2_raw + "," + (String)motor3_raw + "," + (String)motor4_raw + "," + (String)angular_velocity_raw + "," + (String)throttle_raw);
+  //Serial.println((String)motor1_raw + "," + (String)motor2_raw + "," + (String)motor3_raw + "," + (String)motor4_raw + "," + (String)angular_velocity_raw + "," + (String)throttle_raw);
 
-    udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
+  udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
   udp.print((String)motor1_raw + "," + (String)motor2_raw + "," + (String)motor3_raw + "," + (String)motor4_raw + "," + (String)angular_velocity_raw + "," + (String)throttle_raw);
   udp.endPacket();
 
@@ -76,6 +82,7 @@ void loop() {
     Serial.print(" / ");
     Serial.println(packetBuffer);
     }*/
+
   delay(10);
 }
 

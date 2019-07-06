@@ -32,5 +32,4 @@ class BMX055 {
     int Mag(axis type);
 };
 
-
 #endif
