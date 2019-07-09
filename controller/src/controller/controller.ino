@@ -1,11 +1,12 @@
 #include <WiFi.h>
 #include <WiFiUDP.h>
 #include <Wire.h>
+#include "split.h"
 
-#define Throttle_X_PIN  32
-#define Throttle_Y_PIN  33
-#define Move_X_PIN      34
-#define Move_Y_PIN      35
+#define JOYSTICK_LX_PIN 32
+#define JOYSTICK_LY_PIN 33
+#define JOYSTICK_RX_PIN 34
+#define JOYSTICK_RY_PIN 35
 
 #define Throttle_SW_PIN 26
 #define Move_SW_PIN     25
@@ -25,10 +26,10 @@ static const int kRmoteUdpPort = 8888; //送信先のポート
 static const int kLocalPort = 8889;  //自身のポート
 
 
-int mvx_pro = 0;
-int mvy_pro = 0;
-int tvx_pro = 0;
-int tvy_pro = 0;
+int rxv_pro = 0;
+int ryv_pro = 0;
+int lxv_pro = 0;
+int lyv_pro = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -37,88 +38,89 @@ void setup() {
   WiFi.begin(ssid, pass);
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+
   }
 
   udp.begin(kLocalPort);
-  udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
-  udp.print("start");
-  udp.endPacket();
-  Serial.println(udp.remoteIP());
 }
 
 void loop() {
-  int mvx = analogRead(Move_X_PIN) - mvx_pro;
-  int mvy = analogRead(Move_Y_PIN) - mvy_pro;
-  int tvx = analogRead(Throttle_X_PIN) - tvx_pro;
-  int tvy = analogRead(Throttle_Y_PIN) - tvy_pro;
+  int lxv = analogRead(JOYSTICK_LX_PIN) - lxv_pro; //-2047から2047
+  int lyv = analogRead(JOYSTICK_LY_PIN) - lyv_pro; //0から4095
+  int rxv = analogRead(JOYSTICK_RX_PIN) - rxv_pro; //-2047から2047
+  int ryv = analogRead(JOYSTICK_RY_PIN) - ryv_pro; //-2047から2047
 
-  int motor1_raw =  mvx - mvy;
-  int motor2_raw = -mvx - mvy;
-  int motor3_raw = -mvx + mvy;
-  int motor4_raw =  mvx + mvy;
+  int motor1_target_raw =  rxv - ryv; //-4094から4094
+  int motor2_target_raw = -rxv - ryv; //-4094から4094
+  int motor3_target_raw = -rxv + ryv; //-4094から4094
+  int motor4_target_raw =  rxv + ryv; //-4094から4094
+  int yaw_target_raw = lxv; //-2047から2047
+  int throttle_target_raw = lyv; //0から4095
 
-  int angular_velocity_raw = tvx;
-
-  int throttle_raw = tvy;
-
-  if (throttle_raw < 0) {
-    throttle_raw = 0;
+  if (WiFi.status() != WL_CONNECTED) {
+    WiFi.disconnect();
+    delay(50);
+    WiFi.begin(ssid, pass);
   }
 
-
-  //Serial.println((String)motor1_raw + "," + (String)motor2_raw + "," + (String)motor3_raw + "," + (String)motor4_raw + "," + (String)angular_velocity_raw + "," + (String)throttle_raw);
+  if (throttle_target_raw < 0) {
+    throttle_target_raw = 0;
+  }
 
   udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
-  udp.print((String)motor1_raw + "," + (String)motor2_raw + "," + (String)motor3_raw + "," + (String)motor4_raw + "," + (String)angular_velocity_raw + "," + (String)throttle_raw);
+  udp.print("FLIGHT," + (String)motor1_target_raw + "," + (String)motor2_target_raw + "," + (String)motor3_target_raw + "," + (String)motor4_target_raw + "," + (String)yaw_target_raw + "," + (String)throttle_target_raw + ",END");
   udp.endPacket();
 
-  /*int packetSize = udp.parsePacket();
-    if (packetSize > 0) {
+  int packetSize = udp.parsePacket();
+  if (packetSize > 0) {
     int len = udp.read(packetBuffer, packetSize);
     //  終端文字設定
     if (len > 0) packetBuffer[len] = '\0';
-    Serial.print(udp.remoteIP());
-    Serial.print(" / ");
-    Serial.println(packetBuffer);
-    }*/
+
+    if (packetBuffer == "ERROR") {
+      udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
+      udp.print("FLIGHT," + (String)motor1_target_raw + "," + (String)motor2_target_raw + "," + (String)motor3_target_raw + "," + (String)motor4_target_raw + "," + (String)yaw_target_raw + "," + (String)throttle_target_raw + ",END");
+      udp.endPacket();
+    }
+  }
+
+  Serial.println("FLIGHT," + (String)motor1_target_raw + "," + (String)motor2_target_raw + "," + (String)motor3_target_raw + "," + (String)motor4_target_raw + "," + (String)yaw_target_raw + "," + (String)throttle_target_raw + ",END");
 
   delay(10);
 }
 
 
-void joystick_proofread()
-{
-  int mvx_tmp = 0;
-  int mvy_tmp = 0;
-  int tvx_tmp = 0;
-  int tvy_tmp = 0;
+void joystick_proofread() {
+  int rxv_tmp = 0;
+  int ryv_tmp = 0;
+  int lxv_tmp = 0;
+  int lyv_tmp = 0;
 
   delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    tvy_pro = analogRead(Throttle_Y_PIN);
-    tvy_tmp = tvy_tmp + tvy_pro;
+    lyv_pro = analogRead(JOYSTICK_LY_PIN);
+    lyv_tmp = lyv_tmp + lyv_pro;
   }
-  tvy_pro = tvy_tmp / AVG_CNT;
+  lyv_pro = lyv_tmp / AVG_CNT;
 
   delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    tvx_pro = analogRead(Throttle_X_PIN);
-    tvx_tmp = tvx_tmp + tvx_pro;
+    lxv_pro = analogRead(JOYSTICK_LX_PIN);
+    lxv_tmp = lxv_tmp + lxv_pro;
   }
-  tvx_pro = tvx_tmp / AVG_CNT;
+  lxv_pro = lxv_tmp / AVG_CNT;
 
   delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    mvx_pro = analogRead(Move_X_PIN);
-    mvx_tmp = mvx_tmp + mvx_pro;
+    rxv_pro = analogRead(JOYSTICK_RX_PIN);
+    rxv_tmp = rxv_tmp + rxv_pro;
   }
-  mvx_pro = mvx_tmp / AVG_CNT;
+  rxv_pro = rxv_tmp / AVG_CNT;
 
   delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    mvy_pro = analogRead(Move_Y_PIN);
-    mvy_tmp = mvy_tmp + mvy_pro;
+    ryv_pro = analogRead(JOYSTICK_RY_PIN);
+    ryv_tmp = ryv_tmp + ryv_pro;
   }
-  mvy_pro = mvy_tmp / AVG_CNT;
+  ryv_pro = ryv_tmp / AVG_CNT;
 }
