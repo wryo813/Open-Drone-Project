@@ -34,26 +34,33 @@
 #include "split.h"
 
 
-//バッテリー容量
+//バッテリー容量[mAh]
 #define BATTERY_CAPACITY 1000
 
+//目標姿勢角最大値[deg]
+#define MAX_POSTURE_ANGLE 15
+//目標yaw軸角速度最大値[deg/s]
+#define MAX_YAW_VELOCITY 500
+
 //PIDゲイン
-#define P_GAIN 10
+#define P_GAIN 2
 #define I_GAIN 1
-#define D_GAIN 1
+#define D_GAIN 0.7
 #define TARGET 0
 
 //yaw軸調整
-#define YAW_P_GAIN 5
+#define YAW_P_GAIN 1
+#define YAW_I_GAIN 1
+#define YAW_D_GAIN 1
 
 //スロットル調整
-#define T_GAIN 0.5
+#define T_GAIN 1
 
-//重力加速度
+//重力加速度[m/s^2]
 #define G_ACCL 9.80665
 
 //受信するトークン数
-#define STRING_NUM 8
+#define STRING_NUM 6
 
 
 WiFiUDP udp;
@@ -61,36 +68,36 @@ Madgwick filter;
 BMX055 IMU;
 
 
-//アクセスポイント設定
-const char *APSSID = "ESP32_wifi";
-const char *APPASS = "esp32pass";
+//アクセスポイント設定 パスワードは8文字以上必要
+const char *ssid     = "OpenDroneV2";
+const char *password = "ODPpassword";
 
-//ドローンのIPアドレス
-IPAddress myIP;
-//ドローンのポート
-unsigned int localPort = 8888;
+//自身のIPアドレス/ゲートウェイ/サブネットマスク
+IPAddress ip(192, 168, 4, 1);
+IPAddress gateway(192, 168, 4, 1);
+IPAddress subnet(255, 255, 255, 0);
 
-//送信機のIPアドレス
-static const char *udpReturnAddr = "192.168.4.2";
+//送信先ののIPアドレス
+static const char *remote_ip    = "192.168.4.2";
+//自身のポート
+static const int local_UDP_port = 8888;
 //送信機のポート
-static const int udpReturnPort = 8889;
-
-//MadgwickFilterの出力値
-float roll = 0;
-float pitch = 0;
-float yaw = 0;
-
-//モーター角度
-float motor1_angle_now = 0;
-float motor2_angle_now = 0;
-float motor3_angle_now = 0;
-float motor4_angle_now = 0;
-
-//角度-角速度変換用
-float dps, preDeg;
+static const int rmote_UDP_port = 8889;
 
 //ループ時間計測関数用
-float loop_time, preTime;
+float preTime = 0;
+
+//微分時間[s]
+float dt = 0;
+
+//前回のモーター偏差
+float pre_motor1_deviation = 0;
+float pre_motor2_deviation = 0;
+float pre_motor3_deviation = 0;
+float pre_motor4_deviation = 0;
+
+//角度-角速度変換用
+float pre_yaw = 0;
 
 //バッテリーが接続されると、Trueになる
 bool battery_status = 0;
@@ -116,16 +123,21 @@ void setup() {
   filter.begin(25);
 
   //アクセスポイント構築
-  WiFi.softAP(APSSID, APPASS);
+  WiFi.softAPConfig(ip, gateway, subnet);
+  WiFi.softAP(ssid, password);
+  Serial.print("SSID = ");
+  Serial.println(ssid);
+  Serial.print("Password = ");
+  Serial.println(password);
 
   //ドローンのIPアドレスをシリアルで表示
-  myIP = WiFi.softAPIP();
+  IPAddress myIP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
   Serial.println(myIP);
   Serial.println("Wi-Fi OK");
 
   //UDPサーバ構築
-  udp.begin(localPort);
+  udp.begin(local_UDP_port);
   Serial.println("UDP OK");
 
   Serial.println("Setup complete");
@@ -141,41 +153,43 @@ void setup() {
 
 void loop() {
   //MadgwickFilterの出力値変数 0≦x＜360[deg]
-  float roll = 0;
+  float roll  = 0;
   float pitch = 0;
-  float yaw = 0;
+  float yaw   = 0;
 
-  //IMUから取得したモーター角度変数 0≦x＜360[deg]
-  float motor1_angle_now = 0;
-  float motor2_angle_now = 0;
-  float motor3_angle_now = 0;
-  float motor4_angle_now = 0;
-
-  //送信機からの目標モーター角度生値変数 -4094≦x≦4094
-  int motor1_target_raw = 0;
-  int motor2_target_raw = 0;
-  int motor3_target_raw = 0;
-  int motor4_target_raw = 0;
+  //送信機からの目標姿勢角生値変数 -2047≦x≦2047
+  float roll_target_raw = 0;
+  float pitch_target_raw = 0;
   //送信機からのyaw軸速度目標生値変数 -2047≦x≦2047
-  int yaw_target_raw = 0;
+  float yaw_velocity_target_raw = 0;
   //送信機からのスロットル目標生値変数 0≦x≦4095
   unsigned int throttle_target_raw = 0;
 
-  //目標モーター角度変数 -30≦x≦30[deg]
-  int motor1_angle_target = 0;
-  int motor2_angle_target = 0;
-  int motor3_angle_target = 0;
-  int motor4_angle_target = 0;
+  //目標姿勢角 30≦x≦30[deg]
+  float roll_target = 0;
+  float pitch_target = 0;
   //目標yaw軸角速度変数 -500≦x≦500[deg/s]
-  int yaw_velocity_target = 0;
-  //目標スロットル変数 0≦3[m]
+  float yaw_velocity_target = 0;
+  //目標スロットル変数 0≦x≦4095
   unsigned int throttle_target = 0;
 
+  //モーター偏差
+  float motor1_deviation = 0;
+  float motor2_deviation = 0;
+  float motor3_deviation = 0;
+  float motor4_deviation = 0;
+
+  //モーター偏差の微分
+  float motor1_differential = 0;
+  float motor2_differential = 0;
+  float motor3_differential = 0;
+  float motor4_differential = 0;
+
   //デューティー比生値変数
-  unsigned int motor1_duty_raw = 0;
-  unsigned int motor2_duty_raw = 0;
-  unsigned int motor3_duty_raw = 0;
-  unsigned int motor4_duty_raw = 0;
+  int motor1_duty_raw = 0;
+  int motor2_duty_raw = 0;
+  int motor3_duty_raw = 0;
+  int motor4_duty_raw = 0;
   //yaw軸回転操作量変数
   int yaw_operation = 0;
 
@@ -197,11 +211,9 @@ void loop() {
   pitch = filter.getPitch();
   yaw   = filter.getYaw();
 
-  //モーター角度を算出
-  motor1_angle_now =  roll + pitch;
-  motor2_angle_now =  roll - pitch;
-  motor3_angle_now = -roll - pitch;
-  motor4_angle_now = -roll + pitch;
+  dt = loopTime();
+
+  //Serial.println(differential(yaw));
 
   int packetSize = udp.parsePacket();
   if (packetSize > 0) {
@@ -216,7 +228,8 @@ void loop() {
       packetBuffer[len] = '\0';
     }
 
-    Serial.println(packetBuffer);
+    //Serial.println(packetBuffer);
+
     // 分割数 = 分割処理(文字列, 区切り文字, 配列)
     int index = split(packetBuffer, ',', cmds);
 
@@ -225,39 +238,54 @@ void loop() {
 
     //飛行データ取得成功
     if (data_type == "FLIGHT" && end_status == "END") {
-      udp.beginPacket(udpReturnAddr, udpReturnPort);
+      udp.beginPacket(remote_ip, rmote_UDP_port);
       udp.print("FLIGHT_OK");
       udp.endPacket();
 
       //取得した飛行データを変数に代入
-      motor1_target_raw   = cmds[1].toInt(); //-4094≦x≦4094
-      motor2_target_raw   = cmds[2].toInt(); //-4094≦x≦4094
-      motor3_target_raw   = cmds[3].toInt(); //-4094≦x≦4094
-      motor3_target_raw   = cmds[4].toInt(); //-4094≦x≦4094
-      yaw_target_raw      = cmds[5].toInt(); //-2047≦x≦2047
-      throttle_target_raw = cmds[6].toInt(); //0≦x≦4095
+      roll_target_raw         = cmds[1].toInt(); //-2047から2047
+      pitch_target_raw        = cmds[2].toInt(); //-2047から2047
+      yaw_velocity_target_raw = cmds[3].toInt(); //-2047から2047
+      throttle_target_raw     = cmds[4].toInt(); //0から4095
 
-      //目標モーター角度最大値を設定
-      motor1_angle_target = motor1_target_raw * 30 / 4094; //-30≦x≦30
-      motor2_angle_target = motor2_target_raw * 30 / 4094; //-30≦x≦30
-      motor3_angle_target = motor3_target_raw * 30 / 4094; //-30≦x≦30
-      motor4_angle_target = motor4_target_raw * 30 / 4094; //-30≦x≦30
-      //目標yaw軸角速度を設定
-      yaw_velocity_target = yaw_target_raw * 500 / 2047; 
+      //目標pitch,roll,yaw角速度の最大値を設定
+      roll_target         = roll_target_raw  * MAX_POSTURE_ANGLE / 2047;
+      pitch_target        = pitch_target_raw * MAX_POSTURE_ANGLE / 2047;
+      yaw_velocity_target = yaw_velocity_target_raw * MAX_YAW_VELOCITY / 2047;
+
       //スロットル最大値を設定
       throttle_target = throttle_target_raw;
 
+      motor1_deviation = ( roll_target + pitch_target) - ( roll + pitch);
+      motor2_deviation = ( roll_target - pitch_target) - ( roll - pitch);
+      motor3_deviation = (-roll_target - pitch_target) - (-roll - pitch);
+      motor4_deviation = (-roll_target + pitch_target) - (-roll + pitch);
+
+      motor1_differential = (motor1_deviation - pre_motor1_deviation) / dt;
+      pre_motor1_deviation = motor1_deviation;
+      
+      motor2_differential = (motor2_deviation - pre_motor2_deviation) / dt;
+      pre_motor2_deviation = motor2_deviation;
+      
+      motor3_differential = (motor3_deviation - pre_motor3_deviation) / dt;
+      pre_motor3_deviation = motor3_deviation;
+      
+      motor4_differential = (motor4_deviation - pre_motor4_deviation) / dt;
+      pre_motor4_deviation = motor1_deviation;
+
+      //Serial.println(motor1_deviation);
+      Serial.println(motor1_differential);
       //yaw軸回転操作量
       //複数loopTime()を使うとうまくいかない
-      yaw_operation = (yaw_velocity_target - degTodps(yaw));
+      //yaw_operation = (yaw_velocity_target - differential(yaw, pre_yaw));
+      //Serial.println(yaw_operation);
 
-      //                max4025                     max30                                              max500
-      motor1_duty_raw = throttle_target * T_GAIN + (motor1_angle_target - motor1_angle_now) * P_GAIN + yaw_operation * YAW_P_GAIN;
-      motor2_duty_raw = throttle_target * T_GAIN + (motor2_angle_target - motor2_angle_now) * P_GAIN - yaw_operation * YAW_P_GAIN;
-      motor3_duty_raw = throttle_target * T_GAIN + (motor3_angle_target - motor3_angle_now) * P_GAIN + yaw_operation * YAW_P_GAIN;
-      motor4_duty_raw = throttle_target * T_GAIN + (motor4_angle_target - motor4_angle_now) * P_GAIN - yaw_operation * YAW_P_GAIN;
+      motor1_duty_raw = throttle_target * T_GAIN + motor1_deviation * P_GAIN + motor1_differential * D_GAIN; //+ yaw_operation * YAW_P_GAIN;
+      motor2_duty_raw = throttle_target * T_GAIN + motor2_deviation * P_GAIN + motor2_differential * D_GAIN; //- yaw_operation * YAW_P_GAIN;
+      motor3_duty_raw = throttle_target * T_GAIN + motor3_deviation * P_GAIN + motor3_differential * D_GAIN; //+ yaw_operation * YAW_P_GAIN;
+      motor4_duty_raw = throttle_target * T_GAIN + motor4_deviation * P_GAIN + motor4_differential * D_GAIN; //- yaw_operation * YAW_P_GAIN;
 
-      if (throttle_target_raw <= 0) {
+      if (throttle_target_raw == 0) {
         motor1_duty_raw = 0;
         motor2_duty_raw = 0;
         motor3_duty_raw = 0;
@@ -271,30 +299,32 @@ void loop() {
       motor2_duty_raw = 0;
       motor3_duty_raw = 0;
       motor4_duty_raw = 0;
-      udp.beginPacket(udpReturnAddr, udpReturnPort);
+      udp.beginPacket(remote_ip, rmote_UDP_port);
       udp.print("ERROR");
       udp.endPacket();
     }
   }
 
   //モーターデューティー比を有効な範囲に収める
-  constrain(motor1_duty_raw, 0, 4095);
-  constrain(motor2_duty_raw, 0, 4095);
-  constrain(motor3_duty_raw, 0, 4095);
-  constrain(motor4_duty_raw, 0, 4095);
+  motor1_duty_raw = constrain(motor1_duty_raw, 0, 4095);
+  motor2_duty_raw = constrain(motor2_duty_raw, 0, 4095);
+  motor3_duty_raw = constrain(motor3_duty_raw, 0, 4095);
+  motor4_duty_raw = constrain(motor4_duty_raw, 0, 4095);
 
   //デューティー比は12bit(0≦duty≦4095)
-  ledcWrite(0, motor1_duty_raw);
+  /*ledcWrite(0, motor1_duty_raw);
   ledcWrite(1, motor2_duty_raw);
   ledcWrite(2, motor3_duty_raw);
-  ledcWrite(3, motor4_duty_raw);
+  ledcWrite(3, motor4_duty_raw);*/
 
-  Serial.print("motor1=" + (String)motor1_duty_raw);
-  Serial.print(" motor2=" + (String)motor2_duty_raw);
-  Serial.print(" motor3=" + (String)motor3_duty_raw);
-  Serial.println(" motor4=" + (String)motor4_duty_raw);
+  //Serial.println(motor1_duty_raw);
 
-  //udp.beginPacket(udpReturnAddr, udpReturnPort);
+  /*Serial.print("motor1=" + (String)motor1_duty_raw);
+    Serial.print(" motor2=" + (String)motor2_duty_raw);
+    Serial.print(" motor3=" + (String)motor3_duty_raw);
+    Serial.println(" motor4=" + (String)motor4_duty_raw);*/
+
+  //udp.beginPacket(remote_ip, rmote_UDP_port);
   //udp.print(printBatteryStats());
   //udp.endPacket();
   //Serial.println("loopTime = " + (String)loopTime());
@@ -302,7 +332,6 @@ void loop() {
   if (throttle_target_raw == 0 && digitalRead(PW_SWITCH_PIN) == HIGH) {
     shutdown_pw();
   }
-
 }
 
 
@@ -315,24 +344,29 @@ void shutdown_pw() {
 
 //ループ時間計測関数
 inline float loopTime() {
+  float loop_time = 0;
+
+  //今の時間から前回の時間を代入したpreTime引いたものを1000000で割って秒に変換
   loop_time = (micros() - preTime) / 1000000;
+  //次の計測に使う時間
   preTime = micros();
 
   return loop_time;
 }
 
 
-//角度を角速度へ変換
-inline float degTodps(float deg) {
-  dps = (deg - preDeg) / loopTime();
+//角度を角速度へ変換(preDegがグローバル変数なので同一ループ内で二回以上使えない)
+inline float differential(float deg, float preDeg) {
+  float dps = 0;
+  dps = (deg - preDeg) / dt;
   preDeg = deg;
 
-  if (dps >= 10000) {
-    dps = dps - (360 / loopTime());
-  }
-  if (dps <= -(10000)) {
-    dps = dps + (360 / loopTime());
-  }
+  /*if (dps >= 1000) {
+    dps = dps - (360 / dt);
+    }
+    if (dps <= -1000) {
+    dps = dps + (360 / dt);
+    }*/
   return dps;
 }
 

@@ -11,20 +11,28 @@
 #define Throttle_SW_PIN 26
 #define Move_SW_PIN     25
 
-#define AVG_CNT 1000
+#define AVG_CNT 100
 
 
+WiFiUDP udp;
 
-const char ssid[] = "ESP32_wifi"; // SSID
-const char pass[] = "esp32pass";  // password
+//接続先アクセスポイントのSSID/パスポート
+const char ssid[] = "OpenDroneV2"; // SSID
+const char pass[] = "ODPpassword";     // password
 
-static WiFiUDP udp;
+/*IPAddress ip(192, 168, 4, 2);
+IPAddress gateway(192, 168, 4, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress DNS(192, 168, 4, 1);*/
+
+//送信先のIPアドレス
+static const char *remote_ip    = "192.168.4.1";
+//自身のポート
+static const int local_UDP_port = 8889; //自身のポート
+//送信先のポート
+static const int rmote_UDP_port = 8888;
 
 char packetBuffer[255];
-static const char *kRemoteIpadr = "192.168.4.1";
-static const int kRmoteUdpPort = 8888; //送信先のポート
-static const int kLocalPort = 8889;  //自身のポート
-
 
 int rxv_pro = 0;
 int ryv_pro = 0;
@@ -33,29 +41,34 @@ int lyv_pro = 0;
 
 void setup() {
   Serial.begin(115200);
+  
+  delay(500);
   joystick_proofread();
+  Serial.println("joystick_proofread");
 
+  //WiFi.config(ip, gateway, subnet, DNS);
   WiFi.begin(ssid, pass);
 
+  Serial.println("weiting");
   while (WiFi.status() != WL_CONNECTED) {
-
   }
 
-  udp.begin(kLocalPort);
+  Serial.println("conected");
+  udp.begin(local_UDP_port);
 }
 
 void loop() {
   int lxv = analogRead(JOYSTICK_LX_PIN) - lxv_pro; //-2047から2047
-  int lyv = analogRead(JOYSTICK_LY_PIN) - lyv_pro; //0から4095
+  int lyv = analogRead(JOYSTICK_LY_PIN) - lyv_pro -100;//0から4095
   int rxv = analogRead(JOYSTICK_RX_PIN) - rxv_pro; //-2047から2047
   int ryv = analogRead(JOYSTICK_RY_PIN) - ryv_pro; //-2047から2047
 
-  int motor1_target_raw =  rxv - ryv; //-4094から4094
-  int motor2_target_raw = -rxv - ryv; //-4094から4094
-  int motor3_target_raw = -rxv + ryv; //-4094から4094
-  int motor4_target_raw =  rxv + ryv; //-4094から4094
-  int yaw_target_raw = lxv; //-2047から2047
-  int throttle_target_raw = lyv; //0から4095
+  int roll_target_raw              = -ryv; //-2047から2047
+  int pitch_target_raw             =  rxv; //-2047から2047
+  int yaw_velocity_target_raw      =  lxv; //-2047から2047
+  int throttle_target_raw          =  lyv; //0から4095
+
+  String send_data;
 
   if (WiFi.status() != WL_CONNECTED) {
     WiFi.disconnect();
@@ -63,12 +76,20 @@ void loop() {
     WiFi.begin(ssid, pass);
   }
 
-  if (throttle_target_raw < 0) {
-    throttle_target_raw = 0;
-  }
+  //throttle_target_rawが0よりも小さいときは0を代入
+  throttle_target_raw = max(throttle_target_raw, 0);
 
-  udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
-  udp.print("FLIGHT," + (String)motor1_target_raw + "," + (String)motor2_target_raw + "," + (String)motor3_target_raw + "," + (String)motor4_target_raw + "," + (String)yaw_target_raw + "," + (String)throttle_target_raw + ",END");
+  //送信データ
+  send_data  = "FLIGHT,";
+  send_data += (String)roll_target_raw + ",";
+  send_data += (String)pitch_target_raw + ",";
+  send_data += (String)yaw_velocity_target_raw + ",";
+  send_data += (String)throttle_target_raw + ",";
+  send_data += "END";
+
+  udp.beginPacket(remote_ip, rmote_UDP_port);
+  //データタイプ,目標ロール,目標ピッチ,目標yaw速度,目標スロットル,最終データ
+  udp.print(send_data);
   udp.endPacket();
 
   int packetSize = udp.parsePacket();
@@ -77,16 +98,15 @@ void loop() {
     //  終端文字設定
     if (len > 0) packetBuffer[len] = '\0';
 
+    //エラーが帰ってき場合、send_dataを再送する
     if (packetBuffer == "ERROR") {
-      udp.beginPacket(kRemoteIpadr, kRmoteUdpPort);
-      udp.print("FLIGHT," + (String)motor1_target_raw + "," + (String)motor2_target_raw + "," + (String)motor3_target_raw + "," + (String)motor4_target_raw + "," + (String)yaw_target_raw + "," + (String)throttle_target_raw + ",END");
+      udp.beginPacket(remote_ip, rmote_UDP_port);
+      udp.print(send_data);
       udp.endPacket();
     }
   }
 
-  Serial.println("FLIGHT," + (String)motor1_target_raw + "," + (String)motor2_target_raw + "," + (String)motor3_target_raw + "," + (String)motor4_target_raw + "," + (String)yaw_target_raw + "," + (String)throttle_target_raw + ",END");
-
-  delay(10);
+  Serial.println(send_data);
 }
 
 
@@ -96,31 +116,23 @@ void joystick_proofread() {
   int lxv_tmp = 0;
   int lyv_tmp = 0;
 
-  delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    lyv_pro = analogRead(JOYSTICK_LY_PIN);
-    lyv_tmp = lyv_tmp + lyv_pro;
+    lyv_tmp += analogRead(JOYSTICK_LY_PIN);
   }
   lyv_pro = lyv_tmp / AVG_CNT;
 
-  delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    lxv_pro = analogRead(JOYSTICK_LX_PIN);
-    lxv_tmp = lxv_tmp + lxv_pro;
+    lxv_tmp += analogRead(JOYSTICK_LX_PIN);
   }
   lxv_pro = lxv_tmp / AVG_CNT;
 
-  delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    rxv_pro = analogRead(JOYSTICK_RX_PIN);
-    rxv_tmp = rxv_tmp + rxv_pro;
+    rxv_tmp += analogRead(JOYSTICK_RX_PIN);
   }
   rxv_pro = rxv_tmp / AVG_CNT;
 
-  delay(10);
   for (int i = 0; i < AVG_CNT; i++) {
-    ryv_pro = analogRead(JOYSTICK_RY_PIN);
-    ryv_tmp = ryv_tmp + ryv_pro;
+    ryv_tmp += analogRead(JOYSTICK_RY_PIN);
   }
   ryv_pro = ryv_tmp / AVG_CNT;
 }
