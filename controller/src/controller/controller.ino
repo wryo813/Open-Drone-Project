@@ -2,6 +2,7 @@
 #include <WiFiUDP.h>
 #include <Wire.h>
 #include "split.h"
+#include "GPIO_config.h"
 
 #define JOYSTICK_LX_PIN 32
 #define JOYSTICK_LY_PIN 33
@@ -20,10 +21,10 @@ WiFiUDP udp;
 const char ssid[] = "OpenDroneV2"; // SSID
 const char pass[] = "ODPpassword";     // password
 
-/*IPAddress ip(192, 168, 4, 2);
+IPAddress ip(192, 168, 4, 2);
 IPAddress gateway(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);
-IPAddress DNS(192, 168, 4, 1);*/
+IPAddress DNS(192, 168, 4, 1);
 
 //送信先のIPアドレス
 static const char *remote_ip    = "192.168.4.1";
@@ -41,12 +42,12 @@ int lyv_pro = 0;
 
 void setup() {
   Serial.begin(115200);
-  
+  GPIO_setup();
   delay(500);
   joystick_proofread();
   Serial.println("joystick_proofread");
 
-  //WiFi.config(ip, gateway, subnet, DNS);
+  WiFi.config(ip, gateway, subnet, DNS);
   WiFi.begin(ssid, pass);
 
   Serial.println("weiting");
@@ -58,17 +59,19 @@ void setup() {
 }
 
 void loop() {
-  int lxv = analogRead(JOYSTICK_LX_PIN) - lxv_pro; //-2047から2047
-  int lyv = analogRead(JOYSTICK_LY_PIN) - lyv_pro -100;//0から4095
-  int rxv = analogRead(JOYSTICK_RX_PIN) - rxv_pro; //-2047から2047
-  int ryv = analogRead(JOYSTICK_RY_PIN) - ryv_pro; //-2047から2047
+  int lxv = analogRead(JOYSTICK_LX_PIN) - lxv_pro - 30; //-2047から2047
+  int lyv = analogRead(JOYSTICK_LY_PIN) - lyv_pro - 100; //0から4095
+  int rxv = analogRead(JOYSTICK_RX_PIN) - rxv_pro - 30;//-2047から2047
+  int ryv = analogRead(JOYSTICK_RY_PIN) - ryv_pro - 30; //-2047から2047
 
   int roll_target_raw              = -ryv; //-2047から2047
   int pitch_target_raw             =  rxv; //-2047から2047
   int yaw_velocity_target_raw      =  lxv; //-2047から2047
   int throttle_target_raw          =  lyv; //0から4095
 
-  String send_data;
+  bool stop_status = digitalRead(MIX_SW_PIN);
+
+  String send_data = "";
 
   if (WiFi.status() != WL_CONNECTED) {
     WiFi.disconnect();
@@ -78,6 +81,13 @@ void loop() {
 
   //throttle_target_rawが0よりも小さいときは0を代入
   throttle_target_raw = max(throttle_target_raw, 0);
+
+  if (stop_status == 0) {
+    roll_target_raw = 0;
+    pitch_target_raw = 0;
+    yaw_velocity_target_raw = 0;
+    throttle_target_raw = 0;
+  }
 
   //送信データ
   send_data  = "FLIGHT,";

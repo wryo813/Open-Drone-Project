@@ -8,9 +8,10 @@
 #define JOYSTICK_RX_PIN 34 //右ジョイスティックx軸
 #define JOYSTICK_RY_PIN 35 //右ジョイスティックy軸
 
-#define Throttle_SW_PIN 26
-#define Move_SW_PIN     25
+#define MIX_SW_PIN      26
+#define GYRO_SW_PIN 25
 
+#define GEAR_PIT        36
 
 void GPIO_setup(){
   //GPIO入出力設定
@@ -19,6 +20,13 @@ void GPIO_setup(){
   pinMode(JOYSTICK_LY_PIN, INPUT);
   pinMode(JOYSTICK_RX_PIN, INPUT);
   pinMode(JOYSTICK_RY_PIN, INPUT);
+
+  //スイッチ
+  pinMode(MIX_SW_PIN, INPUT);
+  pinMode(GYRO_SW_PIN, INPUT);
+
+  //可変抵抗
+  pinMode(GEAR_PIT, INPUT);
   
   Serial.println("GPIO OK");
 }
