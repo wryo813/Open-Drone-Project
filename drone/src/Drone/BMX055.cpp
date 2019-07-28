@@ -11,6 +11,7 @@
 #define Addr_Mag 0x10
 
 
+//BMX055の設定
 void BMX055::begin() {
   // Wire(Arduino-I2C)の初期化
   Wire.begin();
@@ -86,6 +87,7 @@ void BMX055::begin() {
 }
 
 
+//BMX055から加速度センサデータを取得
 void BMX055::begin_Accl() {
   int data[6];
   for (int i = 0; i < 6; i++)  {
@@ -111,6 +113,7 @@ void BMX055::begin_Accl() {
 }
 
 
+//BMX055からジャイロセンサデータを取得
 void BMX055::begin_Gyro() {
   int data[6];
   for (int i = 0; i < 6; i++) {
@@ -137,6 +140,7 @@ void BMX055::begin_Gyro() {
 }
 
 
+//BMX055から地磁気センサデータを取得
 void BMX055::begin_Mag() {
   int data[8];
   for (int i = 0; i < 8; i++) {
@@ -159,6 +163,7 @@ void BMX055::begin_Mag() {
 }
 
 
+//引数の軸の加速度センサデータを返す
 float BMX055::Accl(axis type) {
   float Accl = 0.00;
 
@@ -179,6 +184,7 @@ float BMX055::Accl(axis type) {
 }
 
 
+//引数の軸のジャイロセンサデータを返す
 float BMX055::Gyro(axis type) {
   float Gyro = 0.00;
   switch (type) {
@@ -198,6 +204,7 @@ float BMX055::Gyro(axis type) {
 }
 
 
+//引数の軸の地磁気センサデータを返す
 int BMX055::Mag(axis type) {
   int Mag = 0;
   switch (type) {

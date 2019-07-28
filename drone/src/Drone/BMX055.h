@@ -9,6 +9,7 @@ typedef enum {
   z
 } axis;
 
+//プロトタイプ宣言
 class BMX055 {
   private:
     float xAccl = 0.00;
