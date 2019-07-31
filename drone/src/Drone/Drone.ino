@@ -43,15 +43,15 @@
 #define MAX_YAW_VELOCITY 500
 
 //PIDゲイン
-#define P_GAIN 1
-#define I_GAIN 0.75
-#define D_GAIN 0
+#define P_GAIN 5.8 //PD制御時適切
+#define I_GAIN 4   //5では振動した（まだ性格ではない）
+#define D_GAIN 0.6 //PD制御時適切
 #define TARGET 0
 
 //yaw軸調整
-#define YAW_P_GAIN 1
-#define YAW_I_GAIN 1
-#define YAW_D_GAIN 1
+#define YAW_P_GAIN 0
+#define YAW_I_GAIN 0
+#define YAW_D_GAIN 0
 
 //スロットル調整
 #define T_GAIN 1
@@ -180,7 +180,8 @@ void loop() {
   int packetSize = udp.parsePacket();
   if (packetSize > 0) {
     //受信データ
-    char packetBuffer[255];
+    char packetBuffer[255] = {0};
+
     int len = udp.read(packetBuffer, packetSize);
     String cmds[STRING_NUM] = {"\0"};
 
@@ -201,9 +202,9 @@ void loop() {
     //飛行データ取得成功
     if (data_type == "FLIGHT" && end_status == "END") {
       //コントローラーにフライトデータの送信が成功したことを通知
-      udp.beginPacket(remote_ip, rmote_UDP_port);
-      udp.print("FLIGHT_OK");
-      udp.endPacket();
+      /* udp.beginPacket(remote_ip, rmote_UDP_port);
+        udp.print("FLIGHT_OK");
+        udp.endPacket();*/
 
       //取得した飛行データを変数に代入
       //送信機からの目標姿勢角生値変数
@@ -219,32 +220,43 @@ void loop() {
       //スロットル最大値を設定
       throttle_tgt = throttle_tgt_raw;
 
+      //現在yaw軸dps算出用変数
+      static float pre_yaw = 0;  
+
       //モーター偏差の積分
       static float motor1_intg = 0;
       static float motor2_intg = 0;
       static float motor3_intg = 0;
       static float motor4_intg = 0;
+      static float yaw_vel_intg = 0;
 
       //前回のモーター偏差
       static float pre_motor1_devi = 0;
       static float pre_motor2_devi = 0;
       static float pre_motor3_devi = 0;
       static float pre_motor4_devi = 0;
+      static float pre_yaw_val_davi = 0;
 
       //微分時間[s]
       float dt = loopTime();
+
+      //現在YAW軸速度
+      float yaw_vel = (yaw - pre_yaw) / dt;
+      pre_yaw = yaw;
 
       //モーター偏差
       float motor1_devi = ( roll_tgt + pitch_tgt) - ( roll + pitch);
       float motor2_devi = ( roll_tgt - pitch_tgt) - ( roll - pitch);
       float motor3_devi = (-roll_tgt - pitch_tgt) - (-roll - pitch);
       float motor4_devi = (-roll_tgt + pitch_tgt) - (-roll + pitch);
-
+      float yaw_vel_davi = yaw_vel_tgt - yaw_vel;
+      
       //モーター偏差の積分
       motor1_intg += motor1_devi * dt;
       motor2_intg += motor2_devi * dt;
       motor3_intg += motor3_devi * dt;
       motor4_intg += motor4_devi * dt;
+      yaw_vel_intg += yaw_vel_davi * dt;
 
       //スロットルが0の時はモーター偏差の積分をリセット
       if (throttle_tgt == 0) {
@@ -252,7 +264,8 @@ void loop() {
         motor2_intg = 0;
         motor3_intg = 0;
         motor4_intg = 0;
-      }
+        yaw_vel_intg = 0;
+       }
 
       float motor1_diff = (motor1_devi - pre_motor1_devi) / dt;
       float motor2_diff = (motor2_devi - pre_motor2_devi) / dt;
@@ -262,11 +275,15 @@ void loop() {
       pre_motor2_devi = motor2_devi;
       pre_motor3_devi = motor3_devi;
       pre_motor4_devi = motor4_devi;
+      float yaw_vel_diff = (yaw_vel_davi - pre_yaw_val_davi) / dt;
+      pre_yaw_val_davi = yaw_vel_davi;
 
-      motor1_duty_raw = throttle_tgt * T_GAIN + motor1_devi * P_GAIN + motor1_intg * I_GAIN + motor1_diff * D_GAIN; //+ yaw_op * YAW_P_GAIN;
-      motor2_duty_raw = throttle_tgt * T_GAIN + motor2_devi * P_GAIN + motor2_intg * I_GAIN + motor2_diff * D_GAIN; //- yaw_op * YAW_P_GAIN;
-      motor3_duty_raw = throttle_tgt * T_GAIN + motor3_devi * P_GAIN + motor3_intg * I_GAIN + motor3_diff * D_GAIN; //+ yaw_op * YAW_P_GAIN;
-      motor4_duty_raw = throttle_tgt * T_GAIN + motor4_devi * P_GAIN + motor4_intg * I_GAIN + motor4_diff * D_GAIN; //- yaw_op * YAW_P_GAIN;
+      float yaw_op = yaw_vel_davi * YAW_P_GAIN +  yaw_vel_intg * YAW_I_GAIN + yaw_vel_diff * YAW_D_GAIN;
+
+      motor1_duty_raw = throttle_tgt * T_GAIN + motor1_devi * P_GAIN + motor1_intg * I_GAIN + motor1_diff * D_GAIN + yaw_op;
+      motor2_duty_raw = throttle_tgt * T_GAIN + motor2_devi * P_GAIN + motor2_intg * I_GAIN + motor2_diff * D_GAIN - yaw_op;
+      motor3_duty_raw = throttle_tgt * T_GAIN + motor3_devi * P_GAIN + motor3_intg * I_GAIN + motor3_diff * D_GAIN + yaw_op;
+      motor4_duty_raw = throttle_tgt * T_GAIN + motor4_devi * P_GAIN + motor4_intg * I_GAIN + motor4_diff * D_GAIN - yaw_op;
 
       if (throttle_tgt == 0) {
         motor1_duty_raw = 0;
@@ -274,9 +291,15 @@ void loop() {
         motor3_duty_raw = 0;
         motor4_duty_raw = 0;
       }
+      if (throttle_tgt > 0) {
+        udp.beginPacket(remote_ip, rmote_UDP_port);
+        udp.println((String)millis() + "," + (String)pitch_tgt + "," + (String)pitch);
+        udp.endPacket();
+      }
+
     }
-    else if (data_type == "CONFIG" && end_status == "END") {}
-    else {
+    /*else if (data_type == "CONFIG" && end_status == "END") {}
+      else {
       motor1_duty_raw = 0;
       motor2_duty_raw = 0;
       motor3_duty_raw = 0;
@@ -284,7 +307,7 @@ void loop() {
       udp.beginPacket(remote_ip, rmote_UDP_port);
       udp.print("ERROR");
       udp.endPacket();
-    }
+      }*/
   }
 
   //モーターデューティー比を有効な範囲に収める

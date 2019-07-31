@@ -1,3 +1,5 @@
+//PIDパラメータ設定の為姿勢は仮で0を送信
+
 #include <WiFi.h>
 #include <WiFiUDP.h>
 #include <Wire.h>
@@ -32,8 +34,6 @@ static const char *remote_ip    = "192.168.4.1";
 static const int local_UDP_port = 8889; //自身のポート
 //送信先のポート
 static const int rmote_UDP_port = 8888;
-
-char packetBuffer[255];
 
 int rxv_pro = 0;
 int ryv_pro = 0;
@@ -88,6 +88,9 @@ void loop() {
     yaw_velocity_target_raw = 0;
     throttle_target_raw = 0;
   }
+  roll_target_raw = 0;
+  pitch_target_raw = 0;
+  yaw_velocity_target_raw = 0;
 
   //送信データ
   send_data  = "FLIGHT,";
@@ -102,21 +105,29 @@ void loop() {
   udp.print(send_data);
   udp.endPacket();
 
+  /* int packetSize = udp.parsePacket();
+    if (packetSize > 0) {
+     int len = udp.read(packetBuffer, packetSize);
+     //  終端文字設定
+     if (len > 0) packetBuffer[len] = '\0';
+
+     //エラーが帰ってき場合、send_dataを再送する
+     if (packetBuffer == "ERROR") {
+       udp.beginPacket(remote_ip, rmote_UDP_port);
+       udp.print(send_data);
+       udp.endPacket();
+     }
+    }*/
+
   int packetSize = udp.parsePacket();
   if (packetSize > 0) {
+    char packetBuffer[1000] = {0};
+
     int len = udp.read(packetBuffer, packetSize);
     //  終端文字設定
     if (len > 0) packetBuffer[len] = '\0';
-
-    //エラーが帰ってき場合、send_dataを再送する
-    if (packetBuffer == "ERROR") {
-      udp.beginPacket(remote_ip, rmote_UDP_port);
-      udp.print(send_data);
-      udp.endPacket();
-    }
+    Serial.print(packetBuffer);
   }
-
-  Serial.println(send_data);
 }
 
 
