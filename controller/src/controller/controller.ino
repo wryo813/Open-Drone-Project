@@ -21,7 +21,7 @@ WiFiUDP udp;
 
 //接続先アクセスポイントのSSID/パスポート
 const char ssid[] = "OpenDroneV2"; // SSID
-const char pass[] = "ODPpassword";     // password
+const char pass[] = "ODPpassword"; // password
 
 IPAddress ip(192, 168, 4, 2);
 IPAddress gateway(192, 168, 4, 1);
@@ -35,6 +35,7 @@ static const int local_UDP_port = 8889; //自身のポート
 //送信先のポート
 static const int rmote_UDP_port = 8888;
 
+//ジョイスティックのキャリブレーション用変数
 int rxv_pro = 0;
 int ryv_pro = 0;
 int lxv_pro = 0;
@@ -46,19 +47,24 @@ void setup() {
   delay(500);
   joystick_proofread();
   Serial.println("joystick_proofread");
-
+  
+  //自身のIPアドレス、ゲートウェイ、サブネットマスク、DNSサーバの設定
   WiFi.config(ip, gateway, subnet, DNS);
+  //接続先のSSIDとパスワード設定
   WiFi.begin(ssid, pass);
 
   Serial.println("weiting");
+  //Wi-Fiアクセスポイントに設定した機体に接続するまで待機
   while (WiFi.status() != WL_CONNECTED) {
   }
 
   Serial.println("conected");
+  //UDPサーバ構築
   udp.begin(local_UDP_port);
 }
 
 void loop() {
+  //初期状態のジョイスティックの値を引くことで、ジョイスティックが中心の時
   int lxv = analogRead(JOYSTICK_LX_PIN) - lxv_pro - 30; //-2047から2047
   int lyv = analogRead(JOYSTICK_LY_PIN) - lyv_pro - 100; //0から4095
   int rxv = analogRead(JOYSTICK_RX_PIN) - rxv_pro - 30;//-2047から2047
@@ -73,6 +79,7 @@ void loop() {
 
   String send_data = "";
 
+  //Wi-Fiが切断されたときに再接続を開始
   if (WiFi.status() != WL_CONNECTED) {
     WiFi.disconnect();
     delay(50);
@@ -130,7 +137,7 @@ void loop() {
   }
 }
 
-
+//ジョイスティックのキャリブレーション用関数
 void joystick_proofread() {
   int rxv_tmp = 0;
   int ryv_tmp = 0;
