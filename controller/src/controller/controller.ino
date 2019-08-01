@@ -6,23 +6,15 @@
 #include "split.h"
 #include "GPIO_config.h"
 
-#define JOYSTICK_LX_PIN 32
-#define JOYSTICK_LY_PIN 33
-#define JOYSTICK_RX_PIN 34
-#define JOYSTICK_RY_PIN 35
-
-#define Throttle_SW_PIN 26
-#define Move_SW_PIN     25
 
 #define AVG_CNT 100
 
-
-WiFiUDP udp;
 
 //接続先アクセスポイントのSSID/パスポート
 const char ssid[] = "OpenDroneV2"; // SSID
 const char pass[] = "ODPpassword"; // password
 
+//自身のIPアドレス、ゲートウェイ、サブネットマスク、DNSサーバ
 IPAddress ip(192, 168, 4, 2);
 IPAddress gateway(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);
@@ -31,7 +23,7 @@ IPAddress DNS(192, 168, 4, 1);
 //送信先のIPアドレス
 static const char *remote_ip    = "192.168.4.1";
 //自身のポート
-static const int local_UDP_port = 8889; //自身のポート
+static const int local_UDP_port = 8889;
 //送信先のポート
 static const int rmote_UDP_port = 8888;
 
@@ -41,10 +33,16 @@ int ryv_pro = 0;
 int lxv_pro = 0;
 int lyv_pro = 0;
 
+
+WiFiUDP udp;
+
+
 void setup() {
   Serial.begin(115200);
+  //GPIOの設定
   GPIO_setup();
   delay(500);
+  //初期状態のジョイスティックの値を取得
   joystick_proofread();
   Serial.println("joystick_proofread");
   
@@ -63,48 +61,55 @@ void setup() {
   udp.begin(local_UDP_port);
 }
 
+
 void loop() {
-  //初期状態のジョイスティックの値を引くことで、ジョイスティックが中心の時
+  //初期状態のジョイスティックの値を引くことで、ジョイスティックが中心の時に0になる。
   int lxv = analogRead(JOYSTICK_LX_PIN) - lxv_pro - 30; //-2047から2047
   int lyv = analogRead(JOYSTICK_LY_PIN) - lyv_pro - 100; //0から4095
   int rxv = analogRead(JOYSTICK_RX_PIN) - rxv_pro - 30;//-2047から2047
   int ryv = analogRead(JOYSTICK_RY_PIN) - ryv_pro - 30; //-2047から2047
 
-  int roll_target_raw              = -ryv; //-2047から2047
-  int pitch_target_raw             =  rxv; //-2047から2047
-  int yaw_velocity_target_raw      =  lxv; //-2047から2047
-  int throttle_target_raw          =  lyv; //0から4095
+  //送信する姿勢角度
+  int roll_tgt_raw     = -ryv; //-2047から2047
+  int pitch_tgt_raw    = rxv; //-2047から2047
+  int yaw_vel_tgt_raw  = lxv; //-2047から2047
+  int throttle_tgt_raw = lyv; //0から4095
 
+  //コントローラーのMixスイッチの状態を格納する変数
   bool stop_status = digitalRead(MIX_SW_PIN);
 
+  //UDP通信で送信するデータを格納する変数
   String send_data = "";
 
   //Wi-Fiが切断されたときに再接続を開始
   if (WiFi.status() != WL_CONNECTED) {
+    //完全にWi-Fiを切断
     WiFi.disconnect();
     delay(50);
+    //アクセスポイントに再接続
     WiFi.begin(ssid, pass);
   }
 
-  //throttle_target_rawが0よりも小さいときは0を代入
-  throttle_target_raw = max(throttle_target_raw, 0);
+  //throttle_tgt_rawが0よりも小さいときは0を代入
+  throttle_tgt_raw = max(throttle_tgt_raw, 0);
 
+  //Mixスイッチがオンの時、姿勢角度とスロットルを0にする(緊急停止)
   if (stop_status == 0) {
-    roll_target_raw = 0;
-    pitch_target_raw = 0;
-    yaw_velocity_target_raw = 0;
-    throttle_target_raw = 0;
+    roll_tgt_raw = 0;
+    pitch_tgt_raw = 0;
+    yaw_vel_tgt_raw = 0;
+    throttle_tgt_raw = 0;
   }
-  roll_target_raw = 0;
-  pitch_target_raw = 0;
-  yaw_velocity_target_raw = 0;
+  roll_tgt_raw = 0;
+  pitch_tgt_raw = 0;
+  yaw_vel_tgt_raw = 0;
 
-  //送信データ
+  //UDP通信で送信するデータ
   send_data  = "FLIGHT,";
-  send_data += (String)roll_target_raw + ",";
-  send_data += (String)pitch_target_raw + ",";
-  send_data += (String)yaw_velocity_target_raw + ",";
-  send_data += (String)throttle_target_raw + ",";
+  send_data += (String)roll_tgt_raw + ",";
+  send_data += (String)pitch_tgt_raw + ",";
+  send_data += (String)yaw_vel_tgt_raw + ",";
+  send_data += (String)throttle_tgt_raw + ",";
   send_data += "END";
 
   udp.beginPacket(remote_ip, rmote_UDP_port);
@@ -137,7 +142,8 @@ void loop() {
   }
 }
 
-//ジョイスティックのキャリブレーション用関数
+
+//ジョイスティックの初期状態の平均値を求める関数
 void joystick_proofread() {
   int rxv_tmp = 0;
   int ryv_tmp = 0;

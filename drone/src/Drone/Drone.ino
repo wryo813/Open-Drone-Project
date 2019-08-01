@@ -44,11 +44,11 @@
 
 //PIDゲイン
 #define P_GAIN 5.8 //PD制御時適切
-#define I_GAIN 4   //5では振動した（まだ性格ではない）
+#define I_GAIN 4   //5では振動した（まだ正確ではない）
 #define D_GAIN 0.6 //PD制御時適切
 #define TARGET 0
 
-//yaw軸調整
+//YAW軸PIDパラメータ
 #define YAW_P_GAIN 0
 #define YAW_I_GAIN 0
 #define YAW_D_GAIN 0
@@ -244,21 +244,23 @@ void loop() {
       float yaw_vel = (yaw - pre_yaw) / dt;
       pre_yaw = yaw;
 
-      //モーター偏差
+      //モーター偏差（目標モーター角度と現在のモーター角度の差）
       float motor1_devi = ( roll_tgt + pitch_tgt) - ( roll + pitch);
       float motor2_devi = ( roll_tgt - pitch_tgt) - ( roll - pitch);
       float motor3_devi = (-roll_tgt - pitch_tgt) - (-roll - pitch);
       float motor4_devi = (-roll_tgt + pitch_tgt) - (-roll + pitch);
+      //YAW軸速度偏差（目標YAW軸速度と現在のYAW軸速度の差）
       float yaw_vel_davi = yaw_vel_tgt - yaw_vel;
       
-      //モーター偏差の積分
+      //モーター偏差の積分（モーター偏差とループ時間をかけた値の累計）
       motor1_intg += motor1_devi * dt;
       motor2_intg += motor2_devi * dt;
       motor3_intg += motor3_devi * dt;
       motor4_intg += motor4_devi * dt;
+      //YAW軸速度偏差の積分（YAW軸速度偏差とループ時間をかけた値の累計）
       yaw_vel_intg += yaw_vel_davi * dt;
 
-      //スロットルが0の時はモーター偏差の積分をリセット
+      //暴走の防止のためスロットルが0の時はモーター偏差の積分をリセット
       if (throttle_tgt == 0) {
         motor1_intg = 0;
         motor2_intg = 0;
@@ -267,6 +269,7 @@ void loop() {
         yaw_vel_intg = 0;
        }
 
+      //モーター偏差の微分（1秒間あたりのモーター偏差の変化量）
       float motor1_diff = (motor1_devi - pre_motor1_devi) / dt;
       float motor2_diff = (motor2_devi - pre_motor2_devi) / dt;
       float motor3_diff = (motor3_devi - pre_motor3_devi) / dt;
@@ -275,11 +278,14 @@ void loop() {
       pre_motor2_devi = motor2_devi;
       pre_motor3_devi = motor3_devi;
       pre_motor4_devi = motor4_devi;
+      //YAW軸速度偏差の微分（1秒間あたりのYAW軸速度偏差の変化量）
       float yaw_vel_diff = (yaw_vel_davi - pre_yaw_val_davi) / dt;
       pre_yaw_val_davi = yaw_vel_davi;
 
+      //YAW軸速度のPID制御
       float yaw_op = yaw_vel_davi * YAW_P_GAIN +  yaw_vel_intg * YAW_I_GAIN + yaw_vel_diff * YAW_D_GAIN;
 
+      //
       motor1_duty_raw = throttle_tgt * T_GAIN + motor1_devi * P_GAIN + motor1_intg * I_GAIN + motor1_diff * D_GAIN + yaw_op;
       motor2_duty_raw = throttle_tgt * T_GAIN + motor2_devi * P_GAIN + motor2_intg * I_GAIN + motor2_diff * D_GAIN - yaw_op;
       motor3_duty_raw = throttle_tgt * T_GAIN + motor3_devi * P_GAIN + motor3_intg * I_GAIN + motor3_diff * D_GAIN + yaw_op;
@@ -322,16 +328,21 @@ void loop() {
   ledcWrite(2, motor3_duty_raw);
   ledcWrite(3, motor4_duty_raw);
 
+  //送信機から送られてきた目標スロットルが0かつ電源スイッチがスイッチが押されたときにshutdown_pw()を呼び出す
   if (throttle_tgt == 0 && digitalRead(PW_SWITCH_PIN) == HIGH) {
     shutdown_pw();
   }
 }
 
 
+//電源ぼスイッチが押された時にシャットダウンする関数
 void shutdown_pw()
 {
+  //電源スイッチ押し付けるている間はシャットダウンしない
+  //これがないと、電源スイッチを押し付けている間起動とシャットダウンを繰り返す。
   while (digitalRead(PW_SWITCH_PIN) == HIGH) {
   }
+  //シャットダウンピンをHIGHにする
   digitalWrite(SHUTDOWN_PIN, HIGH);
 }
 

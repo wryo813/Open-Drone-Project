@@ -8,11 +8,12 @@
 #define JOYSTICK_RX_PIN 34 //右ジョイスティックx軸
 #define JOYSTICK_RY_PIN 35 //右ジョイスティックy軸
 
-#define MIX_SW_PIN      26
-#define GYRO_SW_PIN 25
+#define MIX_SW_PIN      26 //Mixスイッチ
+#define GYRO_SW_PIN     25 //5CH Gyroスイッチ
 
-#define GEAR_PIT        36
+#define GEAR_PIT        36 //Gear/Pitスイッチ
 
+//GPIO設定
 void GPIO_setup(){
   //GPIO入出力設定
   //ジョイスティック接続ピン
