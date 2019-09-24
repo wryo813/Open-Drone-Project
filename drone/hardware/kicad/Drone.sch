@@ -839,17 +839,6 @@ $EndComp
 Wire Wire Line
 	5850 4350 5850 4600
 $Comp
-L Connector_Generic:Conn_01x02 J5
-U 1 1 5DD4587B
-P 1600 3100
-F 0 "J5" V 1800 3050 50  0000 C CNN
-F 1 "Motor1" V 1700 3050 50  0000 C CNN
-F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 1600 3100 50  0001 C CNN
-F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 1600 3100 50  0001 C CNN
-	1    1600 3100
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Connector_Generic:Conn_01x06 J3
 U 1 1 5DD49666
 P 13650 4250
@@ -1004,14 +993,7 @@ F 3 "https://www.rohm.co.jp/datasheet/RB161MM-20/rb161mm-20tr-j" H 1650 4550 50 
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	1700 3300 1700 3350
-Wire Wire Line
-	1700 3350 1900 3350
-Wire Wire Line
-	1900 3350 1900 3700
-Wire Wire Line
 	1900 3700 1800 3700
-Connection ~ 1900 3700
 Wire Wire Line
 	1900 3700 1900 4150
 Wire Wire Line
@@ -1022,14 +1004,7 @@ Wire Wire Line
 Wire Wire Line
 	1800 4550 1900 4550
 Wire Wire Line
-	1600 3300 1600 3350
-Wire Wire Line
-	1600 3350 1400 3350
-Wire Wire Line
-	1400 3350 1400 3700
-Wire Wire Line
 	1400 3700 1500 3700
-Connection ~ 1400 3700
 Wire Wire Line
 	1400 3700 1400 4150
 Wire Wire Line
@@ -1440,17 +1415,6 @@ Wire Wire Line
 Wire Wire Line
 	1700 4850 1800 4850
 $Comp
-L Connector_Generic:Conn_01x02 J6
-U 1 1 6369E7A1
-P 3100 3100
-F 0 "J6" V 3300 3050 50  0000 C CNN
-F 1 "Motor2" V 3200 3050 50  0000 C CNN
-F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 3100 3100 50  0001 C CNN
-F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 3100 3100 50  0001 C CNN
-	1    3100 3100
-	0    -1   -1   0   
-$EndComp
-$Comp
 L Device:C C13
 U 1 1 6369E7A7
 P 3150 3700
@@ -1484,14 +1448,7 @@ F 3 "https://www.rohm.co.jp/datasheet/RB161MM-20/rb161mm-20tr-j" H 3150 4550 50 
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	3200 3300 3200 3350
-Wire Wire Line
-	3200 3350 3400 3350
-Wire Wire Line
-	3400 3350 3400 3700
-Wire Wire Line
 	3400 3700 3300 3700
-Connection ~ 3400 3700
 Wire Wire Line
 	3400 3700 3400 4150
 Wire Wire Line
@@ -1502,14 +1459,7 @@ Wire Wire Line
 Wire Wire Line
 	3300 4550 3400 4550
 Wire Wire Line
-	3100 3300 3100 3350
-Wire Wire Line
-	3100 3350 2900 3350
-Wire Wire Line
-	2900 3350 2900 3700
-Wire Wire Line
 	2900 3700 3000 3700
-Connection ~ 2900 3700
 Wire Wire Line
 	2900 3700 2900 4150
 Wire Wire Line
@@ -1692,7 +1642,7 @@ L Connector_Generic:Conn_01x02 J8
 U 1 1 636C82CB
 P 3100 5950
 F 0 "J8" V 3300 5900 50  0000 C CNN
-F 1 "Motor4" V 3200 5900 50  0000 C CNN
+F 1 "Motor2" V 3200 5900 50  0000 C CNN
 F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 3100 5950 50  0001 C CNN
 F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 3100 5950 50  0001 C CNN
 	1    3100 5950
@@ -1826,19 +1776,19 @@ Wire Wire Line
 Wire Wire Line
 	9700 7450 9700 8500
 Wire Wire Line
-	9700 8500 12050 8500
+	9700 8500 12100 8500
 Wire Wire Line
-	12050 8500 12050 7350
+	12100 8500 12100 7350
 Wire Wire Line
-	12050 7350 11800 7350
+	12100 7350 11800 7350
 Wire Wire Line
 	9600 7550 9600 8600
 Wire Wire Line
-	9600 8600 12150 8600
+	9600 8600 12200 8600
 Wire Wire Line
-	12150 8600 12150 7250
+	12200 8600 12200 7250
 Wire Wire Line
-	12150 7250 11800 7250
+	12200 7250 11800 7250
 Wire Wire Line
 	7900 6250 7900 6350
 Wire Wire Line
@@ -2607,9 +2557,6 @@ F 3 "" H 3400 3250 50  0001 C CNN
 	1    3400 3250
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3400 3250 3400 3350
-Connection ~ 3400 3350
 $Comp
 L power:+BATT #PWR06
 U 1 1 5FCB44BE
@@ -2621,9 +2568,6 @@ F 3 "" H 1900 3250 50  0001 C CNN
 	1    1900 3250
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	1900 3250 1900 3350
-Connection ~ 1900 3350
 Wire Wire Line
 	2600 1450 3550 1450
 $Comp
@@ -3362,4 +3306,60 @@ F 3 "~" H 9500 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	9500 2300 9500 6650
+Connection ~ 3400 3700
+Connection ~ 1900 3700
+Connection ~ 2900 3700
+Wire Wire Line
+	2900 3350 2900 3700
+Wire Wire Line
+	3100 3350 2900 3350
+Wire Wire Line
+	3100 3300 3100 3350
+Wire Wire Line
+	3400 3250 3400 3350
+Wire Wire Line
+	3400 3350 3400 3700
+Connection ~ 3400 3350
+Wire Wire Line
+	3200 3350 3400 3350
+Wire Wire Line
+	3200 3300 3200 3350
+$Comp
+L Connector_Generic:Conn_01x02 J6
+U 1 1 6369E7A1
+P 3100 3100
+F 0 "J6" V 3300 3050 50  0000 C CNN
+F 1 "Motor4" V 3200 3050 50  0000 C CNN
+F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 3100 3100 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 3100 3100 50  0001 C CNN
+	1    3100 3100
+	0    -1   -1   0   
+$EndComp
+Connection ~ 1400 3700
+Wire Wire Line
+	1400 3350 1400 3700
+Wire Wire Line
+	1600 3350 1400 3350
+Wire Wire Line
+	1600 3300 1600 3350
+Wire Wire Line
+	1900 3250 1900 3350
+Wire Wire Line
+	1900 3350 1900 3700
+Connection ~ 1900 3350
+Wire Wire Line
+	1700 3350 1900 3350
+Wire Wire Line
+	1700 3300 1700 3350
+$Comp
+L Connector_Generic:Conn_01x02 J5
+U 1 1 5DD4587B
+P 1600 3100
+F 0 "J5" V 1800 3050 50  0000 C CNN
+F 1 "Motor1" V 1700 3050 50  0000 C CNN
+F 2 "Connector_JST:JST_SHL_SM02B-SHLS-TF_1x02-1MP_P1.00mm_Horizontal" H 1600 3100 50  0001 C CNN
+F 3 "http://www.jst-mfg.com/product/pdf/jpn/SHL.pdf" H 1600 3100 50  0001 C CNN
+	1    1600 3100
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC

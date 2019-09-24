@@ -4,30 +4,32 @@
 #include <Arduino.h>
 
 //電源管理ピン設定
-#define SHUTDOWN_PIN 25
-#define PW_SWITCH_PIN 26
+#define SHUTDOWN_PIN   25
+#define PW_SWITCH_PIN  26
 #define USB_STATUS_PIN 34
 #define CHG_STATUS_PIN 35
 
 //モーターピン設定
-#define MOTOR1_PIN 27
-#define MOTOR2_PIN 16
-#define MOTOR3_PIN 4
-#define MOTOR4_PIN 14
+#define MOTOR1_PIN     27
+#define MOTOR2_PIN     16
+#define MOTOR3_PIN     4
+#define MOTOR4_PIN     14
 
 //PWM設定
 /*
-   PWM設定について
-   f=1/T,T=1/fより
-   1/80[MHz]=12.5[ns]
-   PWM_FREQ[Hz]=1/(12.5[ns]×2^PWM_BIT[bit])
+   PWM周波数とPWM分解能の設定
+   T:周期[s],f:周波数[Hz],PWM_BIT:PWM分解能[bit],PWM_FREQ:PWM周波数[Hz] とする
+   PWMのクロックタイマの周波数が80MHzの時、PWMのクロックタイマの周期は、
+   T=1/f=1/(80×10^6)=12.5×10^(-9)s
+   PWMのクロックタイマの周期とPWM分解能をかけた値の逆数がPWM周波数
+   f=1/T=1/(12.5×10^(-9)×2^PWM_BIT[bit])=PWM_FREQ[Hz]
 */
 //PWM周波数[Hz]
 #define PWM_FREQ 19531
 //PWM分解能[bit]
 #define PWM_BIT 12
 
-
+//GPIOの設定
 void GPIO_setup(){
   //GPIO入出力設定
   //電源関連

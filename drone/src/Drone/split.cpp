@@ -1,7 +1,8 @@
-#include "split.h"
+//このソースコードは、[https://algorithm.joho.info/arduino/string-split-delimiter/]より引用したものである。
 
-#include <vector>
-#include <string>
+#include <Arduino.h>
+
+#include "split.h"
 
 int split(String data, char delimiter, String *dst) {
   int index = 0;

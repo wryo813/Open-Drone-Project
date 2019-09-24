@@ -1,7 +1,6 @@
-#include "split.h"
+#include <Arduino.h>
 
-#include <vector>
-#include <string>
+#include "split.h"
 
 int split(String data, char delimiter, String *dst) {
   int index = 0;

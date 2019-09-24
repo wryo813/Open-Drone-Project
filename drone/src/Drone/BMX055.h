@@ -9,7 +9,6 @@ typedef enum {
   z
 } axis;
 
-//プロトタイプ宣言
 class BMX055 {
   private:
     float xAccl = 0.00;
@@ -23,13 +22,19 @@ class BMX055 {
     int   zMag  = 0;
 
   public:
+    //BMX055の初期化
     void begin();
-
+    //加速度センサにデータ取得リクエスト
     void begin_Accl();
+    //ジャイロセンサにデータ取得リクエスト
     void begin_Gyro();
+    //地磁気センサにデータ取得リクエスト
     void begin_Mag();
+    //引数の軸に応じて加速度センサの値を返す
     float Accl(axis type);
+    //引数の軸に応じてジャイロセンサの値を返す
     float Gyro(axis type);
+    //引数の軸に応じて地磁気センサの値を返す
     int Mag(axis type);
 };
 
